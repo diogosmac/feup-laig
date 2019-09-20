@@ -26,7 +26,7 @@ class MySphere extends CGFobject {
         this.texCoords = [];
 
         var angHor = (2*Math.PI) / this.slices;
-        var angVer = (2*Math.PI) / this.stacks;
+        var angVer = (Math.PI / 2) / this.stacks;
 
         for (var stack = 0; stack <= this.stacks; stack++) {
 
@@ -40,13 +40,13 @@ class MySphere extends CGFobject {
                 this.vertices.push(
                     this.radius * stackSin * sliceCos,
                     this.radius * stackSin * sliceSin,
-                    this.radius * stackCos,
+                    this.radius * stackCos
                 );
 
                 this.normals.push(
                     stackSin * sliceCos,
                     stackSin * sliceSin,
-                    stackCos,
+                    stackCos
                 );
 
                 this.texCoords.push(

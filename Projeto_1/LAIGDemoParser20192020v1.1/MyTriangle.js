@@ -42,20 +42,30 @@ class MyTriangle extends CGFobject {
 			0, 1, 2,
 		];
 
-		//Facing Z positive
-		this.normals = [
-			// VER AQUELE DOCUMENTO QUANDO SAIR
-		];
+		// vector from point 1 to point 2
+		var vector_1_2 = vec3.create();
+		vector_1_2 = [this.x2 - this.x1,
+									this.y2 - this.y1,
+									this.z2 - this.z1];
 		
-		/*
-		Texture coords (s,t)
-		+----------> s
-    |
-    |
-		|
-		v
-    t
-    */
+		// vector from point 3 to point 2
+		var vector_3_2 = vec3.create();
+		vector_3_2 = [this.x3 - this.x2,
+									this.y3 - this.y2,
+									this.z3 - this.z2];
+
+		// normal to the surface of the triangle
+		var normal = vec3.create();
+		vec3.cross(normal, vector_1_2, vector_3_2);
+		vec3.normalize(normal, normal);
+			
+
+		//Facing Z positive (VERIFICAR ISTO)
+		this.normals = [
+			normal[0], normal[1], normal[2],
+			normal[0], normal[1], normal[2],
+			normal[0], normal[1], normal[2]
+		];
 
 		this.texCoords = [
 			// VER AQUELE DOCUMENTO QUANDO SAIR

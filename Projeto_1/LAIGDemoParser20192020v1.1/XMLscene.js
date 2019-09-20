@@ -34,6 +34,9 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+
+        this.sphere = new MySphere(this, 12, 1.5, 10, 3);
     }
 
     /**
@@ -127,13 +130,16 @@ class XMLscene extends CGFscene {
             this.lights[i].enable();
         }
 
-        if (this.sceneInited) {
-            // Draw axis
-            this.setDefaultAppearance();
+        // if (this.sceneInited) {
+        //     // Draw axis
+        //     this.setDefaultAppearance();
 
-            // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
-        }
+        //     // Displays the scene (MySceneGraph function).
+        //     this.graph.displayScene();
+        // }
+
+        this.sphere.display();
+
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
