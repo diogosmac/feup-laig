@@ -35,9 +35,9 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
-        this.material = new CGFappearance(this);
-        this.material.loadTexture('scenes/images/rocks.jpg');
-        this.sphere = new MySphere(this, 12, 1.5, 10, 10);
+        // this.material = new CGFappearance(this);
+        // this.material.loadTexture('scenes/images/rocks.jpg');
+        this.torus = new MyTorus(this, 12, 1.5, 10, 10, 10);
     }
 
     /**
@@ -140,8 +140,8 @@ class XMLscene extends CGFscene {
         // }
 
 
-        this.material.apply();
-        this.sphere.display();
+        // this.material.apply();
+        this.torus.display();
 
 
         this.popMatrix();
