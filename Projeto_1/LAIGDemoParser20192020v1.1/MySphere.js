@@ -25,10 +25,10 @@ class MySphere extends CGFobject {
         this.indices = [];
         this.texCoords = [];
 
-        var angHor = (2*Math.PI) / this.slices;
+        var angHor = (2 * Math.PI) / this.slices;
         var angVer = (Math.PI / 2) / this.stacks;
 
-        for (var stack = 0; stack <= this.stacks; stack++) {
+        for (var stack = 0; stack <= this.stacks * 2; stack++) {
 
             for (var slice = 0; slice <= this.slices; slice++) {
 
@@ -58,7 +58,7 @@ class MySphere extends CGFobject {
 
         }
 
-        for (var stack = 0; stack < this.stacks; stack++) {
+        for (var stack = 0; stack < this.stacks * 2; stack++) {
             
             for (var slice = 0; slice < this.slices; slice++) {
 

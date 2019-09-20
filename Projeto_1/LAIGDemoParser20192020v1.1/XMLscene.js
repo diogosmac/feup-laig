@@ -35,8 +35,9 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
-
-        this.sphere = new MySphere(this, 12, 1.5, 10, 3);
+        this.material = new CGFappearance(this);
+        this.material.loadTexture('scenes/images/rocks.jpg');
+        this.sphere = new MySphere(this, 12, 1.5, 10, 10);
     }
 
     /**
@@ -138,6 +139,8 @@ class XMLscene extends CGFscene {
         //     this.graph.displayScene();
         // }
 
+
+        this.material.apply();
         this.sphere.display();
 
 
