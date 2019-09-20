@@ -51,23 +51,21 @@ class MyTorus extends CGFobject {
                 center[1] = this.outer * Math.sin(u);
                 normal[0] = vertex[0] - center[0];
                 normal[1] = vertex[1] - center[1];
-                normal[2] = vertex[2] // - center[2];
+                normal[2] = vertex[2] - center[2];
     
                 vec3.normalize(normal, normal);
 
                 this.normals.push(normal[0], normal[1], normal[2]);
     
-                this.texCoords.push(slice / this.inner);
-                this.texCoords.push(loop / this.outer);
-
+                this.texCoords.push(slice / this.inner, loop / this.outer);
             }
 
         }
 
 
-        for (var loop = 0; loop < this.loops; loop++) {
+        for (var loop = 1; loop <= this.loops; loop++) {
             
-            for (var slice = 0; slice < this.slices; slice++) {
+            for (var slice = 1; slice <= this.slices; slice++) {
 
                 var vertex1 = ( this.slices + 1 ) * loop + slice - 1;
                 var vertex2 = ( this.slices + 1 ) * ( loop - 1 ) + slice - 1;

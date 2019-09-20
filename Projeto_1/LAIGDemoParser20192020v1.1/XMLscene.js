@@ -37,7 +37,7 @@ class XMLscene extends CGFscene {
 
         // this.material = new CGFappearance(this);
         // this.material.loadTexture('scenes/images/rocks.jpg');
-        this.torus = new MyTorus(this, 12, 1.5, 10, 10, 10);
+        this.torus = new MyTorus(this, 12, 1.5, 2, 10, 10);
     }
 
     /**
