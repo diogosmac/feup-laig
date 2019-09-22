@@ -233,6 +233,42 @@ class MySceneGraph {
     parseView(viewsNode) {
         this.onXMLMinorError("To do: Parse views and create cameras.");
 
+        var defaultViewID = this.reader.getString(viewsNode, 'default');
+        if(defaultViewID == null)
+            return "No default view specified";
+
+
+        var children = viewsNode.children;
+        if(children.length < 1)
+            return "There must be at least one view";
+
+        
+        var grandChildren = [];
+
+        for(var i = 0; i < children.length; i++) {
+
+            if(children[i].nodeName == "perspective") {
+
+                var viewID = this.reader.getString(children[i], 'id');
+                if(viewID == null)
+                    return "No ID specified for this view";
+
+
+                // ver se view id e unico
+                
+
+            }
+            else if(children[i].nodeName == 'ortho') {
+
+
+
+            }
+            else {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+            }
+
+        }
+
         return null;
     }
 
@@ -254,6 +290,12 @@ class MySceneGraph {
 
         var ambientIndex = nodeNames.indexOf("ambient");
         var backgroundIndex = nodeNames.indexOf("background");
+
+        if(ambientIndex == -1)
+            return "Ambient illumination not specified";
+
+        if(backgroundIndex == -1)
+            return "Ambient illumination not specified";
 
         var color = this.parseColor(children[ambientIndex], "ambient");
         if (!Array.isArray(color))
