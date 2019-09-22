@@ -129,6 +129,7 @@ class XMLscene extends CGFscene {
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].setVisible(true);
             this.lights[i].enable();
+            // NAO FALTA LIGHTS UPDATE?
         }
 
         // if (this.sceneInited) {

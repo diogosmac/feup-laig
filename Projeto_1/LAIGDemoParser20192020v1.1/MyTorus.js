@@ -30,9 +30,9 @@ class MyTorus extends CGFobject {
         var sliceValue = this.slices * Math.PI * 2;
         var loopValue = this.loops * Math.PI * 2;
 
-        var center = vec3.create();
-        var vertex = vec3.create();
-        var normal = vec3.create();
+        var centerX, centerY;
+        var vertexX, vertexY, vertexZ;
+        var normal = vec3.create(0, 0, 0);
 
         for (var loop = 0; loop <= this.loops; loop++) {
 
@@ -41,21 +41,21 @@ class MyTorus extends CGFobject {
                 var u = slice / sliceValue;
                 var v = loop / loopValue;
 
-                vertex[0] = (this.outer + this.inner * Math.cos(v)) * Math.cos(u);
-                vertex[1] = (this.outer + this.inner * Math.cos(v)) * Math.sin(u);
-                vertex[2] = this.inner * Math.sin(v);
+                vertexX = (this.outer + this.inner * Math.cos(v)) * Math.cos(u);
+                vertexY = (this.outer + this.inner * Math.cos(v)) * Math.sin(u);
+                vertexZ = this.inner * Math.sin(v);
 
-                this.vertices.push(vertex[0], vertex[1], vertex[2]);
+                this.vertices.push(vertexX, vertexY, vertexZ);
 
-                center[0] = this.outer * Math.cos(u);
-                center[1] = this.outer * Math.sin(u);
-                normal[0] = vertex[0] - center[0];
-                normal[1] = vertex[1] - center[1];
-                normal[2] = vertex[2] - center[2];
+                centerX = this.outer * Math.cos(u);
+                centerY = this.outer * Math.sin(u);
+                normal.x = vertexX - centerX;
+                normal.y = vertexY - centerY;
+                normal.z = vertexZ;
     
                 vec3.normalize(normal, normal);
 
-                this.normals.push(normal[0], normal[1], normal[2]);
+                this.normals.push(normal.x, normal.y, normal.z);
     
                 this.texCoords.push(slice / this.inner, loop / this.outer);
             }
@@ -71,10 +71,11 @@ class MyTorus extends CGFobject {
                 var vertex2 = ( this.slices + 1 ) * ( loop - 1 ) + slice - 1;
                 var vertex3 = ( this.slices + 1 ) * ( loop - 1 ) + slice;
                 var vertex4 = ( this.slices + 1 ) * loop + slice;
-            }
 
-            this.indices.push(vertex1, vertex2, vertex4);
-            this.indices.push(vertex2, vertex3, vertex4);
+                this.indices.push(vertex1, vertex2, vertex4);
+                this.indices.push(vertex2, vertex3, vertex4);
+
+            }
 
         }
 

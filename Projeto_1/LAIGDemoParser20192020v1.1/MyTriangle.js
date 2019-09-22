@@ -34,7 +34,7 @@ class MyTriangle extends CGFobject {
 		this.vertices = [
 			this.x1, this.y1, this.z1,	//0
 			this.x2, this.y2, this.z2,  //1
-			this.x3, this.y3, this.z3		//2
+			this.x3, this.y3, this.z3	//2
 		];
 
 		//Counter-clockwise reference of vertices
