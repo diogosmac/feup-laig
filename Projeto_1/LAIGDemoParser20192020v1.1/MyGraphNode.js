@@ -14,6 +14,8 @@ class MyGraphNode {
         this.materialIDs = [];
         this.currMaterialIndex = 0;
         this.textureID;
+        this.transfMatrix = mat4.create();
+        mat4.identity(this.transfMatrix); // creates identity matrix for the transformations
     }
 
     addLeafID(leafID) {
