@@ -49,19 +49,14 @@ class MyCylinder extends CGFobject {
                 normal.z = (this.base - this.top) / this.height;
 
                 this.normals.push(normal.x, normal.y, normal.z);
+                this.texCoords.push(partAng, partRad);
 
-                var currentCoord = [
-                    // partAng: proporção da "rotação" que já foi efetuada (ou seja, a meio tem 0.5)
-                    // partRad: proporção da "altura" percorrida (base tem 0, topo tem 1, meio tem 0.5)
-                ];
-                
                 indexCount++;
    
             }
-
         }
-        for (var slice = 0; slice < this.slices; slice++) {
 
+        for (var slice = 0; slice < this.slices; slice++) {
             for (var stack = 0; stack < this.stacks; stack++) {
 
                 var v1 = stack * (this.slices + 1) + slice;
@@ -71,7 +66,6 @@ class MyCylinder extends CGFobject {
 
                 this.indices.push(v1, v2, v4);
                 this.indices.push(v2, v3, v4);
-
             }
 
         }
@@ -82,8 +76,10 @@ class MyCylinder extends CGFobject {
         center = indexCount;
         this.vertices.push(0, 0, 0);
         this.normals.push(0, 0, -1);
+        this.texCoords.push(0.5, 0.5);
         indexCount++;
         capIndexEnd = indexCount;
+
         for (var slice = 0; slice <= this.slices; slice++) {
             var partAng = slice / this.slices;
             var ang = partAng * Math.PI * 2;
@@ -95,11 +91,12 @@ class MyCylinder extends CGFobject {
             vertexY = this.base * sin;
             vertexZ = 0;
             this.vertices.push(vertexX, vertexY, vertexZ);
-
             this.normals.push(0, 0, -1);
+            this.texCoords.push(0.5 + cos / 2, 0.5 - sin / 2);
 
             indexCount++;
         }
+        
         for (var slice = 0; slice < this.slices; slice++) {
             var vertIndex = capIndexEnd + slice;
             this.indices.push(vertIndex + 1, vertIndex, center);
@@ -109,8 +106,10 @@ class MyCylinder extends CGFobject {
         center = indexCount;
         this.vertices.push(0, 0, this.height);
         this.normals.push(0, 0, 1);
+        this.texCoords.push(0.5, 0.5);
         indexCount++;
         capIndexEnd = indexCount;
+
         for (var slice = 0; slice <= this.slices; slice++) {
             var partAng = slice / this.slices;
             var ang = partAng * Math.PI * 2;
@@ -122,8 +121,8 @@ class MyCylinder extends CGFobject {
             vertexY = this.top * sin;
             vertexZ = this.height;
             this.vertices.push(vertexX, vertexY, vertexZ);
-
             this.normals.push(0, 0, 1);
+            this.texCoords.push(0.5 + cos / 2, 0.5 - sin / 2);
 
             indexCount++;
         }
@@ -131,14 +130,7 @@ class MyCylinder extends CGFobject {
             var vertIndex = capIndexEnd + slice;
             this.indices.push(vertIndex, vertIndex + 1, center);
         }
-
-        //     var currentCoord = [
-        //         1 - (i * faceWidth), 1,
-        //         1 - (i * faceWidth), 0
-        //     ];
-
-        //     this.texCoords.push(...currentCoord);
-        // }
+        
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();

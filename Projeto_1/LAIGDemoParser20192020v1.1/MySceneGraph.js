@@ -581,11 +581,6 @@ class MySceneGraph {
 
             // Retrieves the primitive coordinates.
 
-
-            // ----------------------------------------------------
-            // ACRESCENTAR MAIS RESTRICOES A MEDIDA QUE FOR PRECISO
-            // ----------------------------------------------------
-
             // For the rectangle primitive
             if (primitiveType == 'rectangle') {
                 // x1
@@ -669,12 +664,12 @@ class MySceneGraph {
             else if(primitiveType == 'cylinder') {
                 // base
                 var base = this.reader.getFloat(grandChildren[0], 'base');
-                if (!(base != null && !isNaN(base)))
+                if (!(base != null && !isNaN(base) && base > 0))
                     return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
 
                 // top
                 var top = this.reader.getFloat(grandChildren[0], 'top');
-                if (!(top != null && !isNaN(top)))
+                if (!(top != null && !isNaN(top) && base > 0))
                     return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
 
                 // height
