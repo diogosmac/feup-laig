@@ -76,11 +76,11 @@ class MyCylinder extends CGFobject {
 
         }
 
-        var capIndexStart, capIndexEnd;
+        var center, capIndexEnd;
 
         // bottom cap
-        capIndexStart = indexCount;
-        for (var slice = 1; slice <= this.slices; slice++) {
+        center = indexCount;
+        for (var slice = 1; slice <= 1; slice++) {
             this.vertices.push(0, 0, 0);
             this.normals.push(0, 0, -1);
             indexCount++;
@@ -103,13 +103,12 @@ class MyCylinder extends CGFobject {
             indexCount++;
         }
         for (var slice = 0; slice < this.slices; slice++) {
-            var center = capIndexStart + slice;
-            var lilUziVert = capIndexEnd + slice;
-            this.indices.push(lilUziVert + 1, lilUziVert, center);
+            var vertIndex = capIndexEnd + slice;
+            this.indices.push(vertIndex + 1, vertIndex, center);
         }
 
         // top cap
-        capIndexStart = indexCount;
+        center = indexCount;
         for (var slice = 1; slice <= this.slices; slice++) {
             this.vertices.push(0, 0, this.height);
             this.normals.push(0, 0, 1);
@@ -133,9 +132,8 @@ class MyCylinder extends CGFobject {
             indexCount++;
         }
         for (var slice = 0; slice < this.slices; slice++) {
-            var center = capIndexStart + slice;
-            var lilUziVert = capIndexEnd + slice;
-            this.indices.push(lilUziVert, lilUziVert + 1, center);
+            var vertIndex = capIndexEnd + slice;
+            this.indices.push(vertIndex, vertIndex + 1, center);
         }
 
         //     var currentCoord = [
