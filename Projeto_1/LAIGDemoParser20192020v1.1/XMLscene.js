@@ -41,6 +41,10 @@ class XMLscene extends CGFscene {
         this.cylinder = new MyCylinder(this, 12, 1, 0, Math.PI, 10, 10);
         this.material = new CGFappearance(this);
         this.material.loadTexture('scenes/images/rocks.jpg');
+<<<<<<< Updated upstream
+=======
+        this.torus = new MyTorus(this, 12, 0.5, 2.5, 10, 10);
+>>>>>>> Stashed changes
     }
 
     /**
