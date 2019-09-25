@@ -37,9 +37,10 @@ class XMLscene extends CGFscene {
 
         // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
         // this.sphere = new MySphere(this, 12, 1.2, 10, 10);
+        // this.torus = new MyTorus(this, 12, 1.5, 2.5, 10, 10);
+        this.cylinder = new MyCylinder(this, 12, 1, 0, Math.PI, 10, 10);
         this.material = new CGFappearance(this);
         this.material.loadTexture('scenes/images/rocks.jpg');
-        this.torus = new MyTorus(this, 12, 1.5, 2.5, 10, 10);
     }
 
     /**
@@ -145,14 +146,17 @@ class XMLscene extends CGFscene {
 
         this.material.apply();
 
-        this.torus.enableNormalViz();
-        this.torus.display();
+        // this.triangle.enableNormalViz();
+        // this.triangle.display();
         
         // this.sphere.enableNormalViz();
         // this.sphere.display();
 
-        // this.triangle.enableNormalViz();
-        // this.triangle.display();
+        // this.torus.enableNormalViz();
+        // this.torus.display();
+
+        this.cylinder.enableNormalViz();
+        this.cylinder.display();
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
