@@ -27,9 +27,6 @@ class MyTorus extends CGFobject {
         this.indices = [];
         this.texCoords = [];
 
-        var sliceValue = this.slices * Math.PI * 2;
-        var loopValue = this.loops * Math.PI * 2;
-
         var centerX, centerY;
         var vertexX, vertexY, vertexZ;
         var normal = vec3.create(0, 0, 0);
@@ -38,8 +35,8 @@ class MyTorus extends CGFobject {
 
             for (var slice = 0; slice <= this.slices; slice++) {
 
-                var u = slice / sliceValue;
-                var v = loop / loopValue;
+                var u = (slice / this.slices) * Math.PI * 2;
+                var v = (loop / this.loops) * Math.PI * 2;
 
                 vertexX = (this.outer + this.inner * Math.cos(v)) * Math.cos(u);
                 vertexY = (this.outer + this.inner * Math.cos(v)) * Math.sin(u);
