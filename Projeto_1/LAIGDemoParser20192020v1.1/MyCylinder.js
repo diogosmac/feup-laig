@@ -80,11 +80,9 @@ class MyCylinder extends CGFobject {
 
         // bottom cap
         center = indexCount;
-        for (var slice = 1; slice <= 1; slice++) {
-            this.vertices.push(0, 0, 0);
-            this.normals.push(0, 0, -1);
-            indexCount++;
-        }
+        this.vertices.push(0, 0, 0);
+        this.normals.push(0, 0, -1);
+        indexCount++;
         capIndexEnd = indexCount;
         for (var slice = 0; slice <= this.slices; slice++) {
             var partAng = slice / this.slices;
@@ -109,11 +107,9 @@ class MyCylinder extends CGFobject {
 
         // top cap
         center = indexCount;
-        for (var slice = 1; slice <= this.slices; slice++) {
-            this.vertices.push(0, 0, this.height);
-            this.normals.push(0, 0, 1);
-            indexCount++;
-        }
+        this.vertices.push(0, 0, this.height);
+        this.normals.push(0, 0, 1);
+        indexCount++;
         capIndexEnd = indexCount;
         for (var slice = 0; slice <= this.slices; slice++) {
             var partAng = slice / this.slices;
