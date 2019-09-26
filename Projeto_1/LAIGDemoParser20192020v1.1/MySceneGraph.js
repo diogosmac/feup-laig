@@ -595,7 +595,9 @@ class MySceneGraph {
             var transfMatrix = mat4.create();
 
             for (var j = 0; j < grandChildren.length; j++) {
+
                 switch (grandChildren[j].nodeName) {
+
                     case 'translate':
                         var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
@@ -603,24 +605,32 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+
+                    case 'scale':
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        transfMatrix = mat4.scale(transfMatrix, coordinates);
                         break;
+    
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        var axis = this.reader.getChar(grandChildren[j], "axis");
+                        var angle = this.reader.getFloat(grandChildren[j], "angle");
+
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, axis);
                         break;
                 }
+
             }
+
             this.transformations[transformationID] = transfMatrix;
+        
         }
-
-
-        // if(this.transformations.length < 1)
-        //     return "no transformations defined in the XML file";
 
         this.log("Parsed transformations");
         return null;
+
     }
 
     /**
