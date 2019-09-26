@@ -34,7 +34,7 @@ class MySceneGraph {
         this.textures = [];
         this.transformations = [];
 
-
+        this.activeCameraID = null;
         this.idRoot = null;                    // The id of the root element.
 
         this.axisCoords = [];
@@ -257,15 +257,126 @@ class MySceneGraph {
                 if(viewID == null)
                     return "No ID specified for this view";
 
+                if(this.views[viewID] != null)
+                    return "ID must be unique for each view (conflict: ID = " + viewID + ")";
 
-                // ver se view id e unico
                 
+                var near = this.reader.getFloat(children[i], 'near');
+                if(!(near != null && !NaN(near) && near > 0))
+                    return "unable to parse 'near' value of the view for ID = " + viewID;
 
+
+                var far = this.reader.getFloat(children[i], 'far');
+                if(!(far != null && !NaN(far) && far > 0))
+                    return "unable to parse 'far' value of the view for ID = " + viewID;
+                    
+                var fov = this.reader.getFloat(children[i], 'angle')
+                if(!(angle != null && !NaN(fov)))
+                    return "unable to parse 'angle' value of the view for ID = " + viewID;
+
+                fov *= DEGREE_TO_RAD;
+
+
+                grandChildren = children[i].children;
+
+                var nodeNames = [];
+
+                for(var j = 0; j < grandChildren.length; j++)
+                    nodeNames.push(grandChildren[j].nodeName);
+
+                var fromIndex = nodeNames.indexOf("from");
+                var toIndex = nodeNames.indexOf("to");
+
+                if(fromIndex == -1)
+                    return "'from' values not specified in the view with ID = " + viewID;
+
+                if(toIndex == -1)
+                    return "'to' values not specified in the view with ID = " + viewID;
+
+                var position = this.parseCoordinates3D(grandChildren[fromIndex], "'from' values in the view with ID = " + viewID);
+                if(!Array.isArray(position))
+                    return position;
+
+                var target = this.parseCoordinates3D(grandChildren[toIndex], "'to' values in the view with ID = " + viewID);
+                if(!Array.isArray(target))
+                    return target;
+
+
+                this.views[viewID] = new CGFcamera(fov, near, far, position, target);
+                
             }
             else if(children[i].nodeName == 'ortho') {
 
+                var viewID = this.reader.getString(children[i], 'id');
+                if(viewID == null)
+                    return "No ID specified for this view";
+
+                if(this.views[viewID] != null)
+                    return "ID must be unique for each view (conflict: ID = " + viewID + ")";
+
+                
+                var near = this.reader.getFloat(children[i], 'near');
+                if(!(near != null && !NaN(near)))
+                    return "unable to parse 'near' value of the view for ID = " + viewID;
 
 
+                var far = this.reader.getFloat(children[i], 'far');
+                if(!(far != null && !NaN(far)))
+                    return "unable to parse 'far' value of the view for ID = " + viewID;
+                    
+                var left = this.reader.getFloat(children[i], 'left');
+                if(!(left != null && !NaN(left)))
+                    return "unable to parse 'left' value of the view for ID = " + viewID;
+
+                var right = this.reader.getFloat(children[i], 'right');
+                if(!(right != null && !NaN(right)))
+                    return "unable to parse 'right' value of the view for ID = " + viewID;
+
+                var top = this.reader.getFloat(children[i], 'top');
+                if(!(top != null && !NaN(top)))
+                    return "unable to parse 'top' value of the view for ID = " + viewID;
+
+                var bottom = this.reader.getFloat(children[i], 'bottom');
+                if(!(bottom != null && !NaN(bottom)))
+                    return "unable to parse 'bottom' value of the view for ID = " + viewID;
+
+                grandChildren = children[i].children;
+
+                var nodeNames = [];
+
+                for(var j = 0; j < grandChildren.length; j++)
+                    nodeNames.push(grandChildren[j].nodeName);
+
+                var fromIndex = nodeNames.indexOf("from");
+                var toIndex = nodeNames.indexOf("to");
+                var upIndex = nodeNames.indexOf("up");
+
+                if(fromIndex == -1)
+                    return "'from' values not specified in the view with ID = " + viewID;
+
+                if(toIndex == -1)
+                    return "'to' values not specified in the view with ID = " + viewID;
+
+                var position = this.parseCoordinates3D(grandChildren[fromIndex], "'from' values in the view with ID = " + viewID);
+                if(!Array.isArray(position))
+                    return position;
+
+                var target = this.parseCoordinates3D(grandChildren[toIndex], "'to' values in the view with ID = " + viewID);
+                if(!Array.isArray(target))
+                    return target;
+
+                var up;
+
+                if(upIndex == -1)
+                    up = [0, 1, 0]; // default value
+                else {
+                    up = this.parseCoordinates3D(grandChildren[upIndex], "'up' values in the view with ID = " + viewID);
+                    if(!Array.isArray(up))
+                        return up;
+                }
+
+                this.views[viewID] = new CGFcameraOrtho(left, right, bottom, top, near, far, position, target, up);
+                    
             }
             else {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -273,6 +384,14 @@ class MySceneGraph {
 
         }
 
+        // if(this.views.length < 1)
+        //     return "no views defined in the XML file";
+
+        // if(this.views.indexOf(defaultViewID) == -1)
+        //     return "ID given for the default view doesn't exist";
+
+
+        this.log("Parsed views; need to test");
         return null;
     }
 
@@ -299,7 +418,7 @@ class MySceneGraph {
             return "Ambient illumination not specified";
 
         if(backgroundIndex == -1)
-            return "Ambient illumination not specified";
+            return "Background illumination not specified";
 
         var color = this.parseColor(children[ambientIndex], "ambient");
         if (!Array.isArray(color))
