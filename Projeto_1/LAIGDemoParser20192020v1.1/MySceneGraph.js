@@ -235,7 +235,6 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
 
         var defaultViewID = this.reader.getString(viewsNode, 'default');
         if(defaultViewID == null)
@@ -243,9 +242,6 @@ class MySceneGraph {
 
 
         var children = viewsNode.children;
-        if(children.length < 1)
-            return "There must be at least one view";
-
         
         var grandChildren = [];
 
@@ -552,6 +548,8 @@ class MySceneGraph {
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
 
+        console.log("need to double check if there is everything");
+
         this.log("Parsed lights");
         return null;
     }
@@ -576,7 +574,7 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.textures[textureID] != null)
-                return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
+                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
 
             var fileName = this.reader.getString(children[i], 'file');
             if(fileName == null)
@@ -767,6 +765,10 @@ class MySceneGraph {
 
             this.transformations[transformationID] = transfMatrix;
         }
+
+        
+        // if(this.transformations.length < 1)
+        //     return "no transformations defined in the XML file";
 
 
         this.log("Parsed transformations");
@@ -1034,6 +1036,9 @@ class MySceneGraph {
             // Texture
 
             // Children
+
+
+            // nao esquecer de verificar se idRoot existe
         }
     }
 
