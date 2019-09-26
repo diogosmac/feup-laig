@@ -70,67 +70,6 @@ class MyCylinder extends CGFobject {
 
         }
 
-        var center, capIndexEnd;
-
-        // bottom cap
-        center = indexCount;
-        this.vertices.push(0, 0, 0);
-        this.normals.push(0, 0, -1);
-        this.texCoords.push(0.5, 0.5);
-        indexCount++;
-        capIndexEnd = indexCount;
-
-        for (var slice = 0; slice <= this.slices; slice++) {
-            var partAng = slice / this.slices;
-            var ang = partAng * Math.PI * 2;
-
-            var sin = Math.sin(ang);
-            var cos = Math.cos(ang);
-
-            vertexX = this.base * cos;
-            vertexY = this.base * sin;
-            vertexZ = 0;
-            this.vertices.push(vertexX, vertexY, vertexZ);
-            this.normals.push(0, 0, -1);
-            this.texCoords.push(0.5 + cos / 2, 0.5 - sin / 2);
-
-            indexCount++;
-        }
-        
-        for (var slice = 0; slice < this.slices; slice++) {
-            var vertIndex = capIndexEnd + slice;
-            this.indices.push(vertIndex + 1, vertIndex, center);
-        }
-
-        // top cap
-        center = indexCount;
-        this.vertices.push(0, 0, this.height);
-        this.normals.push(0, 0, 1);
-        this.texCoords.push(0.5, 0.5);
-        indexCount++;
-        capIndexEnd = indexCount;
-
-        for (var slice = 0; slice <= this.slices; slice++) {
-            var partAng = slice / this.slices;
-            var ang = partAng * Math.PI * 2;
-
-            var sin = Math.sin(ang);
-            var cos = Math.cos(ang);
-
-            vertexX = this.top * cos;
-            vertexY = this.top * sin;
-            vertexZ = this.height;
-            this.vertices.push(vertexX, vertexY, vertexZ);
-            this.normals.push(0, 0, 1);
-            this.texCoords.push(0.5 + cos / 2, 0.5 - sin / 2);
-
-            indexCount++;
-        }
-        for (var slice = 0; slice < this.slices; slice++) {
-            var vertIndex = capIndexEnd + slice;
-            this.indices.push(vertIndex, vertIndex + 1, center);
-        }
-        
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
