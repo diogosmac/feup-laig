@@ -323,6 +323,7 @@ class MySceneGraph {
      * @param {lights block element} lightsNode
      */
     parseLights(lightsNode) {
+    
         var children = lightsNode.children;
 
         var numLights = 0;
@@ -484,35 +485,81 @@ class MySceneGraph {
     parseMaterials(materialsNode) {
         var children = materialsNode.children;
 
-        var grandChildren = [];
         var nodeNames = [];
-
+        
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
-
+            
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
-
+            
             // Get id of the current material.
             var materialID = this.reader.getString(children[i], 'id');
             if (materialID == null)
-                return "no ID defined for material";
-
+            return "no ID defined for material";
+            
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
+            return "ID must be unique for each material (conflict: ID = " + materialID + ")";
+            
+            this.materials[materialID] = new CGFappearance(this.scene);
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            var shininess = this.reader.getFloat(children[i], 'shininess');
+
+            this.materials[materialID].setShininess(shininess);
+
+            var grandChildren = children[i].children;
+
+            for (var j = 0; j < grandChildren.length; j++) {
+
+                switch(grandChildren[j].nodeName) {
+
+                    case "emission":
+                        var r = this.reader.getFloat(grandChildren[i], 'r');
+                        var g = this.reader.getFloat(grandChildren[i], 'g');
+                        var b = this.reader.getFloat(grandChildren[i], 'b');
+                        var a = this.reader.getFloat(grandChildren[i], 'a');
+                        this.materials[materialID].setEmission(r, g, b, a);
+                        break;
+
+                    case "ambient":
+                        var r = this.reader.getFloat(grandChildren[i], 'r');
+                        var g = this.reader.getFloat(grandChildren[i], 'g');
+                        var b = this.reader.getFloat(grandChildren[i], 'b');
+                        var a = this.reader.getFloat(grandChildren[i], 'a');
+                        this.materials[materialID].setAmbient(r, g, b, a);
+                        break;
+                    
+                    case "diffuse":
+                        var r = this.reader.getFloat(grandChildren[i], 'r');
+                        var g = this.reader.getFloat(grandChildren[i], 'g');
+                        var b = this.reader.getFloat(grandChildren[i], 'b');
+                        var a = this.reader.getFloat(grandChildren[i], 'a');
+                        this.materials[materialID].setDiffuse(r, g, b, a);
+                        break;
+                    
+                    case "specular":
+                        var r = this.reader.getFloat(grandChildren[i], 'r');
+                        var g = this.reader.getFloat(grandChildren[i], 'g');
+                        var b = this.reader.getFloat(grandChildren[i], 'b');
+                        var a = this.reader.getFloat(grandChildren[i], 'a');
+                        this.materials[materialID].setSpecular(r, g, b, a);
+                        break;
+                    
+                    default:
+                        break;
+                }
+
+            }
+
         }
-
 
         // if(this.materials.length < 1)
         //     return "no materials defined in the XML file";
 
-        //this.log("Parsed materials");
+        this.log("Parsed materials");
         return null;
     }
 
