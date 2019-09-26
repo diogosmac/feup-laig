@@ -23,6 +23,7 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
+        this.activeCamera = 0;
         this.initCameras();
 
         this.enableTextures(true);
@@ -36,12 +37,12 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
 
         // this.rec = new MyRectangle(this, 12, 4, 5, 1, 2);
-        // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
+        this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
         // this.sphere = new MySphere(this, 12, 1.2, 10, 5);
         // this.torus = new MyTorus(this, 12, 1.5, 2.5, 20, 10);
-        this.cylinder = new MyCylinder(this, 12, 1.75, 0.5, Math.PI, 20, 2);
-        this.material = new CGFappearance(this);
-        this.material.loadTexture('scenes/images/vidral.jpg');
+        // this.cylinder = new MyCylinder(this, 12, 1.75, 0.5, Math.PI, 20, 2);
+        this.material = new CGFappearance(this);        
+        this.material.loadTexture('scenes/images/c.jpg');
     }
 
     /**
@@ -148,7 +149,7 @@ class XMLscene extends CGFscene {
         this.material.apply();
 
         // this.triangle.enableNormalViz();
-        // this.triangle.display();
+        this.triangle.display();
         
         // this.sphere.enableNormalViz();
         // this.sphere.display();
@@ -157,7 +158,7 @@ class XMLscene extends CGFscene {
         // this.torus.display();
 
         // this.cylinder.enableNormalViz();
-        this.cylinder.display();
+        // this.cylinder.display();
 
         // this.rec.enableNormalViz();
         // this.rec.display();

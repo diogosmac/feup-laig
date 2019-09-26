@@ -26,9 +26,13 @@ class MySceneGraph {
         scene.graph = this;
 
 
-        // VARIAVEL NUNCA USADA; PARA CONTER OS NOS DO GRAFO (CRIAR CLASSE AUXILIAR PARA O NO?)
         this.nodes = [];
-
+        this.views = [];
+        this.lights = [];
+        this.primitives = [];
+        this.materials = [];
+        this.textures = [];
+        this.transformations = [];
 
 
         this.idRoot = null;                    // The id of the root element.
@@ -321,7 +325,6 @@ class MySceneGraph {
     parseLights(lightsNode) {
         var children = lightsNode.children;
 
-        this.lights = [];
         var numLights = 0;
 
         var grandChildren = [];
@@ -428,6 +431,9 @@ class MySceneGraph {
         else if (numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
+
+        console.log('To do: omni lights');
+
         this.log("Parsed lights");
         return null;
     }
@@ -437,9 +443,37 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
+        var children = texturesNode.children;
 
-        //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        for(var i = 0; i < children.length; i++) {
+
+            if(children[i].nodeName != "texture") {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+            }
+
+            var textureID = this.reader.getString(children[i], 'id');
+            if (textureID == null)
+                return "no ID defined for texture";
+
+            // Checks for repeated IDs.
+            if (this.textures[textureID] != null)
+                return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
+
+            var fileName = this.reader.getString(children[i], 'file');
+            if(fileName == null)
+                return "no file defined for texture";
+
+            var newTexture = new CGFtexture(this.scene, fileName);
+
+            this.textures[textureID] = newTexture;
+        }
+
+
+        // if(this.textures.length < 1)
+        //     return "no textures defined in the XML file";
+
+        this.log("Parsed textures; need to test");
         return null;
     }
 
@@ -449,8 +483,6 @@ class MySceneGraph {
      */
     parseMaterials(materialsNode) {
         var children = materialsNode.children;
-
-        this.materials = [];
 
         var grandChildren = [];
         var nodeNames = [];
@@ -470,11 +502,15 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
             //Continue here
             this.onXMLMinorError("To do: Parse materials.");
         }
+
+
+        // if(this.materials.length < 1)
+        //     return "no materials defined in the XML file";
 
         //this.log("Parsed materials");
         return null;
@@ -486,8 +522,6 @@ class MySceneGraph {
      */
     parseTransformations(transformationsNode) {
         var children = transformationsNode.children;
-
-        this.transformations = [];
 
         var grandChildren = [];
 
@@ -534,6 +568,10 @@ class MySceneGraph {
             this.transformations[transformationID] = transfMatrix;
         }
 
+
+        // if(this.transformations.length < 1)
+        //     return "no transformations defined in the XML file";
+
         this.log("Parsed transformations");
         return null;
     }
@@ -544,8 +582,6 @@ class MySceneGraph {
      */
     parsePrimitives(primitivesNode) {
         var children = primitivesNode.children;
-
-        this.primitives = [];
 
         var grandChildren = [];
 
@@ -743,6 +779,9 @@ class MySceneGraph {
             }
             
         }
+
+        // if(this.primitives.length < 1)
+        //     return "no primitives defined in the XML file";
 
         this.log("Parsed primitives");
         return null;
