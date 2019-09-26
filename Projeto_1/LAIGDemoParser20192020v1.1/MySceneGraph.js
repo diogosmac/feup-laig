@@ -433,8 +433,6 @@ class MySceneGraph {
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
 
-        console.log('To do: omni lights');
-
         this.log("Parsed lights");
         return null;
     }
@@ -502,58 +500,66 @@ class MySceneGraph {
             
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-            return "ID must be unique for each material (conflict: ID = " + materialID + ")";
-            
-            this.materials[materialID] = new CGFappearance(this.scene);
+                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
+        
+            var newMaterial = new CGFappearance(this.scene);
 
             var shininess = this.reader.getFloat(children[i], 'shininess');
 
-            this.materials[materialID].setShininess(shininess);
+            newMaterial.setShininess(shininess);
 
             var grandChildren = children[i].children;
 
-            for (var j = 0; j < grandChildren.length; j++) {
+            for(var j = 0; j < grandChildren.length; j++)
+                nodeNames.push(grandChildren.nodeName);
 
-                switch(grandChildren[j].nodeName) {
+            var emissionIndex = nodeNames.indexOf("emission");
+            var ambientIndex = nodeNames.indexOf("ambient");
+            var diffuseIndex = nodeNames.indexOf("diffuse");
+            var specularIndex = nodeNames.indexOf("specular");
 
-                    case "emission":
-                        var r = this.reader.getFloat(grandChildren[i], 'r');
-                        var g = this.reader.getFloat(grandChildren[i], 'g');
-                        var b = this.reader.getFloat(grandChildren[i], 'b');
-                        var a = this.reader.getFloat(grandChildren[i], 'a');
-                        this.materials[materialID].setEmission(r, g, b, a);
-                        break;
+            if(emissionIndex == -1)
+                return "no emission value specified for material with ID = " + materialID;
+            else {
+                var emissionValues = this.parseColor(grandChildren[emissionIndex], "emission for material with ID = " + materialID);
+                if(!Array.isArray(emissionValues))
+                    return emissionValues;
 
-                    case "ambient":
-                        var r = this.reader.getFloat(grandChildren[i], 'r');
-                        var g = this.reader.getFloat(grandChildren[i], 'g');
-                        var b = this.reader.getFloat(grandChildren[i], 'b');
-                        var a = this.reader.getFloat(grandChildren[i], 'a');
-                        this.materials[materialID].setAmbient(r, g, b, a);
-                        break;
-                    
-                    case "diffuse":
-                        var r = this.reader.getFloat(grandChildren[i], 'r');
-                        var g = this.reader.getFloat(grandChildren[i], 'g');
-                        var b = this.reader.getFloat(grandChildren[i], 'b');
-                        var a = this.reader.getFloat(grandChildren[i], 'a');
-                        this.materials[materialID].setDiffuse(r, g, b, a);
-                        break;
-                    
-                    case "specular":
-                        var r = this.reader.getFloat(grandChildren[i], 'r');
-                        var g = this.reader.getFloat(grandChildren[i], 'g');
-                        var b = this.reader.getFloat(grandChildren[i], 'b');
-                        var a = this.reader.getFloat(grandChildren[i], 'a');
-                        this.materials[materialID].setSpecular(r, g, b, a);
-                        break;
-                    
-                    default:
-                        break;
-                }
-
+                newMaterial.setEmission(emissionValues[0], emissionValues[1], emissionValues[2], emissionValues[3]);
             }
 
+            if(ambientIndex == -1)
+                return "no ambient value specified for material with ID = " + materialID;
+            else {
+                var ambientValues = this.parseColor(grandChildren[ambientIndex], "ambient for material with ID = " + materialID);
+                if(!Array.isArray(ambientValues))
+                    return ambientValues;
+
+                newMaterial.setAmbient(ambientValues[0], ambientValues[1], ambientValues[2], ambientValues[3]);
+            }
+
+            if(diffuseIndex == -1)
+                return "no diffuse value specified for material with ID = " + materialID;
+            else {
+                var diffuseValues = this.parseColor(grandChildren[diffuseIndex], "diffuse for material with ID = " + materialID);
+                if(!Array.isArray(diffuseValues))
+                    return diffuseValues;
+
+                newMaterial.setDiffuse(diffuseValues[0], diffuseValues[1], diffuseValues[2], diffuseValues[3]);
+            }
+
+            if(specularIndex == -1)
+                return "no specular value specified for material with ID = " + materialID;
+            else {
+                var specularValues = this.parseColor(grandChildren[specularIndex], "specular for material with ID = " + materialID);
+                if(!Array.isArray(specularValues))
+                    return specularValues;
+
+                newMaterial.setSpecular(specularValues[0], specularValues[1], specularValues[2], specularValues[3]);
+            }
+            
+
+            this.materials[materialID] = newMaterial;            
         }
 
         // if(this.materials.length < 1)
@@ -594,11 +600,14 @@ class MySceneGraph {
 
             var transfMatrix = mat4.create();
 
+            var atLeastOneTransformation = false;
+
             for (var j = 0; j < grandChildren.length; j++) {
 
                 switch (grandChildren[j].nodeName) {
 
                     case 'translate':
+                        atLeastOneTransformation = true;
                         var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
                             return coordinates;
@@ -607,16 +616,25 @@ class MySceneGraph {
                         break;
 
                     case 'scale':
+                        atLeastOneTransformation = true;
                         var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
                             return coordinates;
 
-                        transfMatrix = mat4.scale(transfMatrix, coordinates);
+                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
     
                     case 'rotate':
+                        atLeastOneTransformation = true;
                         var axis = this.reader.getChar(grandChildren[j], "axis");
+                        if(!(axis != null && (axis == 'x' || axis == 'y' || axis == 'z')))
+                            return "unable to parse the axis of a rotation the transformation with ID = " + transformationID;
+
                         var angle = this.reader.getFloat(grandChildren[j], "angle");
+                        if (!(angle != null && !isNaN(angle)))
+                            return "unable to parse the angle of a rotation the transformation with ID = " + transformationID;
+
+                        angle *= DEGREE_TO_RAD;
 
                         transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, axis);
                         break;
@@ -624,13 +642,16 @@ class MySceneGraph {
 
             }
 
+            if(!atLeastOneTransformation)
+                return "No valid sub-transformations for transformation with ID = " + transformationID;
+
+
             this.transformations[transformationID] = transfMatrix;
-        
         }
+
 
         this.log("Parsed transformations");
         return null;
-
     }
 
     /**
