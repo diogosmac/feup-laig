@@ -386,6 +386,7 @@ class MySceneGraph {
         // if(this.views.indexOf(defaultViewID) == -1)
         //     return "ID given for the default view doesn't exist";
 
+        // this.activeCameraID = defaultViewID;
 
         this.log("Parsed views; need to test");
         return null;
@@ -548,7 +549,7 @@ class MySceneGraph {
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
 
-        console.log("need to double check if there is everything");
+        // TO DO: verificar se esta tudo ou se falta alguma coisa
 
         this.log("Parsed lights");
         return null;
@@ -734,7 +735,7 @@ class MySceneGraph {
 
                     case 'scale':
                         atLeastOneTransformation = true;
-                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
                             return coordinates;
 
@@ -753,8 +754,13 @@ class MySceneGraph {
 
                         angle *= DEGREE_TO_RAD;
 
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, axis);
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, this.axisCoords[axis]);
                         break;
+
+                    default:
+                        this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+                        break;
+
                 }
 
             }
@@ -986,7 +992,7 @@ class MySceneGraph {
         return null;
     }
 
-    /**
+  /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
    */
@@ -1016,6 +1022,11 @@ class MySceneGraph {
             if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
 
+            // just a placeholder to save the component IDs; real nodes are stored in this.nodes
+            this.components[componentID] = 0;
+
+            var newNode = new MyGraphNode(this, componentID);
+
             grandChildren = children[i].children;
 
             nodeNames = [];
@@ -1028,18 +1039,196 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
+
+
             // Transformations
+            if(transformationIndex == -1)
+                return "'transformation' block not specified for component with ID = " + componentID;
+
+            grandgrandChildren = grandChildren[transformationIndex].children;
+
+
+            var expTransfUsed = false; // explicit transformations used
+            var transfRefUsed = false; // transformation reference used
+
+            for (var j = 0; j < grandgrandChildren.length; j++) {
+                switch (grandgrandChildren[j].nodeName) {
+
+                    case 'translate':
+                        if(transfRefUsed)
+                            return "'tranformationref' is meant to be used individually inside a <transformation> block (problem on component with ID = " + componentID + ")";
+                        
+                        expTransfUsed = true;
+
+                        var coordinates = this.parseCoordinates3D(grandgrandChildren[j], "translate transformation for component with ID = " + componentID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        newNode.transfMatrix = mat4.translate(newNode.transfMatrix, newNode.transfMatrix, coordinates);
+                        break;
+
+                    case 'scale':
+                        if(transfRefUsed)
+                            return "'tranformationref' is meant to be used individually inside a <transformation> block (problem on component with ID = " + componentID + ")";
+                                                
+                        expTransfUsed = true;
+
+                        var coordinates = this.parseCoordinates3D(grandgrandChildren[j], "scale transformation for component with ID = " + componentID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                            newNode.transfMatrix = mat4.scale(newNode.transfMatrix, newNode.transfMatrix, coordinates);
+                        break;
+    
+                    case 'rotate':
+                        if(transfRefUsed)
+                            return "'tranformationref' is meant to be used individually inside a <transformation> block (problem on component with ID = " + componentID + ")";
+                                                
+                        expTransfUsed = true;
+
+                        var axis = this.reader.getChar(grandgrandChildren[j], "axis");
+                        if(!(axis != null && (axis == 'x' || axis == 'y' || axis == 'z')))
+                            return "unable to parse the axis of a rotation for the component with ID = " + componentID;
+
+                        var angle = this.reader.getFloat(grandChildren[j], "angle");
+                        if (!(angle != null && !isNaN(angle)))
+                            return "unable to parse the angle of a rotation for the component with ID = " + componentID;
+
+                        angle *= DEGREE_TO_RAD;
+
+                        newNode.transfMatrix = mat4.rotate(newNode.transfMatrix, newNode.transfMatrix, angle, this.axisCoords[axis]);
+                        break;
+
+                    case 'tranformationref':
+                        if(expTransfUsed || transfRefUsed)
+                            return "'tranformationref' is meant to be used individually inside a <transformation> block (problem on component with ID = " + componentID + ")";
+                        
+                        transfRefUsed = true;
+                        
+                        var transfID = this.reader.getString(grandgrandChildren[j], 'id');
+                        if(transfID == null)
+                            return "no id defined for a transformationref for component with ID = " + componentID;
+    
+                        if(this.transformations[transfID] == null)
+                            return "invalid ID (" + transfID + ") in a tranformationref for component with ID = " + componentID;
+    
+    
+                        newNode.setTransfMatrix(this.transformations[transfID]);
+                    
+                    default:
+                        this.onXMLMinorError("unknown tag <" + grandgrandChildren[j].nodeName + ">");
+                        break;
+
+                }
+            }
+
+
 
             // Materials
+            if(materialsIndex == -1)
+                return "'materials' block not specified for component with ID = " + componentID;
+
+            grandgrandChildren = grandChildren[materialsIndex].children;
+            
+            for(var k = 0; k < grandgrandChildren.length; k++) {
+                if(grandgrandChildren[k].nodeName == "material") {
+
+                    var matID = this.reader.getString(grandgrandChildren[k], 'material');
+                    if(matID == null)
+                        return "no id defined for a material reference for component with ID = " + componentID;
+                        
+                    if(matID != "inherit" && this.materials[matID] == null)
+                        return "invalid ID (" + matID + ") in a material reference for component with ID = " + componentID;
+
+                    newNode.addMaterialId(matID);
+                }
+                else
+                    this.onXMLMinorError("unknown tag <" + grandgrandChildren[k].nodeName + ">");
+            }
+
+            if(newNode.materialIDs.length < 1)
+                return "no valid materials defined for component with ID = " + componentID;
+
+
 
             // Texture
+            if(textureIndex == -1)
+                return "'texture' tag not specified for component with ID = " + componentID;
+
+            var texID = this.reader.getString(grandChildren[textureIndex], 'id');
+            if(texID == null)
+                return "no id defined for a texture reference for component with ID = " + componentID;
+
+            if(texID != "inherit" && texID != "none" && this.textures[texID] == null)
+                return "invalid ID (" + matID + ") in a texture reference for component with ID = " + componentID;
+
+            newNode.setTextureID(texID);
+            
+            var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+            if(!(length_s != null && !isNaN(length_s) && length_s > 0))
+                return "unable to parse length_s defined for a texture reference for component with ID = " + componentID;
+            
+            var length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
+            if(!(length_t != null && !isNaN(length_t) && length_t > 0))
+                return "unable to parse length_t defined for a texture reference for component with ID = " + componentID; 
+
+            // ------------------------
+            // TO DO: PERCEBER COMO USAR O LENGTH_S E LENGTH_T
+            // ------------------------
 
             // Children
+            if(childrenIndex == -1)
+                return "'children' tag not specified for component with ID = " + componentID;
+
+            grandgrandChildren = grandChildren[childrenIndex].children;
+
+            for(var w = 0; w < grandgrandChildren.length; w++) {
+                if(grandgrandChildren[w].nodeName == "componentref") {
+
+                    var childID = this.reader.getString(grandgrandChildren[w], 'id');
+                    if(childID == null)
+                        return "no ID specified in a componentref for component with ID = " + componentID;
+
+                    if(childID == componentID)
+                        return "a component can't be a child of itself (error in component with ID = " + componentID + ")";
+
+                    // NOTE: because there is a possibility that not all nodes were added to this.nodes while reading the childID,
+                    //       it is difficult to verify here if the childID is valid, that is, if it corresponds to an actual node.
+                    //       That verification could be done in the display function.
+                    newNode.addNodeID(childID);
+                }
+                else if(grandgrandChildren[w].nodeName == "primitiveref") {
+                   
+                    var primID = this.reader.getString(grandgrandChildren[w], 'id');
+                    if(primID == null)
+                        return "no ID specified in a primitiveref for component with ID = " + componentID;
+
+                    if(this.primitives[primID] == null)
+                        return "invalid ID (" + primID + ") in a primitiveref for component with ID = " + componentID;
 
 
-            // nao esquecer de verificar se idRoot existe
+                    newNode.addLeafID(primID);
+                }
+                else
+                    this.onXMLMinorError("unknown tag <" + grandgrandChildren[w].nodeName + ">");
+
+            }
+
+            if((newNode.nodeIDs.length < 1) && (newNode.leafIDs.length < 1))
+                return "node with ID = " + componentID + " has no valid children (nodes or primitives)";
+
+
+
+            this.nodes[componentID] = newNode;
         }
+
+
+        if(this.nodes[this.idRoot] == null)
+            return "root id (" + this.idRoot + ") doesn't match any of the nodes specified in the XML file";
+
+        
+        // this.log("Parsed components; need to test");
+        return null;    
     }
 
 
@@ -1162,5 +1351,8 @@ class MySceneGraph {
 
         //To test the parsing/creation of the primitives, call the display function directly
         this.primitives['demoRectangle'].display();
+
+
+        // TO DO: verificar se todos os ids para nodes sao validos, a medida que sao processados
     }
 }

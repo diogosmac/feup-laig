@@ -39,4 +39,8 @@ class MyGraphNode {
     setTextureID(textureID) {
         this.textureID = textureID;
     }
+
+    setTransfMatrix(transfMatrix) {
+        this.transfMatrix = transfMatrix;
+    }
 }
