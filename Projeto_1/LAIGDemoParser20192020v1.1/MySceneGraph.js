@@ -103,7 +103,7 @@ class MySceneGraph {
             if (index != SCENE_INDEX)
                 this.onXMLMinorError("tag <scene> out of order " + index);
 
-            //Parse scene block
+            // Parse scene block
             if ((error = this.parseScene(nodes[index])) != null)
                 return error;
         }
@@ -115,7 +115,7 @@ class MySceneGraph {
             if (index != VIEWS_INDEX)
                 this.onXMLMinorError("tag <views> out of order");
 
-            //Parse views block
+            // Parse views block
             if ((error = this.parseView(nodes[index])) != null)
                 return error;
         }
@@ -127,7 +127,7 @@ class MySceneGraph {
             if (index != AMBIENT_INDEX)
                 this.onXMLMinorError("tag <ambient> out of order");
 
-            //Parse ambient block
+            // Parse ambient block
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
@@ -139,7 +139,7 @@ class MySceneGraph {
             if (index != LIGHTS_INDEX)
                 this.onXMLMinorError("tag <lights> out of order");
 
-            //Parse lights block
+            // Parse lights block
             if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
@@ -150,7 +150,7 @@ class MySceneGraph {
             if (index != TEXTURES_INDEX)
                 this.onXMLMinorError("tag <textures> out of order");
 
-            //Parse textures block
+            // Parse textures block
             if ((error = this.parseTextures(nodes[index])) != null)
                 return error;
         }
@@ -162,7 +162,7 @@ class MySceneGraph {
             if (index != MATERIALS_INDEX)
                 this.onXMLMinorError("tag <materials> out of order");
 
-            //Parse materials block
+            // Parse materials block
             if ((error = this.parseMaterials(nodes[index])) != null)
                 return error;
         }
@@ -174,7 +174,7 @@ class MySceneGraph {
             if (index != TRANSFORMATIONS_INDEX)
                 this.onXMLMinorError("tag <transformations> out of order");
 
-            //Parse transformations block
+            // Parse transformations block
             if ((error = this.parseTransformations(nodes[index])) != null)
                 return error;
         }
@@ -186,7 +186,7 @@ class MySceneGraph {
             if (index != PRIMITIVES_INDEX)
                 this.onXMLMinorError("tag <primitives> out of order");
 
-            //Parse primitives block
+            // Parse primitives block
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
@@ -198,7 +198,7 @@ class MySceneGraph {
             if (index != COMPONENTS_INDEX)
                 this.onXMLMinorError("tag <components> out of order");
 
-            //Parse components block
+            // Parse components block
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
@@ -455,7 +455,7 @@ class MySceneGraph {
             var attributeNames = [];
             var attributeTypes = [];
 
-            //Check type of light
+            // Check type of light
             if (children[i].nodeName != "omni" && children[i].nodeName != "spot") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -482,14 +482,12 @@ class MySceneGraph {
 
             enableLight = aux || 1;
 
-            //Add enabled boolean and type name to light info
             global.push(enableLight);
             global.push(children[i].nodeName);
 
             grandChildren = children[i].children;
             // Specifications for the current light.
 
-            nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -503,18 +501,18 @@ class MySceneGraph {
 
                     if (attributeTypes[j] == "position")
                         aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else if (attributeTypes[j] == "attenuation") {
-                        var constant = this.reader.getFloat(grandChildren[j], 'constant');
+                    else if (attributeNames[j] == "attenuation") {
+                        var constant = this.reader.getFloat(grandChildren[attributeIndex], 'constant');
                         if (constant == null)
                             this.onXMLMinorError("unable to parse value component of the 'constant' field for ID = " + lightId);
                         aux.push(constant);
 
-                        var linear = this.reader.getFloat(grandChildren[j], 'linear');
+                        var linear = this.reader.getFloat(grandChildren[attributeIndex], 'linear');
                         if (linear == null)
                             this.onXMLMinorError("unable to parse value component of the 'constant' field for ID = " + lightId);
                         aux.push(linear);
 
-                        var quadratic = this.reader.getFloat(grandChildren[j], 'quadratic');
+                        var quadratic = this.reader.getFloat(grandChildren[attributeIndex], 'quadratic');
                         if (quadratic == null)
                             this.onXMLMinorError("unable to parse value component of the 'constant' field for ID = " + lightId);
                         aux.push(quadratic);
@@ -600,7 +598,7 @@ class MySceneGraph {
 
             var newTexture = new CGFtexture(this.scene, fileName);
 
-            this.textures[textureID] = [newTexture];
+            this.textures[textureID] = newTexture;
         }
 
 
@@ -975,12 +973,12 @@ class MySceneGraph {
 
             // For the torus primitive
             else if(primitiveType == 'torus') {
-                //inner
+                // inner
                 var inner = this.reader.getFloat(grandChildren[0], 'inner');
                 if (!(inner != null && !isNaN(inner) && inner > 0))
                     return "unable to parse inner of the primitive coordinates for ID = " + primitiveId;
 
-                //outer
+                // outer
                 var outer = this.reader.getFloat(grandChildren[0], 'outer');
                 if (!(outer != null && !isNaN(outer) && outer > 0))
                     return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
@@ -1189,7 +1187,7 @@ class MySceneGraph {
             if(!(length_t != null && !isNaN(length_t) && length_t > 0))
                 return "unable to parse length_t defined for a texture reference for component with ID = " + componentID; 
 
-            this.textures[texID].push(length_s, length_t);
+            newNode.setTextureLengths(length_s, length_t);
             // ------------------------
             // TO DO: PERCEBER COMO USAR O LENGTH_S E LENGTH_T
             // ------------------------
@@ -1286,7 +1284,7 @@ class MySceneGraph {
     parseCoordinates4D(node, messageError) {
         var position = [];
 
-        //Get x, y, z
+        // Get x, y, z
         position = this.parseCoordinates3D(node, messageError);
 
         if (!Array.isArray(position))
@@ -1365,9 +1363,9 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //To do: Create display loop for transversing the scene graph
+        // To do: Create display loop for transversing the scene graph
 
-        //To test the parsing/creation of the primitives, call the display function directly
+        // To test the parsing/creation of the primitives, call the display function directly
         this.primitives['demoRectangle'].display();
 
 
