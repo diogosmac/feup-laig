@@ -600,7 +600,7 @@ class MySceneGraph {
 
             var newTexture = new CGFtexture(this.scene, fileName);
 
-            this.textures[textureID] = newTexture;
+            this.textures[textureID] = [newTexture];
         }
 
 
@@ -1189,6 +1189,7 @@ class MySceneGraph {
             if(!(length_t != null && !isNaN(length_t) && length_t > 0))
                 return "unable to parse length_t defined for a texture reference for component with ID = " + componentID; 
 
+            this.textures[texID].push(length_s, length_t);
             // ------------------------
             // TO DO: PERCEBER COMO USAR O LENGTH_S E LENGTH_T
             // ------------------------
