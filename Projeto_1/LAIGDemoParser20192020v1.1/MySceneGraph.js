@@ -461,8 +461,8 @@ class MySceneGraph {
                 continue;
             }
             else {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
+                attributeNames.push(...["location", "ambient", "diffuse", "specular", "attenuation"]);
+                attributeTypes.push(...["position", "color", "color", "color", "float"]);
             }
 
             // Get id of the current light.
@@ -498,10 +498,29 @@ class MySceneGraph {
                 var attributeIndex = nodeNames.indexOf(attributeNames[j]);
 
                 if (attributeIndex != -1) {
+
+                    var aux = [];
+
                     if (attributeTypes[j] == "position")
-                        var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
+                        aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
+                    else if (attributeTypes[j] == "attenuation") {
+                        var constant = this.reader.getFloat(grandChildren[j], 'constant');
+                        if (constant == null)
+                            this.onXMLMinorError("unable to parse value component of the 'constant' field for ID = " + lightId);
+                        aux.push(constant);
+
+                        var linear = this.reader.getFloat(grandChildren[j], 'linear');
+                        if (linear == null)
+                            this.onXMLMinorError("unable to parse value component of the 'constant' field for ID = " + lightId);
+                        aux.push(linear);
+
+                        var quadratic = this.reader.getFloat(grandChildren[j], 'quadratic');
+                        if (quadratic == null)
+                            this.onXMLMinorError("unable to parse value component of the 'constant' field for ID = " + lightId);
+                        aux.push(quadratic);
+                    }
                     else
-                        var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
+                        aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
 
                     if (!Array.isArray(aux))
                         return aux;
@@ -548,8 +567,6 @@ class MySceneGraph {
         else if (numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
-
-        // TO DO: verificar se esta tudo ou se falta alguma coisa
 
         this.log("Parsed lights");
         return null;
