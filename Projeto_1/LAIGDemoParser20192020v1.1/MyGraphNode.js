@@ -14,6 +14,8 @@ class MyGraphNode {
         this.materialIDs = [];
         this.currMaterialIndex = 0;
         this.textureID;
+        this.length_s;
+        this.length_t;
         this.transfMatrix = mat4.create();
         mat4.identity(this.transfMatrix); // creates identity matrix for the transformations
     }
@@ -38,6 +40,11 @@ class MyGraphNode {
 
     setTextureID(textureID) {
         this.textureID = textureID;
+    }
+
+    setTextureLengths(length_s, length_t) {
+        this.length_s = length_s;
+        this.length_t = length_t;
     }
 
     setTransfMatrix(transfMatrix) {
