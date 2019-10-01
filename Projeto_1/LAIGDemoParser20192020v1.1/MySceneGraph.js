@@ -3,7 +3,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
-var AMBIENT_INDEX = 2;
+var GLOBALS_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
@@ -120,12 +120,12 @@ class MySceneGraph {
                 return error;
         }
 
-        // <ambient>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
+        // <globals>
+        if ((index = nodeNames.indexOf("globals")) == -1)
+            return "tag <globals> missing";
         else {
-            if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+            if (index != GLOBALS_INDEX)
+                this.onXMLMinorError("tag <globals> out of order");
 
             // Parse ambient block
             if ((error = this.parseAmbient(nodes[index])) != null)
@@ -319,7 +319,6 @@ class MySceneGraph {
                 if(!(near != null && !isNaN(near)))
                     return "unable to parse 'near' value of the view for ID = " + viewID;
 
-
                 var far = this.reader.getFloat(children[i], 'far');
                 if(!(far != null && !isNaN(far)))
                     return "unable to parse 'far' value of the view for ID = " + viewID;
@@ -485,7 +484,10 @@ class MySceneGraph {
             if (!(aux != null && (aux == true || aux == false)))
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
 
-            enableLight = aux || 1;
+            if (aux == null)
+                enableLight = true;
+            else
+                enableLight = aux;
 
             global.push(enableLight);
             global.push(children[i].nodeName); // to know if it is omni or spot
@@ -507,8 +509,9 @@ class MySceneGraph {
 
                     var aux = [];
 
-                    if (attributeTypes[j] == "position")
+                    if (attributeTypes[j] == "position") {
                         aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID = " + lightId);
+                    }
                     else if (attributeNames[j] == "attenuation") {
                         var constant = this.reader.getFloat(grandChildren[attributeIndex], 'constant');
                         if (!(constant != null && !isNaN(constant) && constant >= 0 && constant <= 1))
