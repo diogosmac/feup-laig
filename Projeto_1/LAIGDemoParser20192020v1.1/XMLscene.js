@@ -148,13 +148,13 @@ class XMLscene extends CGFscene {
             // NAO FALTA LIGHTS UPDATE?
         }
 
-        // if (this.sceneInited) {
-        //     // Draw axis
-        //     this.setDefaultAppearance();
+        if (this.sceneInited) {
+            // Draw axis
+            this.setDefaultAppearance();
 
-        //     // Displays the scene (MySceneGraph function).
-        //     this.graph.displayScene();
-        // }
+            // Displays the scene (MySceneGraph function).
+            this.graph.displayScene();
+        }
 
 
         // this.material.apply();

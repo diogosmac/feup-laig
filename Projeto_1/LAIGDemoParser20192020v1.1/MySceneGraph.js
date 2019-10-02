@@ -202,6 +202,10 @@ class MySceneGraph {
             // Parse components block
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
+
+            for (var comp in this.nodes) {
+                console.log(this.nodes[comp]);
+            }
         }
         this.log("all parsed");
     }
@@ -1419,8 +1423,33 @@ class MySceneGraph {
         // To do: Create display loop for transversing the scene graph
 
         // To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        // this.primitives['demoRectangle'].display();
 
+        // for (var prim in this.primitives) {
+        //     this.primitives[prim].display();
+        // }
+
+        for (var i in this.nodes) {
+
+            this.scene.pushMatrix();
+            
+            var node = this.nodes[i];
+
+            this.scene.multMatrix(node.transfMatrix);
+            var materialID = node.materialIDs[0];
+            this.materials[materialID].apply();
+
+            var tex = this.textures[node.textureID];
+            tex.bind();
+            
+            for (var j in node.leafIDs) {
+                var leafID = node.leafIDs[j];
+                this.primitives[leafID].display();
+            }
+
+            this.scene.popMatrix();
+
+        }
 
         // TO DO: verificar se todos os ids para nodes sao validos, a medida que sao processados
     }
