@@ -68,8 +68,8 @@
     <transformations>
         <transformation id="demoTransform">
             <scale x="5" y="1" z="5" />
-            <rotate axis="x" angle="-45" />
-            <rotate axis="z" angle="-45" />
+            <rotate axis="x" angle="5" />
+            <rotate axis="y" angle="-45" />
         </transformation>
 
         <transformation id="saturnRing">
@@ -80,7 +80,7 @@
 
     <primitives>
         <primitive id="demoRectangle">
-            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+            <torus inner="2" outer="3.2" slices="3" loops="3" />
         </primitive>
         
         <primitive id="demoTriangle">
@@ -101,8 +101,21 @@
     <components>
         <component id="demoRoot">
             <transformation>
-                <!-- <translate x="0" y="0" z="1" /> -->
-                <scale x="0.8" y="0.8" z="0.8" />
+                <transformationref id="demoTransform" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="2" length_t="3"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="demoRoot2">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="2" y="1" z="1" />
             </transformation>
             <materials>
                 <material id="purpleHaze" />
@@ -122,20 +135,9 @@
             </materials>
             <texture id="demoTexture" length_s="1" length_t="1" />
             <children>
-                <primitiveref id="demoTorus" />
-            </children>
-        </component>
-
-        <component id="caysa">
-            <transformation>
-                <translate x="0" y="0" z="5" />
-            </transformation>
-            <materials>
-                <material id="blackHole" />
-            </materials>
-            <texture id="demoTexture" length_s="1" length_t="1" />
-            <children>
-                <primitiveref id="demoTriangle" />
+                <componentref id="demoRoot" />
+                <primitiveref id="demoRectangle" />
+                <componentref id="demoRoot" />
                 <primitiveref id="demoRectangle" />
             </children>
         </component>
