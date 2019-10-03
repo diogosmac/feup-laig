@@ -42,6 +42,13 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
+        this.defaultMaterial = new CGFappearance(this.scene);
+        this.defaultMaterial.setShininess(1);
+        this.defaultMaterial.setAmbient(0, 0, 0, 1);
+        this.defaultMaterial.setDiffuse(0.5, 0.5, 0.5, 1);
+        this.defaultMaterial.setSpecular(0, 0, 0, 1);
+        this.defaultMaterial.setEmission(0, 0, 0, 1);
+        
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -202,10 +209,6 @@ class MySceneGraph {
             // Parse components block
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
-
-            for (var comp in this.nodes) {
-                console.log(this.nodes[comp]);
-            }
         }
         this.log("all parsed");
     }
@@ -1207,10 +1210,14 @@ class MySceneGraph {
                     if(matID == null)
                         return "no id defined for a material reference for component with ID = " + componentID;
                         
-                    if(matID != "inherit" && this.materials[matID] == null)
+                    if (matID == "inherit") {
+                        newNode.addMaterial(matID);
+                    }
+                    else if (this.materials[matID] != null)
+                        newNode.addMaterial(this.materials[matID]);
+                    else
                         return "invalid ID (" + matID + ") in a material reference for component with ID = " + componentID;
 
-                    newNode.addMaterialId(matID);
                     materialsCounter++;
                 }
                 else
@@ -1221,7 +1228,6 @@ class MySceneGraph {
                 return "no valid materials defined for component with ID = " + componentID;
 
 
-
             // Texture
             if(textureIndex == -1)
                 return "'texture' tag not specified for component with ID = " + componentID;
@@ -1230,10 +1236,13 @@ class MySceneGraph {
             if(texID == null)
                 return "no id defined for a texture reference for component with ID = " + componentID;
 
-            if(texID != "inherit" && texID != "none" && this.textures[texID] == null)
+            if (texID == "inherit" || texID == "none")
+                newNode.setTexture(texID);
+            else if (this.textures[texID] != null)
+                newNode.setTexture(this.textures[texID]);
+            else
                 return "invalid ID (" + texID + ") in a texture reference for component with ID = " + componentID;
 
-            newNode.setTextureID(texID);
             
             var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
             if(length_s == null) {
@@ -1253,7 +1262,6 @@ class MySceneGraph {
 
             newNode.setTextureLengths(length_s, length_t);
    
-
 
             // Children
             var childrenCounter = 0;
@@ -1287,7 +1295,7 @@ class MySceneGraph {
                         newChildNode = this.nodes[childID];
                     }
 
-                    newNode.addNodeID(childID);
+                    newNode.addNode(newChildNode);
                     childrenCounter++;
                 }
                 else if(grandgrandChildren[w].nodeName == "primitiveref") {
@@ -1299,8 +1307,7 @@ class MySceneGraph {
                     if(this.primitives[primID] == null)
                         return "invalid ID (" + primID + ") in a primitiveref for component with ID = " + componentID;
 
-
-                    newNode.addLeafID(primID);
+                    newNode.addLeaf(this.primitives[primID]);
                     childrenCounter++;
                 }
                 else
@@ -1322,10 +1329,13 @@ class MySceneGraph {
 
 
         for(var id in this.nodes) {
-            if(!this.nodes[id].loaded)
+            if(!this.nodes[id].loaded) {
+                // TO-DO: ver situacao de remover nos invalidos
                 return "invalid ID (" + id + ") in a componentref; node does not exist";
+                // this.onXMLMinorError("invalid ID (" + id + ") in a componentref; node does not exist");
+                // this.nodes.splice(id);
+            }
         }
-        
         
         this.log("Parsed components");
         return null;    
@@ -1447,61 +1457,51 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        // To do: Create display loop for transversing the scene graph
-
-        // To test the parsing/creation of the primitives, call the display function directly
-        // this.primitives['demoRectangle'].display();
-
-        // for (var prim in this.primitives) {
-        //     this.primitives[prim].display();
-        // }
-
-        this.displaySceneRecursive(this.idRoot, this.nodes[this.idRoot].materialID, this.nodes[this.idRoot].textureID);
-
-        // TO DO: verificar se todos os ids para nodes sao validos, a medida que sao processados
+        this.displaySceneRecursive(this.nodes[this.idRoot], this.defaultMaterial, null, 1, 1);
     }
 
-    displaySceneRecursive(idNode, idMaterial, idTexture) {
-
-        // se houver trouble com as matrizes, mudar push/pop
-        // para a chamada
+    displaySceneRecursive(node, parentMaterial, parentTexture, ls, lt) {
 
         this.scene.pushMatrix();
 
-        var node = this.nodes[idNode];
+        var currMaterial;
+        if (node.materials[node.currMaterialIndex] == "inherit") {
+            currMaterial = parentMaterial;
+        }
+        else {
+            currMaterial = node.materials[node.currMaterialIndex];
+        }
+        currMaterial.apply();
 
-        var currMaterialID = idMaterial;
-        if (this.materials[currMaterialID] != null) {
-            currMaterialID = node.materialID;
+        var currTexture;
+        if (node.texture == "none" && parentTexture != null) {
+            parentTexture.unbind();
+        }
+        else if (node.texture == "inherit") {
+            // leaf.setTextureLengths(ls, lt);
+            currTexture = parentTexture;
+        }
+        else {
+            // leaf.setTextureLengths(node.length_s, node.length_t);
+            currTexture = node.texture;
+        }
+        
+        if (currTexture != null)
+            currTexture.bind();
+
+
+        this.scene.multMatrix(node.transfMatrix);
+
+        for (var leaf in node.leafs) {
+            leaf.display();
         }
 
-        var currTextureID = idTexture;
-        if (this.textures[currTextureID] != null) {
-            currTextureID = node.textureID;
+        for (var child in node.childNodes) {
+            this.displaySceneRecursive(child, currMaterial, currTexture, ls, lt);
         }
 
-        if (node.transfMatrix != null)
-            this.scene.multMatrix(node.transfMatrix);
-
-        var material = this.materials[currMaterialID];
-        var texture = this.textures[currTextureID];
-
-        for (var leaf in node.leafIDs) {
-            if (material != null) {
-                material.apply();
-            }
-            if (texture != null) {
-                // length_s & length_t
-                texture.bind();
-            }
-            var leafID = node.leafIDs[leaf];
-            this.primitives[leafID].display();
-        }
-
-        for (var child in node.nodeIDs) {
-            var childID = node.nodeIDs[child];
-            this.displaySceneRecursive(childID, currMaterialID, currTextureID);
-        }
+        if (currTexture != null)
+            currTexture.unbind();
 
         this.scene.popMatrix();
 

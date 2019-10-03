@@ -100,6 +100,21 @@
     </primitives>
 
     <components>
+        <component id="testSonless">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+                <scale x="0.8" y="0.8" z="0.8" />
+            </transformation>
+            <materials>
+                <material id="purpleHaze" />
+            </materials>
+            <texture id="otherTexture" length_s="3" length_t="3" />
+            <children>
+                <componentref id="demoCirc" />
+                <!-- <componentref id="testNonExistent" /> -->
+            </children>
+        </component>
+
         <component id="demoCirc">
             <transformation>
                 <translate x="0" y="0" z="1" />

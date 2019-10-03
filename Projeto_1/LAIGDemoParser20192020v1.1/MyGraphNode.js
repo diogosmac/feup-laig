@@ -9,11 +9,11 @@ class MyGraphNode {
     constructor(graph, id) {
         this.graph = graph;
         this.id = id;
-        this.leafIDs = [];
-        this.nodeIDs = [];
-        this.materialIDs = [];
+        this.leafs = [];
+        this.childNodes = [];
+        this.materials = [];
         this.currMaterialIndex = 0;
-        this.textureID;
+        this.texture;
         this.length_s;
         this.length_t;
         this.transfMatrix = mat4.create();
@@ -22,26 +22,26 @@ class MyGraphNode {
         this.loaded = false; // indicates if the node is initialized or not
     }
 
-    addLeafID(leafID) {
-        this.leafIDs.push(leafID);
+    addLeaf(leaf) {
+        this.leafs.push(leaf);
     }
 
-    addNodeID(nodeID) {
-        this.nodeIDs.push(nodeID);
+    addNode(node) {
+        this.childNodes.push(node);
     }
 
-    addMaterialId(materialID) {
-        this.materialIDs.push(materialID);
+    addMaterial(material) {
+        this.materials.push(material);
     }
 
     changeCurrMaterial() {
-        currMaterialIndex++;
-        if(currMaterialIndex >= materialIDs.length)
-            currMaterialIndex = 0;
+        this.currMaterialIndex++;
+        if(this.currMaterialIndex >= materials.length)
+            this.currMaterialIndex = 0;
     }
 
-    setTextureID(textureID) {
-        this.textureID = textureID;
+    setTexture(texture) {
+        this.texture = texture;
     }
 
     setTextureLengths(length_s, length_t) {
