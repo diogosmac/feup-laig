@@ -42,7 +42,7 @@
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
         <texture id="otherTexture" file="scenes/images/rocks.jpg" />
-        <texture id="rainbowTexture" file="scenes/images/rainbow-fade.jpg" />
+        <texture id="rainbowTexture" file="scenes/images/leaves.jpg" />
     </textures>
 
     <materials>
@@ -91,7 +91,7 @@
         </primitive>
 
         <primitive id="demoTorus">
-            <torus inner="1" outer="5" slices="20" loops="20" />
+            <torus inner="1" outer="5" slices="20" loops="40" />
         </primitive>
 
         <primitive id="demoSphere">
@@ -100,21 +100,6 @@
     </primitives>
 
     <components>
-        <component id="testSonless">
-            <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="0.8" y="0.8" z="0.8" />
-            </transformation>
-            <materials>
-                <material id="purpleHaze" />
-            </materials>
-            <texture id="otherTexture" length_s="3" length_t="3" />
-            <children>
-                <componentref id="demoCirc" />
-                <!-- <componentref id="testNonExistent" /> -->
-            </children>
-        </component>
-
         <component id="demoCirc">
             <transformation>
                 <translate x="0" y="0" z="1" />
