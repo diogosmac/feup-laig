@@ -38,7 +38,7 @@ class XMLscene extends CGFscene {
         // this.rec = new MyRectangle(this, 12, 4, 5, 1, 2);
         // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
         // this.sphere = new MySphere(this, 12, 1.2, 10, 5);
-        // this.torus = new MyTorus(this, 12, 1.5, 2.5, 20, 10);
+        // this.torus = new MyTorus(this, 12, 3, 10, 7, 13);
         // this.cylinder = new MyCylinder(this, 12, 1.75, 0.5, Math.PI, 20, 2);
         // this.material = new CGFappearance(this);        
         // this.material.loadTexture('scenes/images/c.jpg');
@@ -50,6 +50,7 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -61,7 +62,7 @@ class XMLscene extends CGFscene {
         for (var key in this.graph.lights) {
             if (i >= 8)
                 break;              // Only eight lights allowed by WebGL.
-
+            
             if (this.graph.lights.hasOwnProperty(key)) {
                 var light = this.graph.lights[key];
 
@@ -77,15 +78,22 @@ class XMLscene extends CGFscene {
                 if (light[1] == "spot") {
                     this.lights[i].setSpotCutOff(light[7]);
                     this.lights[i].setSpotExponent(light[8]);
-                    this.lights[i].setSpotDirection(light[9][0], light[9][1], light[9][2]);
+                    this.lights[i].setSpotDirection(
+                        light[9][0] - light[2][0],
+                        light[9][1] - light[2][1],
+                        light[9][2] - light[2][2]
+                    );
                 }
 
                 this.lights[i].setVisible(true);
-                if (light[0])
-                    this.lights[i].enable();
-                else
-                    this.lights[i].disable();
 
+                if (light[0]) {
+                    this.lights[i].enable();
+                }
+                else {
+                    this.lights[i].disable();
+                }
+                
                 this.lights[i].update();
 
                 i++;
@@ -140,13 +148,13 @@ class XMLscene extends CGFscene {
             // NAO FALTA LIGHTS UPDATE?
         }
 
-        // if (this.sceneInited) {
-        //     // Draw axis
-        //     this.setDefaultAppearance();
+        if (this.sceneInited) {
+            // Draw axis
+            this.setDefaultAppearance();
 
-        //     // Displays the scene (MySceneGraph function).
-        //     this.graph.displayScene();
-        // }
+            // Displays the scene (MySceneGraph function).
+            this.graph.displayScene();
+        }
 
 
         // this.material.apply();

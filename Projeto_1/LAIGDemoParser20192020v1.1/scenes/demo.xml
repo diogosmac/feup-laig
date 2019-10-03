@@ -6,15 +6,22 @@
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
+
+        <ortho id="preOrtho" near="0.1" far="500" left="10" right="10" top="10" bottom="10" >
+            <from x="30" y="15" z="0" />
+            <to x="0" y="-2" z="0" />
+            <!-- <up x="0" y="1" z="0" /> -->
+        </ortho>
+
     </views>
 
-    <ambient>
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+    <globals>
+        <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
         <background r="0.0" g="0.0" b="0.0" a="1.0" />
-    </ambient>
+    </globals>
 
     <lights>
-        <omni id="demoLight" enabled="1">
+        <omni id="demoLight" enabled="0">
             <location x="9.8" y="11.9" z="10" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -22,26 +29,40 @@
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
 
-        <spot id="demoSpot" enabled="1" angle="2.1" exponent="1">
+        <spot id="demoSpot" enabled="1" angle="10" exponent="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
-            <target x="-3" y="4.1" z="2.8" />
-            <ambient r="0" g="0" b="0" a="1.0" />
+            <target x="0" y="0" z="0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0.5" linear="0" quadratic="0" />
+            <attenuation constant="1.0" linear="0" quadratic="0" />
         </spot>
     </lights>
 
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="otherTexture" file="scenes/images/rocks.jpg" />
+        <texture id="rainbowTexture" file="scenes/images/rainbow-fade.jpg" />
     </textures>
 
     <materials>
         <material id="demoMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="purpleHaze" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.0" b="0.6" a="1.0" />
+            <diffuse r="0.1" g="0.0" b="0.2" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.2" a="1.0" />
+        </material>
+        <material id="blackHole" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.05" g="0.05" b="0.05" a="1.0" />
+            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
+            <specular r="0.05" g="0.05" b="0.05" a="1.0" />
         </material>
     </materials>
 
@@ -51,26 +72,87 @@
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
         </transformation>
+
+        <transformation id="saturnRing">
+            <translate x="0" y="0" z="1" />
+            <scale x="1" y="1" z="0.2" />
+        </transformation>
     </transformations>
 
     <primitives>
         <primitive id="demoRectangle">
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
+        
+        <primitive id="demoTriangle">
+            <triangle   x1="0.5"   y1="1"   z1="0"
+                        x2="0.5"   y2="-1"  z2="0"
+                        x3="1"      y3="0"  z3="0" />
+        </primitive>
+
+        <primitive id="demoTorus">
+            <torus inner="1" outer="5" slices="20" loops="20" />
+        </primitive>
+
+        <primitive id="demoSphere">
+            <sphere radius="4" slices="50" stacks="50" />
+        </primitive>
     </primitives>
 
     <components>
-        <component id="demoRoot">
+        <component id="demoCirc">
             <transformation>
                 <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <scale x="0.8" y="0.8" z="0.8" />
+            </transformation>
+            <materials>
+                <material id="purpleHaze" />
+            </materials>
+            <texture id="otherTexture" length_s="3" length_t="3" />
+            <children>
+                <primitiveref id="demoSphere" />
+            </children>
+        </component>
+
+        <component id="demoRing">
+            <transformation>
+                <transformationref id="saturnRing" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="rainbowTexture" length_s="1" length_t="1" />
             <children>
+                <primitiveref id="demoTorus" />
+            </children>
+        </component>
+
+        <component id="caysa">
+            <transformation>
+                <translate x="0" y="0" z="5" />
+            </transformation>
+            <materials>
+                <material id="blackHole" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="demoTriangle" />
                 <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="demoRoot">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="demoCirc" />
+                <componentref id="demoRing" />
+                <componentref id="caysa" />
             </children>
         </component>
     </components>
