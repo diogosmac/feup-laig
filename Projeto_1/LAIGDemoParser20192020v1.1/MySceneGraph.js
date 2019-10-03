@@ -1429,28 +1429,55 @@ class MySceneGraph {
         //     this.primitives[prim].display();
         // }
 
-        for (var i in this.nodes) {
-
-            this.scene.pushMatrix();
-            
-            var node = this.nodes[i];
-
-            this.scene.multMatrix(node.transfMatrix);
-            var materialID = node.materialIDs[0];
-            this.materials[materialID].apply();
-
-            var tex = this.textures[node.textureID];
-            tex.bind();
-            
-            for (var j in node.leafIDs) {
-                var leafID = node.leafIDs[j];
-                this.primitives[leafID].display();
-            }
-
-            this.scene.popMatrix();
-
-        }
+        this.displaySceneRecursive(this.idRoot, this.nodes[this.idRoot].materialID, this.nodes[this.idRoot].textureID);
 
         // TO DO: verificar se todos os ids para nodes sao validos, a medida que sao processados
     }
+
+    displaySceneRecursive(idNode, idMaterial, idTexture) {
+
+        // se houver trouble com as matrizes, mudar push/pop
+        // para a chamada
+
+        this.scene.pushMatrix();
+
+        var node = this.nodes[idNode];
+
+        var currMaterialID = idMaterial;
+        if (this.materials[currMaterialID] != null) {
+            currMaterialID = node.materialID;
+        }
+
+        var currTextureID = idTexture;
+        if (this.textures[currTextureID] != null) {
+            currTextureID = node.textureID;
+        }
+
+        if (node.transfMatrix != null)
+            this.scene.multMatrix(node.transfMatrix);
+
+        var material = this.materials[currMaterialID];
+        var texture = this.textures[currTextureID];
+
+        for (var leaf in node.leafIDs) {
+            if (material != null) {
+                material.apply();
+            }
+            if (texture != null) {
+                // length_s & length_t
+                texture.bind();
+            }
+            var leafID = node.leafIDs[leaf];
+            this.primitives[leafID].display();
+        }
+
+        for (var child in node.nodeIDs) {
+            var childID = node.nodeIDs[child];
+            this.displaySceneRecursive(childID, currMaterialID, currTextureID);
+        }
+
+        this.scene.popMatrix();
+
+    }
+
 }

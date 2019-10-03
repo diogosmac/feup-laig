@@ -73,8 +73,8 @@
         </transformation>
 
         <transformation id="saturnRing">
-            <transformation x="0" y="0" z="1" />
-            <scale x="1" y="1" z="0.2" />
+            <translate x="0" y="0" z="1" />
+            <!-- <scale x="1" y="1" z="0.2" /> -->
         </transformation>
     </transformations>
 
@@ -90,7 +90,7 @@
         </primitive>
 
         <primitive id="demoTorus">
-            <torus inner="1" outer="5" slices="50" loops="50" />
+            <torus inner="1" outer="5" slices="3" loops="2" />
         </primitive>
 
         <primitive id="demoSphere">
@@ -99,7 +99,7 @@
     </primitives>
 
     <components>
-        <component id="demoRoot">
+        <component id="demoCirc">
             <transformation>
                 <!-- <translate x="0" y="0" z="1" /> -->
                 <scale x="0.8" y="0.8" z="0.8" />
@@ -137,6 +137,21 @@
             <children>
                 <primitiveref id="demoTriangle" />
                 <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="demoRoot">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="demoCirc" />
+                <componentref id="demoRing" />
+                <componentref id="caysa" />
             </children>
         </component>
     </components>
