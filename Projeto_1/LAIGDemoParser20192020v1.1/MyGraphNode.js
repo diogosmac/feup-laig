@@ -18,6 +18,8 @@ class MyGraphNode {
         this.length_t;
         this.transfMatrix = mat4.create();
         mat4.identity(this.transfMatrix); // creates identity matrix for the transformations
+
+        this.loaded = false; // indicates if the node is initialized or not
     }
 
     addLeafID(leafID) {

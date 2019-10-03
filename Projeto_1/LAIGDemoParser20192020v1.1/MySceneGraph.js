@@ -1073,14 +1073,26 @@ class MySceneGraph {
             if (componentID == null)
                 return "no ID defined for component";
 
-            // Checks for repeated IDs.
-            if (this.components[componentID] != null)
-                return "ID must be unique for each component (conflict: ID = " + componentID + ")";
 
-            // just a placeholder to save the component IDs; real nodes are stored in this.nodes
-            this.components[componentID] = 0;
+            var newNode;
 
-            var newNode = new MyGraphNode(this, componentID);
+            // Node already was declared
+            if (this.components[componentID] != null) {
+
+                newNode = this.nodes[componentID];
+
+                if(newNode.loaded)
+                    return "ID must be unique for each component (conflict: ID = " + componentID + ")";
+                
+            }
+            // New node; not declared yet
+            else {
+                newNode = new MyGraphNode(this, componentID);
+
+                // just a placeholder to save the component IDs; real nodes are stored in this.nodes
+                this.components[componentID] = 0;
+            }
+
 
             grandChildren = children[i].children;
 
@@ -1261,10 +1273,19 @@ class MySceneGraph {
                     if(childID == componentID)
                         return "a component can't be a child of itself (error in component with ID = " + componentID + ")";
 
-                    // NOTE: in order to detect errors and invalid IDs when refering to child nodes,
-                    //       any child node that is referenced should already be present in the array of nodes.
-                    if(this.nodes[childID] == null)
-                        return "invalid ID (" + childID + ") in a componentref for component with ID = " + componentID;
+
+                    var newChildNode;
+
+                    // Child node doesn't exist yet; creates new node and adds it to the data structure
+                    if(this.nodes[childID] == null) {
+                        newChildNode = new MyGraphNode(this, childID);
+                        this.nodes[childID] = newChildNode;
+                        this.components[childID] = 0;
+                    }
+                    // Child node already was declared
+                    else {
+                        newChildNode = this.nodes[childID];
+                    }
 
                     newNode.addNodeID(childID);
                     childrenCounter++;
@@ -1290,8 +1311,8 @@ class MySceneGraph {
             if(childrenCounter < 1)
                 return "node with ID = " + componentID + " has no valid children (nodes or primitives)";
 
-
-
+        
+            newNode.loaded = true;
             this.nodes[componentID] = newNode;
         }
 
@@ -1299,6 +1320,12 @@ class MySceneGraph {
         if(this.nodes[this.idRoot] == null)
             return "root id (" + this.idRoot + ") doesn't match any of the nodes specified in the XML file";
 
+
+        for(var id in this.nodes) {
+            if(!this.nodes[id].loaded)
+                return "invalid ID (" + id + ") in a componentref; node does not exist";
+        }
+        
         
         this.log("Parsed components");
         return null;    
