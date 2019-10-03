@@ -38,7 +38,7 @@ class XMLscene extends CGFscene {
         // this.rec = new MyRectangle(this, 12, 4, 5, 1, 2);
         // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
         // this.sphere = new MySphere(this, 12, 1.2, 10, 5);
-        // this.torus = new MyTorus(this, 12, 1.5, 2.5, 20, 10);
+        // this.torus = new MyTorus(this, 12, 3, 10, 7, 13);
         // this.cylinder = new MyCylinder(this, 12, 1.75, 0.5, Math.PI, 20, 2);
         // this.material = new CGFappearance(this);        
         // this.material.loadTexture('scenes/images/c.jpg');
