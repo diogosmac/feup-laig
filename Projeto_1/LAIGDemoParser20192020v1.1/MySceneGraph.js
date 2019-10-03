@@ -1479,20 +1479,25 @@ class MySceneGraph {
 
         // Texture
         var currTexture;
-        if (node.texture == "none" && parentTexture != null) {
-            parentTexture.unbind();
-        }
-        else if (node.texture == "inherit") {
-            // leaf.setTextureLengths(ls, lt);
-            currTexture = parentTexture;
+        if (node.texture == "none") {
+            currTexture = null;
+            
+            if(parentTexture != null)
+                parentTexture.unbind();
         }
         else {
-            // leaf.setTextureLengths(node.length_s, node.length_t);
-            currTexture = node.texture;
-        }
-        
-        if (currTexture != null)
-            currTexture.bind();
+            if (node.texture == "inherit") {
+                // leaf.setTextureLengths(ls, lt);
+                currTexture = parentTexture;
+            }
+            else {
+                // leaf.setTextureLengths(node.length_s, node.length_t);
+                currTexture = node.texture;
+            }
+            
+            if (currTexture != null)
+                currTexture.bind();
+        } 
 
 
         this.scene.multMatrix(node.transfMatrix);
