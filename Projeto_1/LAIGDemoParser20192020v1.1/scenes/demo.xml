@@ -42,7 +42,7 @@
     <textures>
         <texture id="demoTexture" file="scenes/images/vidral.jpg" />
         <texture id="otherTexture" file="scenes/images/rocks.jpg" />
-        <texture id="rainbowTexture" file="scenes/images/leaves.jpg" />
+        <texture id="rainbowTexture" file="scenes/images/rainbow-fade.jpg" />
     </textures>
 
     <materials>
