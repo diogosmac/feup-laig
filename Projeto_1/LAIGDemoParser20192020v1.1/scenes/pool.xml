@@ -21,14 +21,14 @@
     </globals>
 
     <lights>
-        <omni id="demoLight" enabled="0">
+        <omni id="demoLight" enabled="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
-
+        
         <spot id="demoSpot" enabled="1" angle="10" exponent="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
             <target x="0" y="0" z="0" />
@@ -40,9 +40,8 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
-        <texture id="otherTexture" file="scenes/images/rocks.jpg" />
-        <texture id="rainbowTexture" file="scenes/images/rainbow-fade.jpg" />
+        <texture id="parasolMetalTex" file="scenes/images/metalTex.jpg" />
+        <texture id="mainPlaneTex" file="scenes/images/mainPlaneTex.jpg" />
     </textures>
 
     <materials>
@@ -53,15 +52,15 @@
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
         <material id="parasolRedMat" shininess="10">
-            <emission r="0.4" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.1" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.3" g="0.1" b="0.0" a="1.0" />
-            <specular r="0.3" g="0.1" b="0.0" a="1.0" />
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.5" g="0.1" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
         <material id="parasolBlueMat" shininess="10">
-            <emission r="0.0" g="0.0" b="0.4" a="1.0" />
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.1" g="0.1" b="0.5" a="1.0" />
-            <diffuse r="0.1" g="0.1" b="1.0" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.7" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
     </materials>
@@ -75,6 +74,10 @@
     </transformations>
 
     <primitives>
+        <primitive id="mainPlane">
+            <rectangle x1="-20" y1="-20" x2="20" y2="20" />
+        </primitive>
+
         <primitive id="parasolStick">
             <cylinder base="0.05" top="0.05" height="2.5" slices="30" stacks="5" />
         </primitive>
@@ -83,6 +86,9 @@
             <cylinder base="2" top="0.0" height="0.8" slices="8" stacks="5" />
         </primitive>
 
+        <primitive id="parasolBase">
+            <rectangle x1="-0.7" y1="-0.7" x2="0.7" y2="0.7" />
+        </primitive>
     </primitives>
 
     <components>
@@ -93,22 +99,62 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" length_s="3" length_t="3" />
+            <texture id="none" length_s="1" length_t="1" />
             <children>
-                <componentref id="parasolBottomNode" />
+                <componentref id="parasolGroupNode" />
+                <componentref id="mainPlaneNode" />
             </children>
         </component>
 
-        <component id="parasolBottomNode">
+        <component id="mainPlaneNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="mainPlaneTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="mainPlane" />
+            </children>
+        </component>
+
+
+        <component id="parasolNode">
+            <transformation>
+                <translate x="0" y="0" z="0.05" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <componentref id="parasolTopNode" />
+                <componentref id="parasolStickNode" />
+                <componentref id="parasolBaseNode" />
+            </children>
+        </component>
+
+        <component id="parasolStickNode">
             <transformation>
             </transformation>
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="none" length_s="3" length_t="3" />
+            <texture id="none" length_s="1" length_t="1" />
             <children>
-                <componentref id="parasolTopNode" />
                 <primitiveref id="parasolStick" />
+            </children>
+        </component>
+
+        <component id="parasolBaseNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="parasolMetalTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="parasolBase" />
             </children>
         </component>
 
@@ -121,20 +167,76 @@
             </materials>
             <texture id="none" length_s="1" length_t="1" />
             <children>
-                <componentref id="parasolRedMatNode" />
+                <primitiveref id="parasolTop" />
             </children>
         </component>
 
-        <component id="parasolRedMatNode">
+        <component id="parasolRed1">
             <transformation>
+                <translate x="6.75" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="parasolRedMat" />
             </materials>
             <texture id="none" length_s="1" length_t="1" />
             <children>
-                <primitiveref id="parasolTop" />
+                <componentref id="parasolNode" />
             </children>
         </component>
+
+        <component id="parasolRed2">
+            <transformation>
+                <translate x="-2.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="parasolRedMat" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <componentref id="parasolNode" />
+            </children>
+        </component>
+
+        <component id="parasolBlue1">
+            <transformation>
+                <translate x="2.25" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="parasolBlueMat" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <componentref id="parasolNode" />
+            </children>
+        </component>
+
+        <component id="parasolBlue2">
+            <transformation>
+                <translate x="-6.75" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="parasolBlueMat" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <componentref id="parasolNode" />
+            </children>
+        </component>
+
+        <component id="parasolGroupNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <componentref id="parasolRed1" />
+                <componentref id="parasolRed2" />
+                <componentref id="parasolBlue1" />
+                <componentref id="parasolBlue2" />
+            </children>
+        </component>
+
     </components>
 </lxs>
