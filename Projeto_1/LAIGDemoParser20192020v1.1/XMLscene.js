@@ -121,7 +121,7 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = true;
 
-        // this.camera = this.graph.views[this.defaultView];
+        // this.camera = this.graph.views[this.graph.activeCameraID];
     }
 
     /**

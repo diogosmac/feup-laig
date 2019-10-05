@@ -309,9 +309,6 @@ class MySceneGraph {
 
 
                 this.views[viewID] = new CGFcamera(fov, near, far, position, target);
-                if (viewsCounter == 0) {
-                    this.scene.defaultView = viewID;
-                }
                 viewsCounter++;
 
             }
@@ -385,9 +382,6 @@ class MySceneGraph {
                 }
 
                 this.views[viewID] = new CGFcameraOrtho(left, right, bottom, top, near, far, position, target, up);
-                if (viewsCounter == 0) {
-                    this.scene.defaultView = viewID;
-                }
                 viewsCounter++;
 
             }
@@ -1463,7 +1457,9 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+       this.scene.pushMatrix();
        this.displaySceneRecursive(this.nodes[this.idRoot], this.defaultMaterial, null, 1, 1);
+       this.scene.popMatrix();
     }
 
     displaySceneRecursive(node, parentMaterial, parentTexture, ls, lt) {

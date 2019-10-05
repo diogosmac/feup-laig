@@ -51,7 +51,7 @@ class MySphere extends CGFobject {
 
                 this.texCoords.push(
                     slice / this.slices, 
-                    stack / this.stacks
+                    stack / (this.stacks * 2)
                 );
 
             }
