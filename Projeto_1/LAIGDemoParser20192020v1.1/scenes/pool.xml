@@ -3,7 +3,7 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="20" z="35" />
+            <from x="30" y="20" z="25" />
             <to x="0" y="-2" z="0" />
         </perspective>
 
@@ -46,6 +46,11 @@
         <texture id="beachBallTex1" file="scenes/images/beachBallTex1.png" />
         <texture id="beachBallTex2" file="scenes/images/beachBallTex2.jpg" />
         <texture id="woodenWallTex" file="scenes/images/woodenWallTex.jpeg" />
+        <texture id="windowTex" file="scenes/images/window.jpg" />
+        <texture id="doorTex" file="scenes/images/door.jpg" />
+        <texture id="flagPoleTex" file="scenes/images/flagPole.jpg" />
+        <texture id="polishedMetalTex" file="scenes/images/polishedMetal.jpg" />
+        <texture id="polishedGoldTex" file="scenes/images/polishedGold.jpg" />
     </textures>
 
     <materials>
@@ -85,6 +90,18 @@
             <diffuse r="0.6" g="0.4" b="0.2" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" /> 
         </material>
+        <material id="metalMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" /> 
+        </material>
+        <material id="flagFabricMat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" /> 
+        </material>
     </materials>
 
     <transformations>
@@ -119,6 +136,16 @@
     </transformations>
 
     <primitives>
+
+        <!-- syntax help :-] -->
+        <!-- <rectangle x1="ff" y1="ff" x2="ff" y2="ff" /> -->
+        <!-- <triangle   x1="ff" y1="ff" z1="ff"
+                    x2="ff" y2="ff" z2="ff"
+                    x3="ff" y3="ff" z3="ff" /> -->
+        <!-- <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" /> -->
+        <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
+        <!-- <torus inner="ff" outer="ff" slices="ii" loops="ii" /> -->
+
         <primitive id="mainPlane">
             <rectangle x1="-20" y1="-20" x2="20" y2="20" />
         </primitive>
@@ -155,6 +182,42 @@
             <rectangle x1="-5" y1="0" x2="15" y2="5" /> 
         </primitive>
 
+        <primitive id="buildingWindow">
+            <rectangle x1="0" y1="0" x2="3" y2="2" />
+        </primitive>
+
+        <primitive id="buildingDoor">
+            <rectangle x1="0" y1="0" x2="2" y2="4" />
+        </primitive>
+
+        <primitive id="flagPole">
+            <cylinder base="0.1" top="0.1" height="8" slices="8" stacks="5" />
+        </primitive>
+
+        <primitive id="flagFabricSideA">
+            <triangle   x1="1"   y1="0" z1="0"
+                        x2="0.5" y2="0" z2="1"
+                        x3="0"   y3="0" z3="0" />
+        </primitive>
+
+        <primitive id="flagFabricSideB">
+            <triangle   x1="0"   y1="0" z1="0"
+                        x2="0.5" y2="0" z2="1"
+                        x3="1"   y3="0" z3="0" />
+        </primitive>
+
+        <primitive id="atomiumSphere">
+            <sphere radius="0.5" slices="10" stacks="10" />
+        </primitive>
+
+        <primitive id="atomiumEdge">
+            <cylinder base="0.1" top="0.1" height="3" slices="8" stacks="2" />
+        </primitive>
+
+        <primitive id="atomiumSupport">
+            <cylinder base="0.8" top="0.1" height="3.2" slices="20" stacks="5" />
+        </primitive>
+
     </primitives>
 
     <components>
@@ -174,6 +237,38 @@
                 <componentref id="beachBallNode1" />
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
+                <componentref id="flagNode" />
+            </children>
+        </component>
+
+        <component id="flagNode">
+            <transformation>
+                <translate x="-15" y="15" z="0" />
+                <rotate axis="z" angle="45" />
+            </transformation>
+            <materials>
+                <material id="metalMat" />
+            </materials>
+            <texture id="flagPoleTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="flagPole" />
+                <componentref id="flagFabricNode" />
+            </children>
+        </component>
+
+        <component id="flagFabricNode">
+            <transformation>
+                <translate x="0" y="0" z="8" />
+                <scale x="2" y="1" z="1" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="flagFabricMat" />
+            </materials>
+            <texture id="beachBallTex2" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="flagFabricSideA" />
+                <primitiveref id="flagFabricSideB" />
             </children>
         </component>
 
@@ -187,9 +282,220 @@
             <texture id="none" length_s="1" length_t="1" />
             <children>
                 <componentref id="houseNode" />
-                <!-- <componentref id="planetNode" /> -->
+                <componentref id="atomiumStructureNode" />
             </children>
         </component>
+
+        <component id="atomiumStructureNode">
+            <transformation>
+                <translate x="-5" y="-2" z="10" />
+            </transformation>
+            <materials>
+                <material id="metalMat" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumNode" />
+                <componentref id="atomiumSupportNode" />
+            </children>
+        </component>
+
+        <component id="atomiumSupportNode">
+            <transformation>
+                <translate x="-2.1" y="-1.5" z="-5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="polishedGoldTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="atomiumSupport" />
+            </children>
+        </component>
+
+        <component id="atomiumNode">
+            <transformation>
+                <rotate axis="x" angle="-45" />
+                <rotate axis="y" angle="-45" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="polishedMetalTex" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumSpherePairNodeA" />
+                <componentref id="atomiumSpherePairNodeB" />
+                <componentref id="atomiumSpherePairNodeC" />
+                <componentref id="atomiumSpherePairNodeD" />
+                <componentref id="atomiumEdgePairNodeA" />
+                <componentref id="atomiumEdgePairNodeB" />
+                <componentref id="atomiumEdgePairNodeC" />
+                <componentref id="atomiumEdgePairNodeD" />
+                <componentref id="atomiumEdgePairNodeE" />
+                <componentref id="atomiumEdgePairNodeF" />
+            </children>
+        </component>
+
+        <component id="atomiumSpherePairNodeA">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumSphereNode" />
+                <primitiveref id="atomiumSphere" />
+            </children>
+        </component>        
+
+        <component id="atomiumSpherePairNodeB">
+            <transformation>
+                <translate x="0" y="0" z="3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumSpherePairNodeA" />
+            </children>
+        </component>        
+
+        <component id="atomiumSpherePairNodeC">
+            <transformation>
+                <translate x="-3" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumSpherePairNodeA" />
+            </children>
+        </component>        
+
+        <component id="atomiumSpherePairNodeD">
+            <transformation>
+                <translate x="-3" y="0" z="3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumSpherePairNodeA" />
+            </children>
+        </component>        
+
+        <component id="atomiumSphereNode">
+            <transformation>
+                <translate x="0" y="-3" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="atomiumSphere" />
+            </children>
+        </component>
+
+        <component id="atomiumEdgePairNodeA">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumEdgeNode" />
+                <primitiveref id="atomiumEdge" />
+            </children>
+        </component>
+
+        <component id="atomiumEdgePairNodeB">
+            <transformation>
+                <translate x="-3" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumEdgePairNodeA" />
+            </children>            
+        </component>
+
+        <component id="atomiumEdgePairNodeC">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumEdgePairNodeA" />
+            </children>            
+        </component>
+
+        <component id="atomiumEdgePairNodeD">
+            <transformation>
+                <translate x="0" y="0" z="3" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumEdgePairNodeA" />
+            </children>            
+        </component>
+
+        <component id="atomiumEdgePairNodeE">
+            <transformation>
+                <translate x="0" y="-3" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumEdgePairNodeA" />
+            </children>            
+        </component>
+
+        <component id="atomiumEdgePairNodeF">
+            <transformation>
+                <translate x="-3" y="-3" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="atomiumEdgePairNodeA" />
+            </children>            
+        </component>
+
+
+        <component id="atomiumEdgeNode">
+            <transformation>
+                <translate x="0" y="-3" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="atomiumEdge" />
+            </children>
+        </component>
+
 
         <component id="houseNode">
             <transformation>
@@ -218,6 +524,8 @@
             <texture id="inherit" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="buildingWall" />
+                <componentref id="windowsNode" />
+                <componentref id="doorNode" />
             </children>
         </component>
 
@@ -257,6 +565,58 @@
             <texture id="inherit" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="buildingWall" />
+            </children>
+        </component>
+
+        <component id="windowsNode">
+            <transformation>
+                <translate x="-2" y="2" z="0.05" />
+            </transformation>
+            <materials>
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="windowTex" length_s="1" length_t="1" />
+            <children>
+                <componentref id="windowNode1" />
+                <componentref id="windowNode2" />
+            </children>
+        </component>
+
+        <component id="windowNode1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="buildingWindow" />
+            </children>
+        </component>
+
+        <component id="windowNode2">
+            <transformation>
+                <translate x="6" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="buildingWindow" />
+            </children>
+        </component>
+
+        <component id="doorNode">
+            <transformation>
+                <translate x="10" y="0" z="0.05" />
+            </transformation>
+            <materials>
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="doorTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="buildingDoor" />
             </children>
         </component>
 
