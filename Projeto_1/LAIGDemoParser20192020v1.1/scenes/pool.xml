@@ -43,8 +43,8 @@
         <texture id="mainPlaneTex" file="scenes/images/mainPlaneTex.jpg" />
         <texture id="waterTex" file="scenes/images/poolWater.jpg" />
         <texture id="floaterTex" file="scenes/images/rainbow-hard.jpg" />
-        <texture id="beachBallTex1" file="scenes/images/beachBallTex1.png" />
-        <texture id="beachBallTex2" file="scenes/images/beachBallTex2.jpg" />
+        <texture id="beachBallTex" file="scenes/images/beachBallTex.png" />
+        <texture id="starsTex" file="scenes/images/starsTex.jpg" />
         <texture id="woodenWallTex" file="scenes/images/woodenWallTex.jpeg" />
         <texture id="windowTex" file="scenes/images/window.jpg" />
         <texture id="doorTex" file="scenes/images/door.jpg" />
@@ -265,7 +265,7 @@
             <materials>
                 <material id="flagFabricMat" />
             </materials>
-            <texture id="beachBallTex2" length_s="1" length_t="1" />
+            <texture id="starsTex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="flagFabricSideA" />
                 <primitiveref id="flagFabricSideB" />
@@ -640,7 +640,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="beachBallTex1" length_s="1" length_t="1" />
+            <texture id="beachBallTex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="beachBall" />
             </children>
@@ -653,7 +653,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="beachBallTex2" length_s="1" length_t="1" />
+            <texture id="starsTex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="beachBall" />
             </children>
