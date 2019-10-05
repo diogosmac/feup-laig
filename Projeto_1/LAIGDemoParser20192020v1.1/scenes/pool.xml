@@ -180,7 +180,6 @@
         <component id="buildingNode">
             <transformation>
                 <translate x="10" y="-8" z="0" />
-                <rotate axis="z" angle="180" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -194,7 +193,8 @@
 
         <component id="houseNode">
             <transformation>
-                <rotate axis="x" angle="90" />  
+                <rotate axis="z" angle="180" /> 
+                <rotate axis="x" angle="90" /> 
             </transformation>
             <materials>
                 <material id="houseMaterial" />
