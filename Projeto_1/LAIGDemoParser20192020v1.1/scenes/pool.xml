@@ -3,16 +3,15 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+            <from x="30" y="20" z="35" />
             <to x="0" y="-2" z="0" />
         </perspective>
 
         <ortho id="preOrtho" near="0.1" far="500" left="10" right="10" top="10" bottom="10" >
-            <from x="30" y="15" z="0" />
+            <from x="30" y="20" z="35" />
             <to x="0" y="-2" z="0" />
             <!-- <up x="0" y="1" z="0" /> -->
         </ortho>
-
     </views>
 
     <globals>
@@ -42,6 +41,8 @@
     <textures>
         <texture id="parasolMetalTex" file="scenes/images/metalTex.jpg" />
         <texture id="mainPlaneTex" file="scenes/images/mainPlaneTex.jpg" />
+        <texture id="waterTex" file="scenes/images/poolWater.jpg" />
+        <texture id="floaterTex" file="scenes/images/rainbow-hard.jpg" />
     </textures>
 
     <materials>
@@ -62,6 +63,18 @@
             <ambient r="0.1" g="0.1" b="0.5" a="1.0" />
             <diffuse r="0.1" g="0.1" b="0.7" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="waterMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.4" b="0.8" a="1.0" />
+            <diffuse r="0.2" g="0.8" b="0.8" a="1.0" />
+            <specular r="0.7" g="0.7" b="1.0" a="1.0" /> 
+        </material>
+        <material id="poolsideMat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.7" g="0.6" b="0.5" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" /> 
         </material>
     </materials>
 
@@ -89,6 +102,18 @@
         <primitive id="parasolBase">
             <rectangle x1="-0.7" y1="-0.7" x2="0.7" y2="0.7" />
         </primitive>
+
+        <primitive id="poolSideRectangle">
+            <torus inner="1" outer="8" slices="2" loops="4" />
+        </primitive>
+        
+        <primitive id="poolWaterRectangle">
+            <rectangle x1="-10" y1="-5" x2="10" y2="5" />            
+        </primitive>
+
+        <primitive id="poolFloater">
+            <torus inner="0.6" outer="1.6" slices="15" loops="15" />
+        </primitive>
     </primitives>
 
     <components>
@@ -103,6 +128,7 @@
             <children>
                 <componentref id="parasolGroupNode" />
                 <componentref id="mainPlaneNode" />
+                <componentref id="poolNode" />
             </children>
         </component>
 
@@ -225,6 +251,7 @@
 
         <component id="parasolGroupNode">
             <transformation>
+                <translate x="4" y="15" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -235,6 +262,59 @@
                 <componentref id="parasolRed2" />
                 <componentref id="parasolBlue1" />
                 <componentref id="parasolBlue2" />
+            </children>
+        </component>
+
+        <component id="poolWaterNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="waterMat" />
+            </materials>
+            <texture id="waterTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="poolWaterRectangle" />
+            </children>
+        </component>
+
+        <component id="poolSideNode">
+            <transformation>
+                <scale x="2" y="1" z="1" />
+                <rotate axis="z" angle="45" />
+            </transformation>
+            <materials>
+                <material id="poolsideMat" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="poolSideRectangle" />
+            </children>
+        </component>
+
+        <component id="poolBuoyant">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="whiteMaterial" />
+            </materials>
+            <texture id="floaterTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="poolFloater" />
+            </children>
+        </component>
+
+        <component id="poolNode">
+            <transformation>
+                <translate x="5" y="7" z="0.01" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1" />
+            <children>
+                <componentref id="poolWaterNode" />
+                <componentref id="poolSideNode" />
+                <componentref id="poolBuoyant" />
             </children>
         </component>
 

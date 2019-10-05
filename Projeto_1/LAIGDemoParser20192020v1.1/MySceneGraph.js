@@ -309,6 +309,9 @@ class MySceneGraph {
 
 
                 this.views[viewID] = new CGFcamera(fov, near, far, position, target);
+                if (viewsCounter == 0) {
+                    this.scene.defaultView = viewID;
+                }
                 viewsCounter++;
 
             }
@@ -382,6 +385,9 @@ class MySceneGraph {
                 }
 
                 this.views[viewID] = new CGFcameraOrtho(left, right, bottom, top, near, far, position, target, up);
+                if (viewsCounter == 0) {
+                    this.scene.defaultView = viewID;
+                }
                 viewsCounter++;
 
             }
