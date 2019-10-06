@@ -31,7 +31,6 @@ class MyCylinder extends CGFobject {
 
         var normal = vec3.create(0,0,0);
         var vertexX, vertexY, vertexZ;
-        var indexCount = 0;
 
         // body
         for (var stack = 0; stack <= this.stacks; stack++) {
@@ -60,8 +59,6 @@ class MyCylinder extends CGFobject {
                 this.normals.push(normal.x, normal.y, normal.z);
                 this.texCoords.push(partAng, partRad);
 
-                indexCount++;
-   
             }
         }
 

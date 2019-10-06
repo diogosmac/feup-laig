@@ -120,6 +120,8 @@ class XMLscene extends CGFscene {
         this.initLights();
 
         this.sceneInited = true;
+
+        this.camera = this.graph.views[this.graph.activeCameraID];
     }
 
     /**

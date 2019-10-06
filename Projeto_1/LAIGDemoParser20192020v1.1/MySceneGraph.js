@@ -1330,7 +1330,7 @@ class MySceneGraph {
 
         for(var id in this.nodes) {
             if(!this.nodes[id].loaded) {
-                // TO-DO: ver situacao de remover nos invalidos
+                // TO DO: ver situacao de remover nos invalidos
                 return "invalid ID (" + id + ") in a componentref; node does not exist";
                 // this.onXMLMinorError("invalid ID (" + id + ") in a componentref; node does not exist");
                 // this.nodes.splice(id);
@@ -1457,47 +1457,59 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.displaySceneRecursive(this.nodes[this.idRoot], this.defaultMaterial, null, 1, 1);
+       this.scene.pushMatrix();
+       this.displaySceneRecursive(this.nodes[this.idRoot], this.defaultMaterial, null, 1, 1);
+       this.scene.popMatrix();
     }
 
     displaySceneRecursive(node, parentMaterial, parentTexture, ls, lt) {
 
         this.scene.pushMatrix();
 
+        // Material
         var currMaterial;
-        if (node.materials[node.currMaterialIndex] == "inherit") {
+        var auxMaterial = node.nodeMaterials[node.currMaterialIndex];
+
+        if (auxMaterial == "inherit") {
             currMaterial = parentMaterial;
         }
         else {
-            currMaterial = node.materials[node.currMaterialIndex];
+            currMaterial = auxMaterial;
         }
         currMaterial.apply();
 
+
+        // Texture
         var currTexture;
-        if (node.texture == "none" && parentTexture != null) {
-            parentTexture.unbind();
-        }
-        else if (node.texture == "inherit") {
-            // leaf.setTextureLengths(ls, lt);
-            currTexture = parentTexture;
+        if (node.texture == "none") {
+            currTexture = null;
+            
+            if(parentTexture != null)
+                parentTexture.unbind();
         }
         else {
-            // leaf.setTextureLengths(node.length_s, node.length_t);
-            currTexture = node.texture;
-        }
-        
-        if (currTexture != null)
-            currTexture.bind();
+            if (node.texture == "inherit") {
+                // leaf.setTextureLengths(ls, lt);
+                currTexture = parentTexture;
+            }
+            else {
+                // leaf.setTextureLengths(node.length_s, node.length_t);
+                currTexture = node.texture;
+            }
+            
+            if (currTexture != null)
+                currTexture.bind();
+        } 
 
 
         this.scene.multMatrix(node.transfMatrix);
 
-        for (var leaf in node.leafs) {
-            leaf.display();
+        for (var i = 0; i < node.leafs.length; i++) {
+            node.leafs[i].display();
         }
 
-        for (var child in node.childNodes) {
-            this.displaySceneRecursive(child, currMaterial, currTexture, ls, lt);
+        for (var j = 0; j < node.childNodes.length; j++) {
+            this.displaySceneRecursive(node.childNodes[j], currMaterial, currTexture, ls, lt);
         }
 
         if (currTexture != null)
