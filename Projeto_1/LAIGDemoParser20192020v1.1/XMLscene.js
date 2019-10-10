@@ -33,17 +33,10 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.setUpdatePeriod(50);
+        this.setUpdatePeriod(80);
 
         this.matIndex = 0;
 
-        // this.rec = new MyRectangle(this, 12, 4, 5, 1, 2);
-        // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
-        // this.sphere = new MySphere(this, 12, 1.2, 10, 5);
-        // this.torus = new MyTorus(this, 12, 3, 10, 7, 13);
-        // this.cylinder = new MyCylinder(this, 12, 1.75, 0.5, Math.PI, 20, 2);
-        // this.material = new CGFappearance(this);        
-        // this.material.loadTexture('scenes/images/c.jpg');
     }
 
     /**
@@ -87,13 +80,14 @@ class XMLscene extends CGFscene {
                     );
                 }
 
-                this.lights[i].setVisible(true);
-
+                
                 if (light[0]) {
                     this.lights[i].enable();
+                    this.lights[i].setVisible(true);
                 }
                 else {
                     this.lights[i].disable();
+                    this.lights[i].setVisible(false);
                 }
                 
                 this.lights[i].update();
@@ -137,7 +131,13 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = true;
 
-        this.camera = this.graph.views[this.graph.activeCameraID];
+        this.camera = this.graph.views[this.activeCameraID];
+
+        this.interface.updateInterface();
+    }
+
+    changeCamera() {
+        this.camera = this.graph.views[this.activeCameraID];
     }
 
     /**

@@ -22,11 +22,29 @@ class MyInterface extends CGFinterface {
 
         // this.gui.add(this.scene, 'camera').name('Camera');
 
-        // add a group of controls (and open/expand by defult)
-
         this.initKeys();
 
         return true;
+    }
+
+    addLightsFolder() {
+    
+        var lightsFolder = this.gui.addFolder('Lights');
+        var i = 0;
+
+        for(var key in this.scene.graph.lights) {
+            lightsFolder.add(this.scene.lights[i].enable).name(key);
+            i++;
+        }
+    }
+
+    addCamerasDropdown() {
+        this.gui.add(this.scene, 'activeCameraID', this.scene.graph.views).name('Selected camera').onChange(this.scene.changeCamera);
+    }
+
+    updateInterface() {
+        this.addLightsFolder();
+        this.addCamerasDropdown();
     }
 
     /**
