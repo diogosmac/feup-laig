@@ -1231,49 +1231,42 @@ class MySceneGraph {
             if(textureIndex == -1)
                 return "'texture' tag not specified for component with ID = " + componentID;
 
+            var needLengths = true;
+
             var texID = this.reader.getString(grandChildren[textureIndex], 'id');
             if(texID == null)
                 return "no id defined for a texture reference for component with ID = " + componentID;
 
-            if (texID == "inherit" || texID == "none")
+            if (texID == "inherit" || texID == "none") {
                 newNode.setTexture(texID);
+                needLengths = false;
+            }
             else if (this.textures[texID] != null)
                 newNode.setTexture(this.textures[texID]);
             else
                 return "invalid ID (" + texID + ") in a texture reference for component with ID = " + componentID;
 
-
-            var needLengths = (!(texID == "inherit" || texID == "none"));
-            var length_s = null;
-            var length_t = null;
-
             if (needLengths) {
-                length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
-                if(length_s == null) {
-                    this.onXMLMinorError("no length_s defined; assumed length_s = 1");
-                    length_s = 1;
-                }
-                else if(!(!isNaN(length_s) && length_s > 0))
+                var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+                if (!(length_s != null && !isNaN(length_s) && length_s > 0)) {
                     return "unable to parse length_s defined for a texture reference for component with ID = " + componentID;
-            }
-            else if (length_s != null) {
-                this.onXMLMinorError("length_s is not required, but is still provided; assuming parent value");
-            }
-
-            if (needLengths) {
-                length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
-                if(length_t == null && needLengths) {
-                    this.onXMLMinorError("no length_t defined; assumed length_t = 1");
-                    length_t = 1;
                 }
-                else if(!(!isNaN(length_t) && length_t > 0))
-                    return "unable to parse length_t defined for a texture reference for component with ID = " + componentID; 
+
+                var length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
+                if (!(length_t != null && !isNaN(length_t) && length_t > 0)) {
+                    return "unable to parse length_t defined for a texture reference for component with ID = " + componentID;
+                }
+
+                newNode.setTextureLengths(length_s, length_t);
             }
-            else if (length_s != null && !needLengths) {
-                this.onXMLMinorError("length_t is not required, but is still provided; assuming parent value");
+            else {
+                if (this.reader.hasAttribute(grandChildren[textureIndex], 'length_s'))
+                    this.onXMLMinorError(componentID + " has texture ID = " + texID + " - length_s should not exist");
+
+                if (this.reader.hasAttribute(grandChildren[textureIndex], 'length_t'))
+                    this.onXMLMinorError(componentID + " has texture ID = " + texID + " - length_t should not exist");
             }
 
-            newNode.setTextureLengths(length_s, length_t);
    
 
             // Children
@@ -1471,7 +1464,7 @@ class MySceneGraph {
      */
     displayScene() {
        this.scene.pushMatrix();
-       this.displaySceneRecursive(this.nodes[this.idRoot], this.defaultMaterial, null, 1, 1);
+       this.displaySceneRecursive(this.nodes[this.idRoot], this.defaultMaterial, null, null, null);
        this.scene.popMatrix();
     }
 
@@ -1482,7 +1475,8 @@ class MySceneGraph {
         // Material
         var currMaterial;
         var auxMaterial = node.nodeMaterials[this.scene.matIndex % node.nodeMaterials.length];
-        var length_s, length_t;
+        var length_s = null;
+        var length_t = null;
 
         if (auxMaterial == "inherit") {
             currMaterial = parentMaterial;
@@ -1497,32 +1491,29 @@ class MySceneGraph {
         var currTexture;
         if (node.texture == "none") {
             currTexture = null;
-            
+
             if(parentTexture != null)
                 parentTexture.unbind();
         }
         else {
             if (node.texture == "inherit") {
-                // leaf.setTextureLengths(ls, lt);
                 currTexture = parentTexture;
                 length_s = ls;
                 length_t = lt;
             }
             else {
-                // leaf.setTextureLengths(node.length_s, node.length_t);
                 currTexture = node.texture;
                 length_s = node.length_s;
                 length_t = node.length_t;
-}
+            }
             
             if (currTexture != null) {
                 currTexture.bind();
                 currMaterial.setTexture(currTexture);
+                currMaterial.setTextureWrap('REPEAT', 'REPEAT');
             }
 
-            currMaterial.setTextureWrap('REPEAT', 'REPEAT');
         } 
-
 
         this.scene.multMatrix(node.transfMatrix);
 

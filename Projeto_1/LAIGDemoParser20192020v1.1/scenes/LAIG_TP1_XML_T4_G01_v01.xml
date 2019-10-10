@@ -6,6 +6,10 @@
             <from x="30" y="20" z="-25" />
             <to x="0" y="-2" z="0" />
         </perspective>
+        <!-- <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+            <from x="5" y="8" z="-25" />
+            <to x="5" y="8" z="0" />
+        </perspective> -->
     </views>
 
     <globals>
@@ -46,6 +50,7 @@
         <texture id="polishedMetalTex" file="scenes/images/polishedMetal.jpg" />
         <texture id="polishedGoldTex" file="scenes/images/polishedGold.jpg" />
         <texture id="poolsideTex" file="scenes/images/poolside.jpg" />
+        <texture id="flagFabricTex" file="scenes/images/flagFabric.png" />
     </textures>
 
     <materials>
@@ -186,19 +191,19 @@
         </primitive>
 
         <primitive id="flagPole">
-            <cylinder base="0.1" top="0.1" height="8" slices="8" stacks="5" />
+            <cylinder base="0.1" top="0.1" height="12" slices="8" stacks="5" />
         </primitive>
 
         <primitive id="flagFabricSideA">
-            <triangle   x1="1"   y1="0" z1="0"
-                        x2="0.5" y2="0" z2="1"
-                        x3="0"   y3="0" z3="0" />
+            <triangle   x1="0"   y1="0" z1="0"
+                        x2="3"   y2="0" z2="0"
+                        x3="1.5" y3="0" z3="6" />
         </primitive>
 
         <primitive id="flagFabricSideB">
-            <triangle   x1="0"   y1="0" z1="0"
-                        x2="0.5" y2="0" z2="1"
-                        x3="1"   y3="0" z3="0" />
+            <triangle   x1="3" y1="0" z1="0"
+                        x2="0"   y2="0" z2="0"
+                        x3="1.5"   y3="0" z3="6" />
         </primitive>
 
         <primitive id="atomiumSphere">
@@ -244,28 +249,42 @@
             <materials>
                 <material id="metalMat" />
             </materials>
-            <texture id="flagPoleTex" length_s="1" length_t="1" />
+            <texture id="flagPoleTex" length_s="1" length_t="5" />
             <children>
                 <primitiveref id="flagPole" />
-                <componentref id="flagFabricNode" />
+                <componentref id="flagFabricSideANode" />
+                <componentref id="flagFabricSideBNode" />
             </children>
         </component>
 
-        <component id="flagFabricNode">
+        <component id="flagFabricSideANode">
             <transformation>
-                <translate x="0" y="0" z="8" />
-                <scale x="2" y="1" z="1" />
+                <translate x="0" y="0" z="12" />
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
                 <material id="flagFabricMat" />
             </materials>
-            <texture id="starsTex" length_s="1" length_t="1" />
+            <texture id="flagFabricTex" length_s="6" length_t="6" />
             <children>
                 <primitiveref id="flagFabricSideA" />
+            </children>
+        </component>
+
+        <component id="flagFabricSideBNode">
+            <transformation>
+                <translate x="0" y="0" z="12" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="flagFabricMat" />
+            </materials>
+            <texture id="starsTex" length_s="6" length_t="6" />
+            <children>
                 <primitiveref id="flagFabricSideB" />
             </children>
         </component>
+
 
         <component id="buildingNode">
             <transformation>
