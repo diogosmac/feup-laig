@@ -12,7 +12,6 @@ class MyGraphNode {
         this.leafs = [];
         this.childNodes = [];
         this.nodeMaterials = [];
-        this.currMaterialIndex = 0;
         this.texture;
         this.length_s = null;
         this.length_t = null;
@@ -32,12 +31,6 @@ class MyGraphNode {
 
     addMaterial(material) {
         this.nodeMaterials.push(material);
-    }
-
-    changeCurrMaterial() {
-        this.currMaterialIndex++;
-        if(this.currMaterialIndex >= materials.length)
-            this.currMaterialIndex = 0;
     }
 
     setTexture(texture) {

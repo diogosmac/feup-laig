@@ -33,7 +33,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.setUpdatePeriod(100);
+        this.setUpdatePeriod(50);
 
         this.matIndex = 0;
 
@@ -110,11 +110,15 @@ class XMLscene extends CGFscene {
         this.setShininess(10.0);
     }
 
+    update(t) {
+        this.checkKeys();
+    }
+
     changeMatIndex() {
         this.matIndex++;
     }
 
-    checkKeys(t) {
+    checkKeys() {
         if (this.gui.isKeyPressed("KeyM"))
             this.changeMatIndex();
     }

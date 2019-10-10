@@ -758,6 +758,7 @@
             </transformation>
             <materials>
                 <material id="parasolRedMat" />
+                <material id="parasolBlueMat" />
             </materials>
             <texture id="none" />
             <children>
