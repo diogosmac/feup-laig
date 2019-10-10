@@ -97,13 +97,12 @@ class MyTriangle extends CGFobject {
 		c /= maxValue;
 
 
-		this.texCoords = [
+		this.defaultTexCoords = [
 			c - a * betaCos, 1 - a * betaSin,
 			0, 1,
 			c, 1
 		];
-
-
+		this.texCoords = this.defaultTexCoords.slice();
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
     }
@@ -117,4 +116,20 @@ class MyTriangle extends CGFobject {
 		this.texCoords = [...coords];
 		this.updateTexCoordsGLBuffers();
 	}
+
+	updateTexScaleFactors(ls, lt) {
+		this.texCoords = [];
+		for (var i = 0; i < this.defaultTexCoords.length; i = i + 2) {
+			var s = this.defaultTexCoords[i] / ls;
+			var t = this.defaultTexCoords[i + 1] / lt;
+			this.texCoords.push(s,t);
+		}
+		this.updateTexCoordsGLBuffers();
+	}
+
+	display(ls, lt) {
+		this.updateTexScaleFactors(ls, lt);
+		super.display();
+	}
+
 }

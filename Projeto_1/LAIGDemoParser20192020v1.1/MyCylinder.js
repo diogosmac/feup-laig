@@ -81,4 +81,8 @@ class MyCylinder extends CGFobject {
         this.initGLBuffers();
     }
 
+    display(ls, lt) {
+        super.display();
+    }
+
 }

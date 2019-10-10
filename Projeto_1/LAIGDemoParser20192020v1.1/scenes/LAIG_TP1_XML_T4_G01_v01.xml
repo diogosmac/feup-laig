@@ -19,7 +19,7 @@
             <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0.4" linear="0.0" quadratic="0.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
         
         <spot id="spotlight1" enabled="1" angle="10" exponent="1">
@@ -28,7 +28,7 @@
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="1.0" linear="0" quadratic="0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
         </spot>
     </lights>
 
@@ -223,7 +223,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolGroupNode1" />
                 <componentref id="parasolGroupNode2" />
@@ -274,7 +274,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="houseNode" />
                 <componentref id="atomiumStructureNode" />
@@ -289,7 +289,7 @@
             <materials>
                 <material id="metalMat" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumNode" />
                 <componentref id="atomiumSupportNode" />
@@ -338,7 +338,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumSphereNode" />
                 <primitiveref id="atomiumSphere" />
@@ -352,7 +352,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumSpherePairNodeA" />
             </children>
@@ -365,7 +365,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumSpherePairNodeA" />
             </children>
@@ -378,7 +378,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumSpherePairNodeA" />
             </children>
@@ -391,7 +391,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="atomiumSphere" />
             </children>
@@ -403,7 +403,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumEdgeNode" />
                 <primitiveref id="atomiumEdge" />
@@ -417,7 +417,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumEdgePairNodeA" />
             </children>            
@@ -430,7 +430,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumEdgePairNodeA" />
             </children>            
@@ -444,7 +444,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumEdgePairNodeA" />
             </children>            
@@ -458,7 +458,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumEdgePairNodeA" />
             </children>            
@@ -472,7 +472,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="atomiumEdgePairNodeA" />
             </children>            
@@ -486,7 +486,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="atomiumEdge" />
             </children>
@@ -501,7 +501,7 @@
             <materials>
                 <material id="houseMaterial" />
             </materials>
-            <texture id="woodenWallTex" length_s="3" length_t="3" />
+            <texture id="woodenWallTex" length_s="4" length_t="4" />
             <children>
                 <componentref id="wallNode1" />
                 <componentref id="wallNode2" />
@@ -517,7 +517,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWall" />
                 <componentref id="windowsNode" />
@@ -532,7 +532,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWall" />
             </children>
@@ -545,7 +545,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWall" />
             </children>
@@ -558,7 +558,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWall" />
             </children>
@@ -571,7 +571,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="windowTex" length_s="1" length_t="1" />
+            <texture id="windowTex" length_s="3" length_t="2" />
             <children>
                 <componentref id="windowNode1" />
                 <componentref id="windowNode2" />
@@ -584,7 +584,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWindow" />
             </children>
@@ -597,7 +597,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWindow" />
             </children>
@@ -610,7 +610,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="doorTex" length_s="1" length_t="1" />
+            <texture id="doorTex" length_s="2" length_t="4" />
             <children>
                 <primitiveref id="buildingDoor" />
             </children>
@@ -623,7 +623,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="buildingWall" />
             </children>
@@ -661,7 +661,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="mainPlaneTex" length_s="20" length_t="20" />
+            <texture id="mainPlaneTex" length_s="8" length_t="8" />
             <children>
                 <primitiveref id="mainPlane" />
             </children>
@@ -675,7 +675,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <componentref id="parasolTopNode" />
                 <componentref id="parasolStickNode" />
@@ -689,7 +689,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <primitiveref id="parasolStick" />
             </children>
@@ -714,7 +714,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="parasolTop" />
             </children>
@@ -727,7 +727,7 @@
             <materials>
                 <material id="parasolRedMat" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolNode" />
             </children>
@@ -740,7 +740,7 @@
             <materials>
                 <material id="parasolRedMat" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolNode" />
             </children>
@@ -753,7 +753,7 @@
             <materials>
                 <material id="parasolBlueMat" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolNode" />
             </children>
@@ -766,7 +766,7 @@
             <materials>
                 <material id="parasolBlueMat" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolNode" />
             </children>
@@ -779,7 +779,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolRed1" />
                 <componentref id="parasolRed2" />
@@ -796,7 +796,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="parasolRed1" />
                 <componentref id="parasolRed2" />
@@ -811,7 +811,7 @@
             <materials>
                 <material id="waterMat" />
             </materials>
-            <texture id="waterTex" length_s="1" length_t="1" />
+            <texture id="waterTex" length_s="5" length_t="5" />
             <children>
                 <primitiveref id="poolWaterRectangle" />
             </children>
@@ -850,7 +850,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="none" />
             <children>
                 <componentref id="poolWaterNode" />
                 <componentref id="poolSideNode" />

@@ -83,4 +83,8 @@ class MySphere extends CGFobject {
 
     }
 
+    display(ls, lt) {
+        super.display();
+    }
+
 }

@@ -35,6 +35,8 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
 
+        this.matIndex = 0;
+
         // this.rec = new MyRectangle(this, 12, 4, 5, 1, 2);
         // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
         // this.sphere = new MySphere(this, 12, 1.2, 10, 5);
@@ -107,6 +109,16 @@ class XMLscene extends CGFscene {
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
     }
+
+    changeMatIndex() {
+        this.matIndex++;
+    }
+
+    checkKeys(t) {
+        if (this.gui.isKeyPressed("KeyM"))
+            this.changeMatIndex();
+    }
+
     /** Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */

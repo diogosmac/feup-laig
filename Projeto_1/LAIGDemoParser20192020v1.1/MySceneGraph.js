@@ -719,7 +719,6 @@ class MySceneGraph {
                 newMaterial.setSpecular(specularValues[0], specularValues[1], specularValues[2], specularValues[3]);
             }
             
-
             this.materials[materialID] = newMaterial;
             materialCounter++;         
         }
@@ -1243,22 +1242,36 @@ class MySceneGraph {
             else
                 return "invalid ID (" + texID + ") in a texture reference for component with ID = " + componentID;
 
-            
-            var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
-            if(length_s == null) {
-                this.onXMLMinorError("no length_s defined; assumed length_s = 1");
-                length_s = 1;
+
+            var needLengths = (!(texID == "inherit" || texID == "none"));
+            var length_s = null;
+            var length_t = null;
+
+            if (needLengths) {
+                length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
+                if(length_s == null) {
+                    this.onXMLMinorError("no length_s defined; assumed length_s = 1");
+                    length_s = 1;
+                }
+                else if(!(!isNaN(length_s) && length_s > 0))
+                    return "unable to parse length_s defined for a texture reference for component with ID = " + componentID;
             }
-            else if(!(!isNaN(length_s) && length_s > 0))
-                return "unable to parse length_s defined for a texture reference for component with ID = " + componentID;
-            
-            var length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
-            if(length_t == null) {
-                this.onXMLMinorError("no length_t defined; assumed length_t = 1");
-                length_t = 1;
+            else if (length_s != null) {
+                this.onXMLMinorError("length_s is not required, but is still provided; assuming parent value");
             }
-            else if(!(!isNaN(length_t) && length_t > 0))
-                return "unable to parse length_t defined for a texture reference for component with ID = " + componentID; 
+
+            if (needLengths) {
+                length_t = this.reader.getFloat(grandChildren[textureIndex], 'length_t');
+                if(length_t == null && needLengths) {
+                    this.onXMLMinorError("no length_t defined; assumed length_t = 1");
+                    length_t = 1;
+                }
+                else if(!(!isNaN(length_t) && length_t > 0))
+                    return "unable to parse length_t defined for a texture reference for component with ID = " + componentID; 
+            }
+            else if (length_s != null && !needLengths) {
+                this.onXMLMinorError("length_t is not required, but is still provided; assuming parent value");
+            }
 
             newNode.setTextureLengths(length_s, length_t);
    
@@ -1468,7 +1481,8 @@ class MySceneGraph {
 
         // Material
         var currMaterial;
-        var auxMaterial = node.nodeMaterials[node.currMaterialIndex];
+        var auxMaterial = node.nodeMaterials[this.scene.matIndex % node.nodeMaterials.length];
+        var length_s, length_t;
 
         if (auxMaterial == "inherit") {
             currMaterial = parentMaterial;
@@ -1491,25 +1505,33 @@ class MySceneGraph {
             if (node.texture == "inherit") {
                 // leaf.setTextureLengths(ls, lt);
                 currTexture = parentTexture;
+                length_s = ls;
+                length_t = lt;
             }
             else {
                 // leaf.setTextureLengths(node.length_s, node.length_t);
                 currTexture = node.texture;
-            }
+                length_s = node.length_s;
+                length_t = node.length_t;
+}
             
-            if (currTexture != null)
+            if (currTexture != null) {
                 currTexture.bind();
+                currMaterial.setTexture(currTexture);
+            }
+
+            currMaterial.setTextureWrap('REPEAT', 'REPEAT');
         } 
 
 
         this.scene.multMatrix(node.transfMatrix);
 
         for (var i = 0; i < node.leafs.length; i++) {
-            node.leafs[i].display();
+            node.leafs[i].display(length_s, length_t);
         }
 
         for (var j = 0; j < node.childNodes.length; j++) {
-            this.displaySceneRecursive(node.childNodes[j], currMaterial, currTexture, ls, lt);
+            this.displaySceneRecursive(node.childNodes[j], currMaterial, currTexture, length_s, length_t);
         }
 
         if (currTexture != null)
