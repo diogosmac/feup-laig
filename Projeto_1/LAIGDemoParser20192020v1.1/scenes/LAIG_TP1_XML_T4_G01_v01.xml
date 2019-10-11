@@ -1,7 +1,7 @@
 <lxs>
     <scene root="root" axis_length="5"/>
 
-    <views default="floatiePerspective">
+    <views default="defaultPerspective">
         <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
             <from x="30" y="20" z="-25" />
             <to x="0" y="-2" z="0" />
