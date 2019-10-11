@@ -33,18 +33,27 @@ class MyInterface extends CGFinterface {
         var i = 0;
 
         for(var key in this.scene.graph.lights) {
-            lightsFolder.add(this.scene.lights[i].enable).name(key);
+            if(i >= 8)
+                break;
+            
+            lightsFolder.add(this.scene.graph.lights[key], '0').name(key);
             i++;
         }
     }
 
     addCamerasDropdown() {
-        this.gui.add(this.scene, 'activeCameraID', this.scene.graph.views).name('Selected camera').onChange(this.scene.changeCamera);
+
+        // fill in the array
+        for(var key in this.scene.graph.views) {
+            this.scene.interfaceArrayViews[key] = key;
+        }
+
+        this.gui.add(this.scene, 'activeCameraID', this.scene.interfaceArrayViews).name('Selected camera').onChange(this.scene.changeCamera.bind(this.scene));
     }
 
     updateInterface() {
-        this.addLightsFolder();
         this.addCamerasDropdown();
+        this.addLightsFolder();
     }
 
     /**

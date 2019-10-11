@@ -488,7 +488,7 @@ class MySceneGraph {
             var enableLight = true;
             var aux = this.reader.getBoolean(children[i], 'enabled');
             if (!(aux != null && (aux == true || aux == false)))
-                this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
+                return "unable to parse value component of the 'enable light' field for ID = " + lightId;
 
             if (aux == null)
                 enableLight = true;

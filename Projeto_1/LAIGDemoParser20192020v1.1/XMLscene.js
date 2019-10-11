@@ -36,7 +36,7 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(80);
 
         this.matIndex = 0;
-
+        this.interfaceArrayViews = {}; // array for the view IDs and indexes for the interface dropdown
     }
 
     /**
@@ -79,15 +79,14 @@ class XMLscene extends CGFscene {
                         light[9][2] - light[2][2]
                     );
                 }
-
                 
                 if (light[0]) {
-                    this.lights[i].enable();
                     this.lights[i].setVisible(true);
+                    this.lights[i].enable();
                 }
                 else {
-                    this.lights[i].disable();
                     this.lights[i].setVisible(false);
+                    this.lights[i].disable();
                 }
                 
                 this.lights[i].update();
@@ -131,7 +130,7 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = true;
 
-        this.camera = this.graph.views[this.activeCameraID];
+        this.camera = this.graph.views[this.activeCameraID]; // default camera is activated
 
         this.interface.updateInterface();
     }
@@ -150,7 +149,7 @@ class XMLscene extends CGFscene {
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-        // Initialize Model-View matrix as identity (no transformation
+        // Initialize Model-View matrix as identity (no transformation)
         this.updateProjectionMatrix();
         this.loadIdentity();
 
@@ -160,13 +159,28 @@ class XMLscene extends CGFscene {
         this.pushMatrix();
         this.axis.display();
 
-        // for (var i = 0; i < this.lights.length; i++) {
-        //     this.lights[i].setVisible(true);
-        //     this.lights[i].enable();
-        //     // NAO FALTA LIGHTS UPDATE?
-        // }
-
+        
         if (this.sceneInited) {
+            
+            var i = 0;
+            for(var key in this.graph.lights) {
+                if(i >= 8)
+                    break;
+
+                if(this.graph.lights[key][0]) {
+                    this.lights[i].setVisible(true);
+                    this.lights[i].enable();
+                }
+                else {
+                    this.lights[i].setVisible(false);
+                    this.lights[i].disable();
+                }
+
+                this.lights[i].update();
+                i++;        
+            }
+
+
             // Draw axis
             this.setDefaultAppearance();
 
@@ -174,23 +188,6 @@ class XMLscene extends CGFscene {
             this.graph.displayScene();
         }
 
-
-        // this.material.apply();
-
-        // this.triangle.enableNormalViz();
-        // this.triangle.display();
-        
-        // this.sphere.enableNormalViz();
-        // this.sphere.display();
-
-        // this.torus.enableNormalViz();
-        // this.torus.display();
-
-        // this.cylinder.enableNormalViz();
-        // this.cylinder.display();
-
-        // this.rec.enableNormalViz();
-        // this.rec.display();
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
