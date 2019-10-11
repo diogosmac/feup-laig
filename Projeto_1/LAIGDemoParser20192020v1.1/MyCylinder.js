@@ -27,6 +27,7 @@ class MyCylinder extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
+        this.defaultTexCoords = [];
         this.texCoords = [];
 
         var normal = vec3.create(0,0,0);
@@ -57,31 +58,44 @@ class MyCylinder extends CGFobject {
                 normal.z = (this.base - this.top) / this.height;
 
                 this.normals.push(normal.x, normal.y, normal.z);
-                this.texCoords.push(partAng, partRad);
+                this.defaultTexCoords.push(partAng, partRad * this.height);
 
             }
+
         }
 
         for (var slice = 0; slice < this.slices; slice++) {
             for (var stack = 0; stack < this.stacks; stack++) {
-
+                
                 var v1 = stack * (this.slices + 1) + slice;
                 var v2 = (stack + 1) * (this.slices + 1) + slice;
                 var v3 = (stack + 1) * (this.slices + 1) + slice + 1;
                 var v4 = stack * (this.slices + 1) + slice + 1;
-
+                
                 this.indices.push(v1, v2, v4);
                 this.indices.push(v2, v3, v4);
             }
-
+            
         }
-
-
+        
+        this.texCoords = this.defaultTexCoords.slice();
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
 
+    updateTexScaleFactors(ls, lt) {
+        this.texCoords = [];
+        for (var i = 0; i < this.defaultTexCoords.length; i += 2) {
+            this.texCoords.push(
+                this.defaultTexCoords[i] / ls,
+                this.defaultTexCoords[i+1] / lt
+            );
+        }
+		this.updateTexCoordsGLBuffers();
+    }
+
     display(ls, lt) {
+        this.updateTexScaleFactors(ls, lt);
         super.display();
     }
 
