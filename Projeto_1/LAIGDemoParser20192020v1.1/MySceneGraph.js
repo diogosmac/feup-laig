@@ -34,7 +34,6 @@ class MySceneGraph {
         this.textures = [];
         this.transformations = [];
 
-        this.activeCameraID = null;
         this.idRoot = null;                    // The id of the root element.
 
         this.axisCoords = [];
@@ -398,7 +397,7 @@ class MySceneGraph {
         if(this.views[defaultViewID] == null)
             return "ID given for the default view doesn't exist";
 
-        this.activeCameraID = defaultViewID;
+        this.scene.activeCameraID = defaultViewID;
 
         this.log("Parsed views");
         return null;
@@ -489,7 +488,7 @@ class MySceneGraph {
             var enableLight = true;
             var aux = this.reader.getBoolean(children[i], 'enabled');
             if (!(aux != null && (aux == true || aux == false)))
-                this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
+                return "unable to parse value component of the 'enable light' field for ID = " + lightId;
 
             if (aux == null)
                 enableLight = true;
@@ -1246,6 +1245,7 @@ class MySceneGraph {
             else
                 return "invalid ID (" + texID + ") in a texture reference for component with ID = " + componentID;
 
+
             if (needLengths) {
                 var length_s = this.reader.getFloat(grandChildren[textureIndex], 'length_s');
                 if (!(length_s != null && !isNaN(length_s) && length_s > 0)) {
@@ -1485,7 +1485,7 @@ class MySceneGraph {
             currMaterial = auxMaterial;
         }
         currMaterial.apply();
-
+        currMaterial.setTexture(null);
 
         // Texture
         var currTexture;

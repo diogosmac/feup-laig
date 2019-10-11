@@ -33,17 +33,10 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.setUpdatePeriod(50);
+        this.setUpdatePeriod(80);
 
         this.matIndex = 0;
-
-        // this.rec = new MyRectangle(this, 12, 4, 5, 1, 2);
-        // this.triangle = new MyTriangle(this, 12, 1, 10, 1, -1, 0, 0, 1, 2, 1);
-        // this.sphere = new MySphere(this, 12, 1.2, 10, 5);
-        // this.torus = new MyTorus(this, 12, 3, 10, 7, 13);
-        // this.cylinder = new MyCylinder(this, 12, 1.75, 0.5, Math.PI, 20, 2);
-        // this.material = new CGFappearance(this);        
-        // this.material.loadTexture('scenes/images/c.jpg');
+        this.interfaceArrayViews = {}; // array for the view IDs and indexes for the interface dropdown
     }
 
     /**
@@ -86,13 +79,13 @@ class XMLscene extends CGFscene {
                         light[9][2] - light[2][2]
                     );
                 }
-
-                this.lights[i].setVisible(true);
-
+                
                 if (light[0]) {
+                    this.lights[i].setVisible(true);
                     this.lights[i].enable();
                 }
                 else {
+                    this.lights[i].setVisible(false);
                     this.lights[i].disable();
                 }
                 
@@ -137,7 +130,13 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = true;
 
-        this.camera = this.graph.views[this.graph.activeCameraID];
+        this.camera = this.graph.views[this.activeCameraID]; // default camera is activated
+
+        this.interface.updateInterface();
+    }
+
+    changeCamera() {
+        this.camera = this.graph.views[this.activeCameraID];
     }
 
     /**
@@ -150,7 +149,7 @@ class XMLscene extends CGFscene {
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-        // Initialize Model-View matrix as identity (no transformation
+        // Initialize Model-View matrix as identity (no transformation)
         this.updateProjectionMatrix();
         this.loadIdentity();
 
@@ -160,13 +159,28 @@ class XMLscene extends CGFscene {
         this.pushMatrix();
         this.axis.display();
 
-        // for (var i = 0; i < this.lights.length; i++) {
-        //     this.lights[i].setVisible(true);
-        //     this.lights[i].enable();
-        //     // NAO FALTA LIGHTS UPDATE?
-        // }
-
+        
         if (this.sceneInited) {
+            
+            var i = 0;
+            for(var key in this.graph.lights) {
+                if(i >= 8)
+                    break;
+
+                if(this.graph.lights[key][0]) {
+                    this.lights[i].setVisible(true);
+                    this.lights[i].enable();
+                }
+                else {
+                    this.lights[i].setVisible(false);
+                    this.lights[i].disable();
+                }
+
+                this.lights[i].update();
+                i++;        
+            }
+
+
             // Draw axis
             this.setDefaultAppearance();
 
@@ -174,23 +188,6 @@ class XMLscene extends CGFscene {
             this.graph.displayScene();
         }
 
-
-        // this.material.apply();
-
-        // this.triangle.enableNormalViz();
-        // this.triangle.display();
-        
-        // this.sphere.enableNormalViz();
-        // this.sphere.display();
-
-        // this.torus.enableNormalViz();
-        // this.torus.display();
-
-        // this.cylinder.enableNormalViz();
-        // this.cylinder.display();
-
-        // this.rec.enableNormalViz();
-        // this.rec.display();
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
