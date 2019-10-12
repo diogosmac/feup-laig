@@ -239,7 +239,7 @@
         <primitive id="parasolStick">
             <cylinder base="0.05" top="0.05" height="2.5" slices="30" stacks="5" />
         </primitive>
-        
+  
         <primitive id="parasolTop">
             <cylinder base="2" top="0.0" height="0.8" slices="8" stacks="5" />
         </primitive>
