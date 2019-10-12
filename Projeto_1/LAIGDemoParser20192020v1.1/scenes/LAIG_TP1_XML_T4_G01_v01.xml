@@ -333,7 +333,7 @@
             <materials>
                 <material id="metalMat" />
             </materials>
-            <texture id="flagPoleTex" length_s="5" length_t="5" />
+            <texture id="flagPoleTex" length_s="6" length_t="6" />
             <children>
                 <primitiveref id="flagPole" />
                 <componentref id="flagFabricSideANode" />
