@@ -356,7 +356,7 @@
             <materials>
                 <material id="flagFabricMat" />
             </materials>
-            <texture id="flagFabricSideATex" length_s="6" length_t="6" />
+            <texture id="flagFabricSideATex" length_s="3" length_t="6" />
             <children>
                 <primitiveref id="flagFabricSideA" />
             </children>
@@ -370,7 +370,7 @@
             <materials>
                 <material id="flagFabricMat" />
             </materials>
-            <texture id="flagFabricSideBTex" length_s="6" length_t="6" />
+            <texture id="flagFabricSideBTex" length_s="3" length_t="6" />
             <children>
                 <primitiveref id="flagFabricSideB" />
             </children>
