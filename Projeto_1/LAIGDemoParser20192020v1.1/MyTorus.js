@@ -53,22 +53,24 @@ class MyTorus extends CGFobject {
                 vec3.normalize(normal, normal);
 
                 this.normals.push(normal.x, normal.y, normal.z);
-    
+
+                // orientacao das coordenadas de textura sujeita a interpretacao
                 // this.texCoords.push(slice / this.slices, loop / this.loops);
                 this.texCoords.push(loop / this.loops, slice / this.slices);
+
             }
 
         }
 
 
-        for (var slice = 1; slice <= this.slices; slice++) {
+        for (var slice = 0; slice < this.slices; slice++) {
             
-            for (var loop = 1; loop <= this.loops; loop++) {
+            for (var loop = 0; loop < this.loops; loop++) {
 
-                var vertex1 = ( this.loops + 1 ) * slice + loop - 1;
-                var vertex2 = ( this.loops + 1 ) * ( slice - 1 ) + loop - 1;
-                var vertex3 = ( this.loops + 1 ) * ( slice - 1 ) + loop;
-                var vertex4 = ( this.loops + 1 ) * slice + loop;
+                var vertex1 = ( this.loops + 1 ) * ( slice + 1 ) + loop;
+                var vertex2 = ( this.loops + 1 ) * slice + loop;
+                var vertex3 = ( this.loops + 1 ) * slice + ( loop + 1 );
+                var vertex4 = ( this.loops + 1 ) * ( slice + 1 ) + ( loop + 1 );
 
                 this.indices.push(vertex1, vertex2, vertex4);
                 this.indices.push(vertex2, vertex3, vertex4);
