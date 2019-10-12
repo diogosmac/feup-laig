@@ -232,7 +232,6 @@ class MySceneGraph {
 
         this.referenceLength = axis_length || 1;
 
-
         this.log("Parsed scene");
         return null;
     }
@@ -248,7 +247,6 @@ class MySceneGraph {
         var defaultViewID = this.reader.getString(viewsNode, 'default');
         if(defaultViewID == null)
             return "No default view specified";
-
             
         var children = viewsNode.children;
         
@@ -270,9 +268,8 @@ class MySceneGraph {
                 if(!(near != null && !isNaN(near) && near > 0))
                     return "unable to parse 'near' value of the view for ID = " + viewID;
 
-
                 var far = this.reader.getFloat(children[i], 'far');
-                if(!(far != null && !isNaN(far) && far > 0))
+                if(!(far != null && !isNaN(far) && far > near))
                     return "unable to parse 'far' value of the view for ID = " + viewID;
                     
                 var fov = this.reader.getFloat(children[i], 'angle')
@@ -485,15 +482,9 @@ class MySceneGraph {
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
             // Light enable/disable
-            var enableLight = true;
-            var aux = this.reader.getBoolean(children[i], 'enabled');
-            if (!(aux != null && (aux == true || aux == false)))
+            var enableLight = this.reader.getBoolean(children[i], 'enabled');
+            if (!(enableLight != null && (enableLight == true || enableLight == false)))
                 return "unable to parse value component of the 'enable light' field for ID = " + lightId;
-
-            if (aux == null)
-                enableLight = true;
-            else
-                enableLight = aux;
 
             global.push(enableLight);
             global.push(children[i].nodeName); // to know if it is omni or spot
@@ -1267,7 +1258,6 @@ class MySceneGraph {
                     this.onXMLMinorError(componentID + " has texture ID = " + texID + " - length_t should not exist");
             }
 
-   
 
             // Children
             var childrenCounter = 0;
@@ -1336,10 +1326,7 @@ class MySceneGraph {
 
         for(var id in this.nodes) {
             if(!this.nodes[id].loaded) {
-                // TO DO: ver situacao de remover nos invalidos
                 return "invalid ID (" + id + ") in a componentref; node does not exist";
-                // this.onXMLMinorError("invalid ID (" + id + ") in a componentref; node does not exist");
-                // this.nodes.splice(id);
             }
         }
         
@@ -1506,14 +1493,14 @@ class MySceneGraph {
                 length_s = node.length_s;
                 length_t = node.length_t;
             }
-            
+
             if (currTexture != null) {
                 currTexture.bind();
                 currMaterial.setTexture(currTexture);
                 currMaterial.setTextureWrap('REPEAT', 'REPEAT');
             }
 
-        } 
+        }
 
         this.scene.multMatrix(node.transfMatrix);
 

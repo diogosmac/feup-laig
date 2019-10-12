@@ -180,7 +180,6 @@ class XMLscene extends CGFscene {
                 i++;        
             }
 
-
             // Draw axis
             this.setDefaultAppearance();
 

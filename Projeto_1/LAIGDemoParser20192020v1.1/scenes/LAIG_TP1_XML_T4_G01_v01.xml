@@ -1,19 +1,48 @@
 <lxs>
-    <scene root="root" axis_length="5"/>
+    <scene root="root" axis_length="1"/>
 
-    <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
+    <views default="defaultPerspective">
+        <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
             <from x="30" y="20" z="-25" />
             <to x="0" y="-2" z="0" />
         </perspective>
-        <perspective id="houseCamera" near="0.1" far="500" angle="45">
+        <perspective id="reverseAnglePerspective" near="0.1" far="500" angle="45">
+            <from x="-30" y="20" z="25" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+        <perspective id="housePerspective" near="0.1" far="500" angle="45">
             <from x="5" y="8" z="-25" />
             <to x="5" y="8" z="0" />
+        </perspective>
+        <ortho id="topDownOrtho" near="0.1" far="500" angle="45" left="-20" right="20" top="20" bottom="-20">
+            <from x="0" y="40" z="0" />
+            <to x="0" y="0" z="0" />
+            <up x="0.0" y="0.0" z="1.0" />
+        </ortho>
+        <perspective id="flagCloseUpPerspective" near="6" far="500" angle="45">
+            <from x="4" y="3" z="-4" />
+            <to x="-12" y="6" z="12" />
+        </perspective>
+        <perspective id="parasolPerspective" near="0.1" far="500" angle="45">
+            <from x="-25" y="7" z="18" />
+            <to x="0" y="0" z="-10" />
+        </perspective>
+        <perspective id="classicBallPerspective" near="0.1" far="500" angle="45">
+            <from x="-14" y="0.5" z="-7" />
+            <to x="0" y="3" z="9" />
+        </perspective>
+        <perspective id="starBallPerspective" near="0.1" far="500" angle="45">
+            <from x="15.5" y="1" z="-15.5" />
+            <to x="-25" y="7" z="9" />
+        </perspective>
+        <perspective id="floatiePerspective" near="0.1" far="500" angle="45">
+            <from x="12" y="2" z="-13" />
+            <to x="4" y="3.1" z="0" />
         </perspective>
     </views>
 
     <globals>
-        <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+        <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
         <background r="0.4" g="0.75" b="0.9" a="1.0" />
     </globals>
 
@@ -26,7 +55,7 @@
             <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
         
-        <spot id="spotlight1" enabled="1" angle="10" exponent="1">
+        <spot id="atomiumSpotlight" enabled="1" angle="10" exponent="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
             <target x="0" y="0" z="0" />
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
@@ -34,6 +63,42 @@
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
         </spot>
+
+        <spot id="flagSpotlight" enabled="1" angle="10" exponent="1">
+            <location x="-15" y="15" z="15" w="1.0" />
+            <target x="0" y="0" z="0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </spot>
+
+        <spot id="poolSpotlight" enabled="0" angle="45" exponent="1">
+            <location x="14" y="0.3" z="-9" w="1.0" />
+            <target x="5" y="0" z="-4.75" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </spot>
+
+        <spot id="starBallSpotlight" enabled="1" angle="45" exponent="1">
+            <location x="14" y="1" z="-16" w="1.0" />
+            <target x="12" y="0.3" z="-14" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
+        </spot>
+
+        <omni id="discoInferno" enabled="0">
+            <location x="0" y="15" z="0" w="1.0" />
+            <ambient r="0.8" g="0.2" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.3" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.3" b="0.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </omni>
+
     </lights>
 
     <textures>
@@ -47,10 +112,11 @@
         <texture id="windowTex" file="scenes/images/window.jpg" />
         <texture id="doorTex" file="scenes/images/door.jpg" />
         <texture id="flagPoleTex" file="scenes/images/flagPole.jpg" />
-        <texture id="polishedMetalTex" file="scenes/images/polishedMetal.jpg" />
-        <texture id="polishedGoldTex" file="scenes/images/polishedGold.jpg" />
+        <texture id="metalTex" file="scenes/images/metal.jpg" />
+        <texture id="goldTex" file="scenes/images/gold.jpg" />
         <texture id="poolsideTex" file="scenes/images/poolside.jpg" />
-        <texture id="flagFabricTex" file="scenes/images/flagFabric.png" />
+        <texture id="flagFabricSideATex" file="scenes/images/flagFabricSideA.png" />
+        <texture id="flagFabricSideBTex" file="scenes/images/flagFabricSideB.png" />
     </textures>
 
     <materials>
@@ -59,6 +125,18 @@
             <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+        <material id="parasolStickMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.7" g="0.7" b="0.7" a="1.0" />
+            <diffuse r="1" g="1" b="1" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+        <material id="mainPlaneMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
         <material id="parasolRedMat" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -78,16 +156,16 @@
             <diffuse r="0.1" g="0.5" b="0.0" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
-        <material id="waterMat" shininess="10">
+        <material id="waterMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.5" b="0.9" a="1.0" />
-            <diffuse r="0.1" g="0.3" b="0.3" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" /> 
         </material>
         <material id="poolsideMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.1" g="0.1" b="0.05" a="1.0" />
-            <diffuse r="0.55" g="0.5" b="0.45" a="1.0" />
+            <diffuse r="0.45" g="0.45" b="0.35" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" /> 
         </material>
         <material id="houseMaterial" shininess="1">
@@ -110,15 +188,21 @@
         </material>
         <material id="flagFabricMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
-            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" /> 
+        </material>
+        <material id="beachBallMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.9" g="0.9" b="0.9" a="1.0" />
+            <specular r="0.6" g="0.6" b="0.6" a="1.0" />             
         </material>
     </materials>
 
     <transformations>
         <transformation id="poolSideTransf">
-            <scale x="1.88" y="0.94" z="1" />
+            <scale x="1.88" y="0.94" z="0.2" />
             <rotate axis="z" angle="45" />
         </transformation>
 
@@ -155,7 +239,7 @@
         <primitive id="parasolStick">
             <cylinder base="0.05" top="0.05" height="2.5" slices="30" stacks="5" />
         </primitive>
-        
+  
         <primitive id="parasolTop">
             <cylinder base="2" top="0.0" height="0.8" slices="8" stacks="5" />
         </primitive>
@@ -165,7 +249,7 @@
         </primitive>
 
         <primitive id="poolSide">
-            <torus inner="1" outer="8" slices="3" loops="4" />
+            <torus inner="1" outer="8" slices="10" loops="4" />
         </primitive>
         
         <primitive id="poolWaterRectangle">
@@ -206,6 +290,10 @@
             <triangle   x1="3" y1="0" z1="0"
                         x2="0"   y2="0" z2="0"
                         x3="1.5"   y3="0" z3="6" />
+        </primitive>
+
+        <primitive id="flagTopSphere">
+            <sphere radius="0.2" slices="10" stacks="10" />
         </primitive>
 
         <primitive id="atomiumSphere">
@@ -251,11 +339,12 @@
             <materials>
                 <material id="metalMat" />
             </materials>
-            <texture id="flagPoleTex" length_s="1" length_t="5" />
+            <texture id="flagPoleTex" length_s="6" length_t="6" />
             <children>
                 <primitiveref id="flagPole" />
                 <componentref id="flagFabricSideANode" />
                 <componentref id="flagFabricSideBNode" />
+                <componentref id="flagTopNode" />
             </children>
         </component>
 
@@ -267,7 +356,7 @@
             <materials>
                 <material id="flagFabricMat" />
             </materials>
-            <texture id="flagFabricTex" length_s="6" length_t="6" />
+            <texture id="flagFabricSideATex" length_s="3" length_t="6" />
             <children>
                 <primitiveref id="flagFabricSideA" />
             </children>
@@ -281,12 +370,24 @@
             <materials>
                 <material id="flagFabricMat" />
             </materials>
-            <texture id="starsTex" length_s="6" length_t="6" />
+            <texture id="flagFabricSideBTex" length_s="3" length_t="6" />
             <children>
                 <primitiveref id="flagFabricSideB" />
             </children>
         </component>
 
+        <component id="flagTopNode">
+            <transformation>
+                <translate x="0" y="0" z="12.1" />
+            </transformation>
+            <materials>
+                <material id="metalMat" />
+            </materials>
+            <texture id="goldTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="flagTopSphere" />
+            </children>
+        </component>
 
         <component id="buildingNode">
             <transformation>
@@ -325,7 +426,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="polishedGoldTex" length_s="1" length_t="1" />
+            <texture id="goldTex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="atomiumSupport" />
             </children>
@@ -339,7 +440,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="polishedMetalTex" length_s="1" length_t="1" />
+            <texture id="metalTex" length_s="1" length_t="1" />
             <children>
                 <componentref id="atomiumSpherePairNodeA" />
                 <componentref id="atomiumSpherePairNodeB" />
@@ -656,7 +757,7 @@
                 <translate x="-13" y="5" z="0.4" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="beachBallMat" />
             </materials>
             <texture id="beachBallTex" length_s="1" length_t="1" />
             <children>
@@ -669,7 +770,7 @@
                 <translate x="12" y="14" z="0.4" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="beachBallMat" />
             </materials>
             <texture id="starsTex" length_s="1" length_t="1" />
             <children>
@@ -681,9 +782,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="mainPlaneMat" />
             </materials>
-            <texture id="mainPlaneTex" length_s="8" length_t="8" />
+            <texture id="mainPlaneTex" length_s="10" length_t="10" />
             <children>
                 <primitiveref id="mainPlane" />
             </children>
@@ -709,7 +810,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="whiteMaterial" />
+                <material id="parasolStickMaterial" />
             </materials>
             <texture id="none" />
             <children>
@@ -721,7 +822,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="whiteMaterial" />
+                <material id="metalMat" />
             </materials>
             <texture id="parasolMetalTex" length_s="1" length_t="1" />
             <children>
@@ -853,7 +954,7 @@
             <materials>
                 <material id="waterMat" />
             </materials>
-            <texture id="waterTex" length_s="5" length_t="5" />
+            <texture id="waterTex" length_s="15" length_t="15" />
             <children>
                 <primitiveref id="poolWaterRectangle" />
             </children>
@@ -864,7 +965,7 @@
                 <transformationref id="poolSideTransf" />
             </transformation>
             <materials>
-                <material id="poolsideMat" />
+                <material id="inherit" />
             </materials>
             <texture id="poolsideTex" length_s="3" length_t="1" />
             <children>
@@ -890,7 +991,7 @@
                 <translate x="5" y="5" z="0.01" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="poolsideMat" />
             </materials>
             <texture id="none" />
             <children>
