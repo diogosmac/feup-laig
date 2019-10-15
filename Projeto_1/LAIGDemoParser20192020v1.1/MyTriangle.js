@@ -110,7 +110,10 @@ class MyTriangle extends CGFobject {
 	}
 
 	display(ls, lt) {
-		this.updateTexScaleFactors(ls, lt);
+		if(ls != null && lt != null) {
+			this.updateTexScaleFactors(ls, lt);
+		}
+		
 		super.display();
 	}
 
