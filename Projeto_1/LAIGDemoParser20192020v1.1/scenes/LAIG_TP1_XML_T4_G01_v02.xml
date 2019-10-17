@@ -47,7 +47,7 @@
     </globals>
 
     <lights>
-        <omni id="sunlight" enabled="1">
+        <omni id="sunlight" enabled="0">
             <location x="0" y="50" z="0" w="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -55,34 +55,34 @@
             <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
         
-        <spot id="atomiumSpotlight" enabled="0" angle="10" exponent="1">
-            <location x="9.8" y="11.9" z="10" w="1.0" />
-            <target x="0" y="0" z="0" />
-            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+        <spot id="atomiumSpotlight" enabled="0" angle="5" exponent="1">
+            <location x="10" y="11.9" z="6" w="1.0" />
+            <target x="5" y="10" z="12" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
         </spot>
 
         <spot id="flagSpotlight" enabled="0" angle="10" exponent="1">
-            <location x="-15" y="15" z="15" w="1.0" />
-            <target x="0" y="0" z="0" />
+            <location x="-13" y="12" z="12" w="1.0" />
+            <target x="-12" y="10.5" z="12" />
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="1" linear="0" quadratic="0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
         </spot>
 
-        <spot id="poolSpotlight" enabled="0" angle="45" exponent="1">
+        <spot id="poolSpotlight" enabled="1" angle="5" exponent="1">
             <location x="14" y="0.3" z="-9" w="1.0" />
-            <target x="5" y="0" z="-4.75" />
+            <target x="9" y="0" z="-4.75" />
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
         </spot>
 
-        <spot id="starBallSpotlight" enabled="0" angle="45" exponent="1">
+        <spot id="starBallSpotlight" enabled="0" angle="20" exponent="1">
             <location x="14" y="1" z="-16" w="1.0" />
             <target x="12" y="0.3" z="-14" />
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
