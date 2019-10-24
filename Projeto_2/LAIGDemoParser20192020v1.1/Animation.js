@@ -6,6 +6,7 @@ class Animation {
      * Constructor of the class
      */
     constructor() {
+        this.animationMatrix = mat4.create();
         mat4.identity(this.animationMatrix);
     }
 

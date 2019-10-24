@@ -850,13 +850,10 @@ class MySceneGraph {
 
         var children = animationsNode.children;
         var grandChildren = [];
+        
         var transformations = [];
 
-        var animations = [];
-        
         for (var i = 0; i < children.length; i++) {
-            
-            var animationTemp = [];
             
             if (children[i].nodeName != "animation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -871,27 +868,29 @@ class MySceneGraph {
                 return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
             }
 
-            animationTemp['id'] = animationID;
 
             grandChildren = children[i].children;
 
             if (grandChildren.length == 0)
-                return "animation node must have at least one keyframe (error on animation with ID = " + animationID + ")";
+                return "animation node must have at least one valid keyframe (error on animation with ID = " + animationID + ")";
 
-            animationTemp['keyframes'] = [];
+            var keyframes = [];
 
             for (var j = 0; j < grandChildren.length; j++) {
 
-                var keyframe = [];
+                if (grandChildren[j].nodeName != "keyframe") {
+                    this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
+                    continue;
+                }
 
                 var instant = this.reader.getFloat(grandChildren[j], 'instant');
-                if (instant == null || instant <= 0)
-                    return "no instant defined for keyframe (animation ID = " + animationID + ")";
-
-                keyframe['instant'] = instant;
-
+                if (!(instant != null && !isNaN(instant) && instant > 0))
+                    return "no valid instant defined for keyframe (animation ID = " + animationID + ")";
 
                 transformations = grandChildren[j].children;
+
+                if(transformations.length != 3)
+                    return "a keyframe in animation " + animationID + " has an invalid transformations block";
 
 
                 if (transformations[0].nodeName != "translate")
@@ -901,28 +900,29 @@ class MySceneGraph {
                 if (!Array.isArray(translateCoords))
                     return translateCoords;
 
-                keyframe['translate'] = translateCoords;
 
                 if (transformations[1].nodeName != "rotate")
                     return "no \"rotate\" block in keyframe of animation (ID = " + animationID + ")";
-                
+
+                var rotationValues = [];
+
                 var rotationAngleX = this.reader.getFloat(transformations[1], 'angle_x');
-                if (rotationAngleX == null)
+                if (!(rotationAngleX != null && !isNaN(rotationAngleX)))
                     return "no angle for rotation on X-axis from keyframe of animation with ID = " + animationID;
 
-                keyframe['rotateX'] = rotationAngleX * DEGREE_TO_RAD;
+                rotationValues.push(rotationAngleX * DEGREE_TO_RAD);
 
                 var rotationAngleY = this.reader.getFloat(transformations[1], 'angle_y');
-                if (rotationAngleY == null)
+                if (!(rotationAngleY != null && !isNaN(rotationAngleY)))
                     return "no angle for rotation on Y-axis from keyframe of animation with ID = " + animationID;
     
-                keyframe['rotateY'] = rotationAngleY * DEGREE_TO_RAD;
+                rotationValues.push(rotationAngleY * DEGREE_TO_RAD);
 
                 var rotationAngleZ = this.reader.getFloat(transformations[1], 'angle_z');
-                if (rotationAngleZ == null)
+                if  (!(rotationAngleZ != null && !isNaN(rotationAngleZ)))
                     return "no angle for rotation on Z-axis from keyframe of animation with ID = " + animationID;
                     
-                keyframe['rotateZ'] = rotationAngleZ * DEGREE_TO_RAD;
+                rotationValues.push(rotationAngleZ * DEGREE_TO_RAD);
 
                 if (transformations[2].nodeName != "scale")
                     return "no \"translate\" block in keyframe of animation (ID = " + animationID + ")";
@@ -931,31 +931,35 @@ class MySceneGraph {
                 if (!Array.isArray(scaleCoords))
                     return scaleCoords;
 
-                keyframe['scale'] = scaleCoords;
+                var keyframe = new MyKeyframe(translateCoords, rotationValues, scaleCoords, instant);
 
-                animationTemp['keyframes'].push(keyframe);
-            
+
+                keyframes.push(keyframe);
             }
 
-            animations.push(animationTemp);
+            if(keyframes.length == 0)
+                return "animation node must have at least one valid keyframe (error on animation with ID = " + animationID + ")";
+
+            this.animations[animationID] = new KeyframeAnimation(keyframes);
 
         }
 
-        console.log("animations:");
-        for (var ani_id in animations) {
-            var ani = animations[ani_id];
-            console.log("\tid: " + ani['id']);
-            var keyframes = ani['keyframes'];
-            for (var key_id in keyframes) {
-                var key = keyframes[key_id];
-                console.log("\t\tkeyframe - instant = " + key['instant']);
-                console.log("\t\t\ttranslate = " + key['translate']);
-                console.log("\t\t\trotate (X) = " + key['rotateX']);
-                console.log("\t\t\trotate (Y) = " + key['rotateY']);
-                console.log("\t\t\trotate (Z) = " + key['rotateZ']);
-                console.log("\t\t\tscale = " + key['scale']);
-            }
-        }
+        // console.log("animations:");
+        // var animations = this.animations;
+        // for (var ani_id in animations) {
+        //     var ani = animations[ani_id];
+        //     console.log("\tid: " + ani['id']);
+        //     var keyframes = ani['keyframes'];
+        //     for (var key_id in keyframes) {
+        //         var key = keyframes[key_id];
+        //         console.log("\t\tkeyframe - instant = " + key['instant']);
+        //         console.log("\t\t\ttranslate = " + key['translate']);
+        //         console.log("\t\t\trotate (X) = " + key['rotateX']);
+        //         console.log("\t\t\trotate (Y) = " + key['rotateY']);
+        //         console.log("\t\t\trotate (Z) = " + key['rotateZ']);
+        //         console.log("\t\t\tscale = " + key['scale']);
+        //     }
+        // }
 
     }
 
@@ -971,7 +975,6 @@ class MySceneGraph {
 
         var grandChildren = [];
 
-        console.log("primitives:");
         // Any number of primitives.
         for (var i = 0; i < children.length; i++) {
 
@@ -1169,11 +1172,11 @@ class MySceneGraph {
             else if (primitiveType == 'plane') {
 
                 var nPartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
-                if (nPartsU == null || nPartsU < 1)
+                if (!(nPartsU != null && !isNaN(nPartsU) && nPartsU >= 1))
                     return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
 
                 var nPartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
-                if (nPartsV == null || nPartsV < 1)
+                if (!(nPartsV != null && !isNaN(nPartsV) && nPartsV >= 1))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
                 // create object plane
@@ -1184,39 +1187,54 @@ class MySceneGraph {
                 console.log("\t\tnPartsU = " + nPartsU);
                 console.log("\t\tnPartsV = " + nPartsV);
 
+                primitiveCounter++;
             }
 
             else if (primitiveType == 'patch') {
 
                 var nPointsU = this.reader.getInteger(grandChildren[0], 'npointsU');
-                if (nPointsU == null || nPointsU < 1)
+                if (!(nPointsU != null && !isNaN(nPointsU) && nPointsU >= 1))
                     return "unable to parse npointsU of the primitive coordinates for ID = " + primitiveId;
 
                 var nPointsV = this.reader.getInteger(grandChildren[0], 'npointsV');
-                if (nPointsV == null || nPointsV < 1)
+                if (!(nPointsV != null && !isNaN(nPointsV) && nPointsV >= 1))
                     return "unable to parse npointsV of the primitive coordinates for ID = " + primitiveId;
 
                 var nPartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
-                if (nPartsU == null || nPartsU < 1)
+                if (!(nPartsU != null && !isNaN(nPartsU) && nPartsU >= 1))
                     return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
     
                 var nPartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
-                if (nPartsV == null || nPartsV < 1)
+                if (!(nPartsV != null && !isNaN(nPartsV) && nPartsV >= 1))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
                 var controlPointNodes = grandChildren[0].children;
 
                 var controlPoints = [];
 
-                if (controlPointNodes.length != nPointsU * nPointsV)
+                if (controlPointNodes.length != (nPointsU * nPointsV))
                     return "incorrect number of control points for primitive with ID = " + primitiveId;
 
+                var controlPointNodesCounter = 0;
+
                 for (var j = 0; j < nPointsU * nPointsV; j++) {
+
+                    if (controlPointNodes[j].nodeName != "controlpoint") {
+                        this.onXMLMinorError("unknown tag <" + controlPointNodes[j].nodeName + ">");
+                        continue;
+                    }
+
+                    controlPointNodesCounter++;
+
                     var controlPoint = this.parseControlPoint(controlPointNodes[j], "Error parsing control points for patch primitive with ID = " + primitiveId);
                     if (!Array.isArray(controlPoint))
                         return controlPoint;
+
                     controlPoints.push(controlPoint);
                 }
+
+                if(controlPointNodesCounter != (nPointsU * nPointsV))
+                    return "incorrect number of control points for primitive with ID = " + primitiveId;
 
                 console.log("\ttype: patch\t\tid: " + primitiveId);
                 console.log("\t\tnpointsU = " + nPointsU);
@@ -1227,6 +1245,7 @@ class MySceneGraph {
                     console.log("\t\t\tcontrolPoint " + point + " = " + controlPoints[point]);
                 }
     
+                primitiveCounter++;
             }
 
             else if (primitiveType == 'cylinder2') {
@@ -1266,6 +1285,7 @@ class MySceneGraph {
                 console.log("\t\tslices = " + slices);
                 console.log("\t\tstacks = " + stacks);
 
+                primitiveCounter++;
             }
 
         }
@@ -1426,14 +1446,18 @@ class MySceneGraph {
 
                 var animationIndex = this.reader.getString(grandChildren[animationrefIndex], 'id');
                 if (animationIndex == null) {
-                    return "reference to non-existent animation in component with ID = " + componentID;
+                    return "no id defined for animation in component with ID = " + componentID;
                 }
+
+                // if(this.animations[animationIndex] == null)
+                //     return "reference to non-existent animation (ID = " + animationIndex + ") in component with ID = " + componentID;
+
                 var animation = this.animations[animationIndex];
 
                 console.log("Component with ID = " + componentID + " uses the animation with ID = " + animationIndex);
-
             }
 
+            
             // Materials
             var materialsCounter = 0;
 

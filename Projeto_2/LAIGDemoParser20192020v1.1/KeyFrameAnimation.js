@@ -7,12 +7,14 @@ class KeyframeAnimation extends Animation {
      * @param {*} keyframes - Array of keyframes for the animation
      */
     constructor(keyframes) {
+        super();
         this.keyframes = [new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], 0)]; // creates the default initial keyframe of the animation
         this.keyframes.push(...keyframes); // adds the rest of the keyframes
         this.anteriorKeyframeIndex = 0;
         this.posteriorKeyframeIndex = 1;
         this.sumT = 0;
         this.segmentTime = this.keyframes[this.posteriorKeyframeIndex].instant - this.keyframes[this.anteriorKeyframeIndex].instant;
+        this.baseKeyframeMatrix = mat4.create();
         this.calculateSegmentValues();
         this.calculateBaseKeyframeMatrix();
         this.animationDone = false;
@@ -84,7 +86,7 @@ class KeyframeAnimation extends Animation {
      * Function that calculates and changes the animation matrix
      */
     calculateNewMatrix() {
-        var newMatrix;
+        var newMatrix = mat4.create();
         mat4.identity(newMatrix);
 
         if(this.animationDone) { // if animation is over
