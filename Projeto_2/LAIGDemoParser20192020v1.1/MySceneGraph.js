@@ -1446,6 +1446,18 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+
+    /**
+     * Animates all the nodes of the graph
+     * @param {float} deltaT 
+     */
+    animateNodes(deltaT) {
+        for(var i = 0; i < this.nodes.length; i++) {
+            this.nodes[i].animate(deltaT);
+        }
+    }
+
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
@@ -1502,7 +1514,9 @@ class MySceneGraph {
 
         }
 
-        this.scene.multMatrix(node.transfMatrix);
+        // Transformations
+        this.scene.multMatrix(node.getNodeMatrix());
+
 
         for (var i = 0; i < node.leafs.length; i++) {
             node.leafs[i].display(length_s, length_t);

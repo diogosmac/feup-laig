@@ -37,6 +37,9 @@ class XMLscene extends CGFscene {
 
         this.matIndex = 0;
         this.interfaceArrayViews = {}; // array for the view IDs and indexes for the interface dropdown
+
+        this.lastT = 0; // aux variable in order to calculate time increments
+        this.deltaT = 0; // time increments
     }
 
     /**
@@ -104,6 +107,17 @@ class XMLscene extends CGFscene {
     }
 
     update(t) {
+        if(this.sceneInited) {
+            if(this.lastT == 0) { // first time calling function
+                this.lastT = t;
+            }
+            else { // already have lastT value from last update() call
+                this.deltaT = t - this.lastT;
+                this.lastT = t;
+                this.graph.animateNodes(this.deltaT);
+            }
+        }
+        
         this.checkKeys();
     }
 
