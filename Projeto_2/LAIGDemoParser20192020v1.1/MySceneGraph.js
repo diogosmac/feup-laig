@@ -1183,9 +1183,9 @@ class MySceneGraph {
                 // this.primitives[primitiveId] = plane;
                 // primitiveCounter++;
 
-                console.log("\ttype: plane\t\tid: " + primitiveId);
-                console.log("\t\tnPartsU = " + nPartsU);
-                console.log("\t\tnPartsV = " + nPartsV);
+                // console.log("\ttype: plane\t\tid: " + primitiveId);
+                // console.log("\t\tnPartsU = " + nPartsU);
+                // console.log("\t\tnPartsV = " + nPartsV);
 
                 primitiveCounter++;
             }
@@ -1236,14 +1236,14 @@ class MySceneGraph {
                 if(controlPointNodesCounter != (nPointsU * nPointsV))
                     return "incorrect number of control points for primitive with ID = " + primitiveId;
 
-                console.log("\ttype: patch\t\tid: " + primitiveId);
-                console.log("\t\tnpointsU = " + nPointsU);
-                console.log("\t\tnpointsV = " + nPointsV);
-                console.log("\t\tnpartsU = " + nPartsU);
-                console.log("\t\tnpartsV = " + nPartsV);
-                for (var point in controlPoints) {
-                    console.log("\t\t\tcontrolPoint " + point + " = " + controlPoints[point]);
-                }
+                // console.log("\ttype: patch\t\tid: " + primitiveId);
+                // console.log("\t\tnpointsU = " + nPointsU);
+                // console.log("\t\tnpointsV = " + nPointsV);
+                // console.log("\t\tnpartsU = " + nPartsU);
+                // console.log("\t\tnpartsV = " + nPartsV);
+                // for (var point in controlPoints) {
+                //     console.log("\t\t\tcontrolPoint " + point + " = " + controlPoints[point]);
+                // }
     
                 primitiveCounter++;
             }
@@ -1278,12 +1278,12 @@ class MySceneGraph {
                 // var cylind = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
                 // this.primitives[primitiveId] = cylind;
                 // primitiveCounter++;
-                console.log("\ttype: cylinder2\t\tid: " + primitiveId);
-                console.log("\t\tbase = " + base);
-                console.log("\t\ttop = " + top);
-                console.log("\t\theight = " + height);
-                console.log("\t\tslices = " + slices);
-                console.log("\t\tstacks = " + stacks);
+                // console.log("\ttype: cylinder2\t\tid: " + primitiveId);
+                // console.log("\t\tbase = " + base);
+                // console.log("\t\ttop = " + top);
+                // console.log("\t\theight = " + height);
+                // console.log("\t\tslices = " + slices);
+                // console.log("\t\tstacks = " + stacks);
 
                 primitiveCounter++;
             }
@@ -1449,12 +1449,12 @@ class MySceneGraph {
                     return "no id defined for animation in component with ID = " + componentID;
                 }
 
-                // if(this.animations[animationIndex] == null)
-                //     return "reference to non-existent animation (ID = " + animationIndex + ") in component with ID = " + componentID;
+                if(this.animations[animationIndex] == null)
+                    return "reference to non-existent animation (ID = " + animationIndex + ") in component with ID = " + componentID;
 
-                var animation = this.animations[animationIndex];
+                newNode.setKeyframeAnimation(this.animations[animationIndex]);
 
-                console.log("Component with ID = " + componentID + " uses the animation with ID = " + animationIndex);
+                // console.log("Component with ID = " + componentID + " uses the animation with ID = " + animationIndex);
             }
 
             

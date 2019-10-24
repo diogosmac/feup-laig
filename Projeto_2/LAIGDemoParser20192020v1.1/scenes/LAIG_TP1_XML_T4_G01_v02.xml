@@ -264,6 +264,49 @@
             </keyframe>
         </animation>
 
+        <animation id="flagSpin">
+            <keyframe instant="10">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="45" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="20">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="90" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="30">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="135" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="40">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="180" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="50">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="225" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="60">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="270" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="70">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="315" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="80">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
     </animations>
 
     <primitives>
@@ -389,6 +432,7 @@
             <transformation>
                 <transformationref id="flagTransf" />
             </transformation>
+            <animationref id="flagSpin" />
             <materials>
                 <material id="metalMat" />
             </materials>
