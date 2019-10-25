@@ -1750,8 +1750,8 @@ class MySceneGraph {
      * @param {float} deltaT 
      */
     animateNodes(deltaT) {
-        for(var i = 0; i < this.nodes.length; i++) {
-            this.nodes[i].animate(deltaT);
+        for(var id in this.nodes) {
+            this.nodes[id].animate(deltaT);
         }
     }
 
@@ -1813,7 +1813,9 @@ class MySceneGraph {
         }
 
         // Transformations
-        this.scene.multMatrix(node.getNodeMatrix());
+        this.scene.multMatrix(node.transfMatrix);
+        if(node.keyframeAnimation != null)
+            this.scene.multMatrix(node.keyframeAnimation.animationMatrix);
 
 
         for (var i = 0; i < node.leafs.length; i++) {

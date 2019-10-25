@@ -62,6 +62,7 @@ class MyGraphNode {
         if(this.keyframeAnimation != null) {
             mat4.multiply(nodeMatrix, nodeMatrix,  this.keyframeAnimation.animationMatrix);
         }
+        
         return nodeMatrix;
     }
 }

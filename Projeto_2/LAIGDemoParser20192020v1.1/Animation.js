@@ -16,7 +16,7 @@ class Animation {
      * @param {*} deltaT - The time difference between function calls
      */
     generateAnimationMatrix(deltaT) {
-
+        
     }
 
 

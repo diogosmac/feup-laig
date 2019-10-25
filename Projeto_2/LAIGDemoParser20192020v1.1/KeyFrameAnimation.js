@@ -16,22 +16,7 @@ class KeyframeAnimation extends Animation {
         this.segmentTime = this.keyframes[this.posteriorKeyframeIndex].instant - this.keyframes[this.anteriorKeyframeIndex].instant;
         this.baseKeyframeMatrix = mat4.create();
         this.calculateSegmentValues();
-        this.calculateBaseKeyframeMatrix();
         this.animationDone = false;
-    }
-
-
-    /**
-     * Function that calculates the matrix relative to the anterior keyframe (of the current segment)
-     */
-    calculateBaseKeyframeMatrix() {
-        mat4.identity(this.baseKeyframeMatrix);
-        var lastKeyframe = this.keyframes[this.anteriorKeyframeIndex];
-        mat4.scale(this.baseKeyframeMatrix, this.baseKeyframeMatrix, lastKeyframe.scaleValues);
-        mat4.rotate(this.baseKeyframeMatrix, this.baseKeyframeMatrix, lastKeyframe.rotationValueX, [1, 0, 0]);
-        mat4.rotate(this.baseKeyframeMatrix, this.baseKeyframeMatrix, lastKeyframe.rotationValueY, [0, 1, 0]);
-        mat4.rotate(this.baseKeyframeMatrix, this.baseKeyframeMatrix, lastKeyframe.rotationValueZ, [0, 0, 1]);
-        mat4.translate(this.baseKeyframeMatrix, this.baseKeyframeMatrix, lastKeyframe.translationValues);
     }
 
     
@@ -45,7 +30,6 @@ class KeyframeAnimation extends Animation {
             // moves to the next segment
             this.anteriorKeyframeIndex++;
             this.posteriorKeyframeIndex++;
-            this.calculateBaseKeyframeMatrix();
             if(this.posteriorKeyframeIndex >= this.keyframes.length) { // if the end of the animation was reached
                 this.posteriorKeyframeIndex = this.anteriorKeyframeIndex;
                 this.animationDone = true;
@@ -68,8 +52,8 @@ class KeyframeAnimation extends Animation {
         // calculates scale values
         var scaleAnterior = anteriorKeyframe.scaleValues;
         var scalePosterior = posteriorKeyframe.scaleValues;
-        this.segScaleValues = scalePosterior.map(function(v, i) { return v - scaleAnterior[i] });
-        
+        this.segScaleValues = scalePosterior.map(function(v, i) { return v - scaleAnterior[i]; });
+
         // calculates rotation values
         this.segRotationXValue = posteriorKeyframe.rotationValueX - anteriorKeyframe.rotationValueX;
         this.segRotationYValue = posteriorKeyframe.rotationValueY - anteriorKeyframe.rotationValueY;
@@ -78,7 +62,7 @@ class KeyframeAnimation extends Animation {
         // calculates translation values
         var translationAnterior = anteriorKeyframe.translationValues;
         var translationPosterior = posteriorKeyframe.translationValues;
-        this.segTranslationValues = translationPosterior.map(function(v, i) { return v - translationAnterior[i] });
+        this.segTranslationValues = translationPosterior.map(function(v, i) { return v - translationAnterior[i]; });
     }
 
 
@@ -88,34 +72,38 @@ class KeyframeAnimation extends Animation {
     calculateNewMatrix() {
         var newMatrix = mat4.create();
         mat4.identity(newMatrix);
+        var curKeyframe = this.keyframes[this.anteriorKeyframeIndex];
 
         if(this.animationDone) { // if animation is over
-            newMatrix = this.baseKeyframeMatrix;
+            mat4.translate(newMatrix, newMatrix, curKeyframe.translationValues);
+            mat4.rotate(newMatrix, newMatrix, curKeyframe.rotationValueX, [1, 0, 0]);
+            mat4.rotate(newMatrix, newMatrix, curKeyframe.rotationValueY, [0, 1, 0]);
+            mat4.rotate(newMatrix, newMatrix, curKeyframe.rotationValueZ, [0, 0, 1]);
+            mat4.scale(newMatrix, newMatrix, curKeyframe.scaleValues);
         }
         else { // animation didn't end
             var segPercentage = this.sumT / this.segmentTime;
 
-            // calculate scale values
-            var newScaleValues = this.segScaleValues.map(function(v) { v * segPercentage; });
+            // calculate scale values (segment values + base matrix values)
+            var newScaleValues = this.segScaleValues.map(function(v) { return v * segPercentage; });
+            newScaleValues = curKeyframe.scaleValues.map(function(v, i) { return v + newScaleValues[i]; })
 
-            // calculate rotation values
-            var newRotationXValue = this.segRotationXValue * segPercentage;
-            var newRotationYValue = this.segRotationYValue * segPercentage;
-            var newRotationZValue = this.segRotationZValue * segPercentage;
-
-            // calculate translation values
-            var newTranslationValues = this.segTranslationValues.map(function(v) { v * segPercentage; });
+            // calculate rotation values (segment values + base matrix values)
+            var newRotationXValue = curKeyframe.rotationValueX + (this.segRotationXValue * segPercentage);
+            var newRotationYValue = curKeyframe.rotationValueY + (this.segRotationYValue * segPercentage);
+            var newRotationZValue = curKeyframe.rotationValueZ + (this.segRotationZValue * segPercentage);
 
 
-            // generate auxiliar interpolation matrix
-            mat4.scale(newMatrix, newMatrix, newScaleValues);
+            // calculate translation values (segment values + base matrix values)
+            var newTranslationValues = this.segTranslationValues.map(function(v) { return v * segPercentage; });
+            newTranslationValues = curKeyframe.translationValues.map(function(v, i) { return v + newTranslationValues[i]; })
+
+            // generate animation matrix
+            mat4.translate(newMatrix, newMatrix, newTranslationValues); 
             mat4.rotate(newMatrix, newMatrix, newRotationXValue, [1, 0, 0]);
             mat4.rotate(newMatrix, newMatrix, newRotationYValue, [0, 1, 0]);
             mat4.rotate(newMatrix, newMatrix, newRotationZValue, [0, 0, 1]);
-            mat4.translate(newMatrix, newMatrix, newTranslationValues); 
-            
-            // multiplies it with the base keyframe matrix, in order to get the final animation matrix
-            mat4.multiply(newMatrix, this.baseKeyframeMatrix, newMatrix);
+            mat4.scale(newMatrix, newMatrix, newScaleValues);
         }
 
         this.animationMatrix = newMatrix;
