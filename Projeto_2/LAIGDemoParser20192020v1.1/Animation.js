@@ -4,8 +4,10 @@
 class Animation {
     /**
      * Constructor of the class
+     * @param {*} scene - Reference to the scene object
      */
-    constructor() {
+    constructor(scene) {
+        this.scene = scene;
         this.animationMatrix = mat4.create();
         mat4.identity(this.animationMatrix);
     }
@@ -16,7 +18,7 @@ class Animation {
      * @param {*} deltaT - The time difference between function calls
      */
     generateAnimationMatrix(deltaT) {
-        
+
     }
 
 

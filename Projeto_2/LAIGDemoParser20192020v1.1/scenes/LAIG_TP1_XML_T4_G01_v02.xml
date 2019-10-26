@@ -264,7 +264,7 @@
             </keyframe>
         </animation>
 
-        <animation id="flagSpin">
+        <animation id="flagAnimation">
             <keyframe instant="1">
                 <translate x="0" y="0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="45" />
@@ -298,7 +298,7 @@
             <keyframe instant="7">
                 <translate x="0" y="0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="315" />
-                <scale x="1" y="1" z="1" />
+                <scale x="0.2" y="0.2" z="0.2" />
             </keyframe>
             <keyframe instant="8">
                 <translate x="0" y="0" z="0" />
@@ -431,7 +431,7 @@
             <transformation>
                 <transformationref id="flagTransf" />
             </transformation>
-            <animationref id="flagSpin" />
+            <animationref id="flagAnimation" />
             <materials>
                 <material id="metalMat" />
             </materials>

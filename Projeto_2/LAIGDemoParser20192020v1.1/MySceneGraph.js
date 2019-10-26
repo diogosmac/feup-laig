@@ -875,6 +875,7 @@ class MySceneGraph {
                 return "animation node must have at least one valid keyframe (error on animation with ID = " + animationID + ")";
 
             var keyframes = [];
+            var keyframeCounter = 0;
 
             for (var j = 0; j < grandChildren.length; j++) {
 
@@ -886,6 +887,12 @@ class MySceneGraph {
                 var instant = this.reader.getFloat(grandChildren[j], 'instant');
                 if (!(instant != null && !isNaN(instant) && instant > 0))
                     return "no valid instant defined for keyframe (animation ID = " + animationID + ")";
+
+                if (keyframeCounter > 0)
+                    if (keyframes[keyframeCounter - 1].instant >= instant)
+                        return "at least one invalid instant in sequence of keyframes for animationID = " + animationID;
+
+
 
                 transformations = grandChildren[j].children;
 
@@ -935,12 +942,13 @@ class MySceneGraph {
 
 
                 keyframes.push(keyframe);
+                keyframeCounter++;
             }
 
-            if(keyframes.length == 0)
+            if(keyframeCounter == 0)
                 return "animation node must have at least one valid keyframe (error on animation with ID = " + animationID + ")";
 
-            this.animations[animationID] = new KeyframeAnimation(keyframes);
+            this.animations[animationID] = new KeyframeAnimation(this.scene, keyframes);
 
         }
 
@@ -1815,7 +1823,7 @@ class MySceneGraph {
         // Transformations
         this.scene.multMatrix(node.transfMatrix);
         if(node.keyframeAnimation != null)
-            this.scene.multMatrix(node.keyframeAnimation.animationMatrix);
+            node.keyframeAnimation.apply();
 
 
         for (var i = 0; i < node.leafs.length; i++) {

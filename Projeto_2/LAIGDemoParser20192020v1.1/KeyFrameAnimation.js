@@ -4,10 +4,11 @@
 class KeyframeAnimation extends Animation {
     /**
      * Constructor of the class
+     * @param {*} scene - Reference to the scene object
      * @param {*} keyframes - Array of keyframes for the animation
      */
-    constructor(keyframes) {
-        super();
+    constructor(scene, keyframes) {
+        super(scene);
         this.keyframes = [new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], 0)]; // creates the default initial keyframe of the animation
         this.keyframes.push(...keyframes); // adds the rest of the keyframes
         this.anteriorKeyframeIndex = 0;
