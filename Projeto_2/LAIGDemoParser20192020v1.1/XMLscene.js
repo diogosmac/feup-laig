@@ -33,7 +33,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.setUpdatePeriod(80);
+        this.setUpdatePeriod(50);
 
         this.matIndex = 0;
         this.interfaceArrayViews = {}; // array for the view IDs and indexes for the interface dropdown
@@ -112,7 +112,7 @@ class XMLscene extends CGFscene {
                 this.lastT = t;
             }
             else { // already have lastT value from last update() call
-                this.deltaT = t - this.lastT;
+                this.deltaT = (t - this.lastT) / 1000; // converts to seconds
                 this.lastT = t;
                 this.graph.animateNodes(this.deltaT);
             }
