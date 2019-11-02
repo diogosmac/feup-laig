@@ -236,7 +236,98 @@
 
     </transformations>
 
+    <animations>
+
+        <animation id="testOne">
+            <keyframe instant="10">
+                <translate x="10" y="5.2" z="345" />
+                <rotate angle_x="45" angle_y="42" angle_z="12" />
+                <scale x="5" y="0" z="-4" />
+            </keyframe>
+            <keyframe instant="20">
+                <translate x="10" y="5.2" z="345" />
+                <rotate angle_x="0" angle_y="42" angle_z="12" />
+                <scale x="5" y="0" z="-4" />
+            </keyframe>
+        </animation>
+
+        <animation id="testTwo">
+            <keyframe instant="10">
+                <translate x="10" y="5.2" z="345" />
+                <rotate angle_x="45" angle_y="42" angle_z="12" />
+                <scale x="5" y="0" z="-4" />
+            </keyframe>
+            <keyframe instant="20">
+                <translate x="10" y="5.2" z="345" />
+                <rotate angle_x="0" angle_y="42" angle_z="12" />
+                <scale x="5" y="0" z="-4" />
+            </keyframe>
+        </animation>
+
+        <animation id="flagAnimation">
+            <keyframe instant="1">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="45" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="2">
+                <translate x="5" y="5" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="90" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="3">
+                <translate x="4" y="4" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="135" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="4">
+                <translate x="5" y="5" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="180" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="5">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="225" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="6">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="270" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="7">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="315" />
+                <scale x="0.2" y="0.2" z="0.2" />
+            </keyframe>
+            <keyframe instant="8">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+    </animations>
+
     <primitives>
+
+        <primitive id="caylzadeOne">
+            <plane npartsU="5" npartsV="8" />
+        </primitive>
+
+        <primitive id="caylzadeTwo">
+            <patch npointsU="2" npointsV="2" npartsU="5" npartsV="8">
+                <controlpoint xx="2" yy="2" zz="2" />
+                <controlpoint xx="2" yy="2" zz="2" />
+                <controlpoint xx="2" yy="2" zz="2" />
+                <controlpoint xx="2" yy="2" zz="2" />
+            </patch>
+        </primitive>
+
+        <primitive id="caylzadeThree">
+            <cylinder2 base="0.1" top="0.1" height="12" slices="8" stacks="5" />
+        </primitive>        
+
         <primitive id="mainPlane">
             <rectangle x1="-5" y1="-5" x2="5" y2="5" />
         </primitive>
@@ -340,6 +431,7 @@
             <transformation>
                 <transformationref id="flagTransf" />
             </transformation>
+            <animationref id="flagAnimation" />
             <materials>
                 <material id="metalMat" />
             </materials>

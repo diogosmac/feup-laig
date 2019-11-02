@@ -17,6 +17,7 @@ class MyGraphNode {
         this.length_t = null;
         this.transfMatrix = mat4.create();
         mat4.identity(this.transfMatrix); // creates identity matrix for the transformations
+        this.keyframeAnimation = null;
 
         this.loaded = false; // indicates if the node is initialized or not
     }
@@ -44,5 +45,24 @@ class MyGraphNode {
 
     setTransfMatrix(transfMatrix) {
         this.transfMatrix = transfMatrix;
+    }
+
+    setKeyframeAnimation(keyframeAnimation) {
+        this.keyframeAnimation = keyframeAnimation;
+    }
+
+    animate(deltaT) {
+        if(this.keyframeAnimation != null)
+            this.keyframeAnimation.update(deltaT);
+    }
+
+    // multiplies the two matrixes of the node, the transformation matrix and the animation matrix, and returns it
+    getNodeMatrix() {
+        var nodeMatrix = this.transfMatrix;
+        if(this.keyframeAnimation != null) {
+            mat4.multiply(nodeMatrix, nodeMatrix,  this.keyframeAnimation.animationMatrix);
+        }
+        
+        return nodeMatrix;
     }
 }

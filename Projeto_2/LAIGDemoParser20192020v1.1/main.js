@@ -21,6 +21,9 @@ serialInclude(['../lib/CGF.js',
                'MyTorus.js',
                'MyTriangle.js',
                'MyGraphNode.js',
+               'Animation.js',
+               'KeyFrameAnimation.js',
+               'MyKeyframe.js',
 
 main=function()
 {
