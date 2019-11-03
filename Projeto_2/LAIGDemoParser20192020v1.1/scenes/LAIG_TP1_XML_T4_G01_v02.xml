@@ -311,22 +311,26 @@
 
     <primitives>
 
-        <primitive id="caylzadeOne">
+        <primitive id="planetest">
             <plane npartsU="5" npartsV="8" />
         </primitive>
 
-        <primitive id="caylzadeTwo">
+        <primitive id="patchtest">
             <patch npointsU="2" npointsV="2" npartsU="5" npartsV="8">
-                <controlpoint xx="2" yy="2" zz="2" />
-                <controlpoint xx="2" yy="2" zz="2" />
-                <controlpoint xx="2" yy="2" zz="2" />
-                <controlpoint xx="2" yy="2" zz="2" />
+                <controlpoint xx="6.0" yy="0" zz="-2.0" />
+                <controlpoint xx="6.0" yy="0" zz="2.0" />
+                <controlpoint xx="2.0" yy="0" zz="-2.0" />
+                <controlpoint xx="2.0" yy="0" zz="2.0" />
             </patch>
         </primitive>
 
-        <primitive id="caylzadeThree">
-            <cylinder2 base="0.1" top="0.1" height="12" slices="8" stacks="5" />
-        </primitive>        
+        <primitive id="cylinder2test">
+            <cylinder2 base="7" top="4" height="1" slices="25" stacks="25" />
+        </primitive>
+
+        <primitive id="cylinder2test2">
+            <cylinder base="12" top="6" height="12" slices="25" stacks="25" />
+        </primitive>    
 
         <primitive id="mainPlane">
             <rectangle x1="-5" y1="-5" x2="5" y2="5" />
@@ -397,11 +401,11 @@
         </primitive>
 
         <primitive id="atomiumEdge">
-            <cylinder base="0.1" top="0.1" height="3" slices="8" stacks="2" />
+            <cylinder2 base="0.1" top="0.1" height="3" slices="8" stacks="2" />
         </primitive>
 
         <primitive id="atomiumSupport">
-            <cylinder base="0.8" top="0.1" height="3.2" slices="20" stacks="5" />
+            <cylinder2 base="0.8" top="0.1" height="3.2" slices="20" stacks="5" />
         </primitive>
 
     </primitives>
@@ -416,14 +420,17 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="parasolGroupNode1" />
+                <!-- <componentref id="parasolGroupNode1" />
                 <componentref id="parasolGroupNode2" />
                 <componentref id="mainPlaneNode" />
                 <componentref id="poolNode" />
                 <componentref id="beachBallNode1" />
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
-                <componentref id="flagNode" />
+                <componentref id="flagNode" /> -->
+                <primitiveref id="planetest" />
+                <primitiveref id="patchtest" />
+                <primitiveref id="cylinder2test" />
             </children>
         </component>
 

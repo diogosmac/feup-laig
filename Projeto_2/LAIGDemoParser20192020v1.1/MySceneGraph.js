@@ -1187,14 +1187,10 @@ class MySceneGraph {
                 if (!(nPartsV != null && !isNaN(nPartsV) && nPartsV >= 1))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
-                // create object plane
-                // this.primitives[primitiveId] = plane;
-                // primitiveCounter++;
 
-                // console.log("\ttype: plane\t\tid: " + primitiveId);
-                // console.log("\t\tnPartsU = " + nPartsU);
-                // console.log("\t\tnPartsV = " + nPartsV);
+                var obj = new Plane(this.scene, primitiveId, nPartsU, nPartsV);
 
+                this.primitives[primitiveId] = obj;
                 primitiveCounter++;
             }
 
@@ -1225,35 +1221,44 @@ class MySceneGraph {
 
                 var controlPointNodesCounter = 0;
 
-                for (var j = 0; j < nPointsU * nPointsV; j++) {
+                for (var u = 0; u < nPointsU; u++) {
 
-                    if (controlPointNodes[j].nodeName != "controlpoint") {
-                        this.onXMLMinorError("unknown tag <" + controlPointNodes[j].nodeName + ">");
-                        continue;
+                    var u_points = [];
+
+                    for (var v = 0; v < nPointsV; v++) {
+
+                        var j = u * nPointsV + v;
+
+                        if (controlPointNodes[j].nodeName != "controlpoint") {
+                            this.onXMLMinorError("unknown tag <" + controlPointNodes[j].nodeName + ">");
+                            continue;
+                        }
+    
+                        controlPointNodesCounter++;
+    
+                        var controlPoint = this.parseControlPoint(controlPointNodes[j], "Error parsing control points for patch primitive with ID = " + primitiveId);
+                        if (!Array.isArray(controlPoint))
+                            return controlPoint;
+
+                        controlPoint.push(1.0);
+    
+                        u_points.push(controlPoint);
+    
                     }
 
-                    controlPointNodesCounter++;
+                    controlPoints.push(u_points);
 
-                    var controlPoint = this.parseControlPoint(controlPointNodes[j], "Error parsing control points for patch primitive with ID = " + primitiveId);
-                    if (!Array.isArray(controlPoint))
-                        return controlPoint;
-
-                    controlPoints.push(controlPoint);
                 }
 
                 if(controlPointNodesCounter != (nPointsU * nPointsV))
                     return "incorrect number of control points for primitive with ID = " + primitiveId;
 
-                // console.log("\ttype: patch\t\tid: " + primitiveId);
-                // console.log("\t\tnpointsU = " + nPointsU);
-                // console.log("\t\tnpointsV = " + nPointsV);
-                // console.log("\t\tnpartsU = " + nPartsU);
-                // console.log("\t\tnpartsV = " + nPartsV);
-                // for (var point in controlPoints) {
-                //     console.log("\t\t\tcontrolPoint " + point + " = " + controlPoints[point]);
-                // }
-    
+
+                var obj = new Patch(this.scene, primitiveId, nPointsU, nPointsV, nPartsU, nPartsV, controlPoints);
+                
+                this.primitives[primitiveId] = obj;
                 primitiveCounter++;
+
             }
 
             else if (primitiveType == 'cylinder2') {
@@ -1283,16 +1288,10 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks) && stacks > 0))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
                 
-                // var cylind = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
-                // this.primitives[primitiveId] = cylind;
-                // primitiveCounter++;
-                // console.log("\ttype: cylinder2\t\tid: " + primitiveId);
-                // console.log("\t\tbase = " + base);
-                // console.log("\t\ttop = " + top);
-                // console.log("\t\theight = " + height);
-                // console.log("\t\tslices = " + slices);
-                // console.log("\t\tstacks = " + stacks);
+                    
+                var obj = new NurbCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
 
+                this.primitives[primitiveId] = obj;
                 primitiveCounter++;
             }
 
