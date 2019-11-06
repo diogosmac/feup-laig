@@ -418,6 +418,7 @@ class MySceneGraph {
             return "ID given for the default view doesn't exist";
 
         this.scene.activeCameraID = defaultViewID;
+        this.scene.activeSecCameraID = defaultViewID;
 
         this.log("Parsed views");
         return null;

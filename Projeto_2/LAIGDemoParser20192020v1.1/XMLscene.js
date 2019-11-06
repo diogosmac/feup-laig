@@ -40,6 +40,9 @@ class XMLscene extends CGFscene {
 
         this.lastT = 0; // aux variable in order to calculate time increments
         this.deltaT = 0; // time increments
+
+        this.rttTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        this.secCameraObject = new MySecurityCamera(this);
     }
 
     /**
@@ -47,6 +50,8 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.securityCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
     /**
@@ -144,20 +149,28 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = true;
 
-        this.camera = this.graph.views[this.activeCameraID]; // default camera is activated
+        this.normalCamera = this.graph.views[this.activeCameraID]; // default camera is activated
+        this.securityCamera = this.graph.views[this.activeSecCameraID]; // default camera is activated
 
         this.interface.updateInterface();
     }
 
     changeCamera() {
-        this.camera = this.graph.views[this.activeCameraID];
+        this.normalCamera = this.graph.views[this.activeCameraID];
+    }
+
+    changeSecurityCamera() {
+        this.securityCamera = this.graph.views[this.activeSecCameraID];
     }
 
     /**
-     * Displays the scene.
+     * Render function of the scene (to be called twice by display)
+     * @param {CGFcamera} camera 
      */
-    display() {
+    render(camera) {
         // ---- BEGIN Background, camera and axis setup
+
+        this.camera = camera;
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -204,5 +217,19 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
+    }
+
+
+    /**
+     * Displays the scene.
+     */
+    display() {
+        this.rttTexture.attachToFrameBuffer();
+        this.render(this.securityCamera);
+        this.rttTexture.detachFromFrameBuffer();
+        this.render(this.normalCamera);
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.secCameraObject.display();
+        this.gl.enable(this.gl.DEPTH_TEST);
     }
 }

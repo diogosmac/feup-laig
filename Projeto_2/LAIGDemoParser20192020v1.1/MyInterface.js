@@ -42,13 +42,13 @@ class MyInterface extends CGFinterface {
     }
 
     addCamerasDropdown() {
-
-        // fill in the array
+        // fill in the arrays
         for(var key in this.scene.graph.views) {
             this.scene.interfaceArrayViews[key] = key;
         }
 
-        this.gui.add(this.scene, 'activeCameraID', this.scene.interfaceArrayViews).name('Selected camera').onChange(this.scene.changeCamera.bind(this.scene));
+        this.gui.add(this.scene, 'activeCameraID', this.scene.interfaceArrayViews).name('Main camera').onChange(this.scene.changeCamera.bind(this.scene));
+        this.gui.add(this.scene, 'activeSecCameraID', this.scene.interfaceArrayViews).name('Security camera').onChange(this.scene.changeSecurityCamera.bind(this.scene));
     }
 
     updateInterface() {
