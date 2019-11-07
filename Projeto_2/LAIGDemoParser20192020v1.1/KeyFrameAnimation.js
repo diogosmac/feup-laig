@@ -25,21 +25,21 @@ class KeyframeAnimation extends Animation {
      * Function that updates the current segment (anterior and posterior keyframes) where the animation is
      */
     updateSegment() {
-        if(this.sumT > this.segmentTime) {
+        while(this.sumT > this.segmentTime) {
             this.sumT -= this.segmentTime;
-
-            // moves to the next segment
             this.anteriorKeyframeIndex++;
             this.posteriorKeyframeIndex++;
             if(this.posteriorKeyframeIndex >= this.keyframes.length) { // if the end of the animation was reached
                 this.posteriorKeyframeIndex = this.anteriorKeyframeIndex;
                 this.animationDone = true;
+                break;
             }
-            else { // animation didn't end
+            else {
                 this.segmentTime = this.keyframes[this.posteriorKeyframeIndex].instant - this.keyframes[this.anteriorKeyframeIndex].instant;
-                this.calculateSegmentValues();
             }
         }
+        if(!this.animationDone)
+            this.calculateSegmentValues();
     }
 
 
@@ -85,17 +85,17 @@ class KeyframeAnimation extends Animation {
         else { // animation didn't end
             var segPercentage = this.sumT / this.segmentTime;
 
-            // calculate scale values (segment values + base matrix values)
+            // calculate scale values (segment values + anterior keyframe values)
             var newScaleValues = this.segScaleValues.map(function(v) { return v * segPercentage; });
-            newScaleValues = curKeyframe.scaleValues.map(function(v, i) { return v + newScaleValues[i]; })
+            newScaleValues = curKeyframe.scaleValues.map(function(v, i) { return v + newScaleValues[i]; });
 
-            // calculate rotation values (segment values + base matrix values)
+            // calculate rotation values (segment values + anterior keyframe values)
             var newRotationXValue = curKeyframe.rotationValueX + (this.segRotationXValue * segPercentage);
             var newRotationYValue = curKeyframe.rotationValueY + (this.segRotationYValue * segPercentage);
             var newRotationZValue = curKeyframe.rotationValueZ + (this.segRotationZValue * segPercentage);
 
 
-            // calculate translation values (segment values + base matrix values)
+            // calculate translation values (segment values + anterior keyframe values)
             var newTranslationValues = this.segTranslationValues.map(function(v) { return v * segPercentage; });
             newTranslationValues = curKeyframe.translationValues.map(function(v, i) { return v + newTranslationValues[i]; })
 

@@ -7,17 +7,11 @@ class MySecurityCamera extends CGFobject {
      * @param {*} scene - Reference to the scene object
      */
     constructor(scene) {
-        // TODO: determine arguments to pass to rectangle
+        // TODO: make security camera display scene
         // TODO: implement the shaders
         super(scene);
-        // this.securityCameraShader = new CGFshader(scene.gl, "shaders/SecCamRec.vert", "shaders/SecCamRec.frag");
-        this.securityCameraRec = new MyRectangle(scene, "SecurityCameraRec", 0, 0, 1, 1);
-        this.secCamRecMaterial = new CGFappearance(this.scene);
-        this.secCamRecMaterial.setShininess(1);
-        this.secCamRecMaterial.setAmbient(0, 0, 0, 1);
-        this.secCamRecMaterial.setDiffuse(0.5, 0.5, 0.5, 1);
-        this.secCamRecMaterial.setSpecular(0, 0, 0, 1);
-        this.secCamRecMaterial.setEmission(0, 0, 0, 1);
+        this.securityCameraShader = new CGFshader(scene.gl, "shaders/SecCamRec.vert", "shaders/SecCamRec.frag");
+        this.securityCameraRec = new MyRectangle(scene, "SecurityCameraRec", 0.5, 1, -1, -0.5);
     }
 
 
@@ -26,11 +20,9 @@ class MySecurityCamera extends CGFobject {
      */
     display() {
         this.scene.rttTexture.bind();
-        this.secCamRecMaterial.apply();
-        this.secCamRecMaterial.setTexture(this.scene.rttTexture);
-        // this.scene.setActiveShader(this.securityCameraShader);
+        this.scene.setActiveShader(this.securityCameraShader);
         this.securityCameraRec.display();
-        // this.scene.setActiveShader(this.scene.defaultShader);
+        this.scene.setActiveShader(this.scene.defaultShader);
         this.scene.rttTexture.unbind();
     }
 }

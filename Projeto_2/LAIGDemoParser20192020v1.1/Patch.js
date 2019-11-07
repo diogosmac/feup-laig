@@ -1,10 +1,10 @@
 /**
- * MyCylinder
+ * Patch
  * @constructor
  * @param scene - Reference to MyScene object
  * @param id - ID of the object
- * @param nPointsU - number of parts of the patch on U domain
- * @param nPointsV -  number of parts of the patch on V domain
+ * @param nPointsU - number of points of the patch on U domain
+ * @param nPointsV -  number of points of the patch on V domain
  * @param nPartsU - number of parts of the patch on U domain
  * @param nPartsV -  number of parts of the patch on V domain
  * @param controlPoints - control points for the patch
@@ -27,7 +27,7 @@ class Patch extends CGFobject {
 
     }
 
-    display() {
+    display(ls, lt) {
         this.obj.display();
     }
 

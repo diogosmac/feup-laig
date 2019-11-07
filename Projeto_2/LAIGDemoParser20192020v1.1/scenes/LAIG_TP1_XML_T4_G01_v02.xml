@@ -420,17 +420,30 @@
             </materials>
             <texture id="none" />
             <children>
-                <!-- <componentref id="parasolGroupNode1" />
+                <componentref id="parasolGroupNode1" />
                 <componentref id="parasolGroupNode2" />
                 <componentref id="mainPlaneNode" />
                 <componentref id="poolNode" />
                 <componentref id="beachBallNode1" />
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
-                <componentref id="flagNode" /> -->
-                <primitiveref id="planetest" />
-                <primitiveref id="patchtest" />
-                <primitiveref id="cylinder2test" />
+                <componentref id="flagNode" />
+                <!-- <componentref id="nurbsObjects" /> -->
+            </children>
+        </component>
+
+        <component id="nurbsObjects">
+            <transformation>
+                <translate x="0" y="0" z="1" />  
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+               <primitiveref id="planetest" />
+               <primitiveref id="patchtest" />
+               <primitiveref id="cylinder2test" />
             </children>
         </component>
 
@@ -887,7 +900,7 @@
             <materials>
                 <material id="mainPlaneMat" />
             </materials>
-            <texture id="mainPlaneTex" length_s="10" length_t="10" />
+            <texture id="mainPlaneTex" length_s="15" length_t="15" />
             <children>
                 <componentref id="mainPlaneNode1" />
                 <componentref id="mainPlaneNode2" />

@@ -168,17 +168,18 @@ class XMLscene extends CGFscene {
      * @param {CGFcamera} camera 
      */
     render(camera) {
-        // ---- BEGIN Background, camera and axis setup
-
+        // ---- BEGIN Background, camera and axis setup        
         this.camera = camera;
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+        
 
         // Initialize Model-View matrix as identity (no transformation)
         this.updateProjectionMatrix();
         this.loadIdentity();
+
 
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();

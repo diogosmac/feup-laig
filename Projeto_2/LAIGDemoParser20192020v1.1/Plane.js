@@ -33,8 +33,8 @@ class Plane extends CGFobject {
         this.obj = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, surf);
 
     }
-
-    display() {
+    
+    display(ls, lt) {
         this.obj.display();
     }
 
