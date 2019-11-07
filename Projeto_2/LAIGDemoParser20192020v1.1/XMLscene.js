@@ -42,6 +42,7 @@ class XMLscene extends CGFscene {
         this.deltaT = 0; // time increments
 
         this.rttTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+
         this.secCameraObject = new MySecurityCamera(this);
     }
 
@@ -169,24 +170,24 @@ class XMLscene extends CGFscene {
      */
     render(camera) {
         // ---- BEGIN Background, camera and axis setup        
-        this.camera = camera;
-
+        
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
         
-
+        this.camera = camera;
+        
         // Initialize Model-View matrix as identity (no transformation)
         this.updateProjectionMatrix();
         this.loadIdentity();
-
-
+        
+        
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
-
+        
         this.pushMatrix();
         this.axis.display();
-
+        
         
         if (this.sceneInited) {
             

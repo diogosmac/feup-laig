@@ -952,24 +952,6 @@ class MySceneGraph {
             this.animations[animationID] = new KeyframeAnimation(this.scene, keyframes);
 
         }
-
-        // console.log("animations:");
-        // var animations = this.animations;
-        // for (var ani_id in animations) {
-        //     var ani = animations[ani_id];
-        //     console.log("\tid: " + ani['id']);
-        //     var keyframes = ani['keyframes'];
-        //     for (var key_id in keyframes) {
-        //         var key = keyframes[key_id];
-        //         console.log("\t\tkeyframe - instant = " + key['instant']);
-        //         console.log("\t\t\ttranslate = " + key['translate']);
-        //         console.log("\t\t\trotate (X) = " + key['rotateX']);
-        //         console.log("\t\t\trotate (Y) = " + key['rotateY']);
-        //         console.log("\t\t\trotate (Z) = " + key['rotateZ']);
-        //         console.log("\t\t\tscale = " + key['scale']);
-        //     }
-        // }
-
     }
 
     /**

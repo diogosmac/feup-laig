@@ -27,6 +27,48 @@ class NurbCylinder extends CGFobject {
      * Function that creates the 2 nurbs objects that the cylinder displays
      */
     initBuffers() {
+        // this.controlPointsA = [
+        //     // U = 0
+        //     [   // V = 0..4
+        //         [0, -this.base, 0, 1],
+        //         [-this.base, -this.base, 0, Math.sqrt(2)/2],
+        //         [-this.base, 0, 0, 1],
+        //         [-this.base, this.base, 0, Math.sqrt(2)/2],
+        //         [0, this.base, 0, 1]
+        //     ],
+        //     // U = 1
+        //     [   // V = 0..4
+        //         [0, -this.top, this.height, 1],
+        //         [-this.top, -this.top, this.height, Math.sqrt(2)/2],
+        //         [-this.top, 0, this.height, 1],
+        //         [-this.top, this.top, this.height, Math.sqrt(2)/2],
+        //         [0, this.top, this.height, 1]
+        //     ]
+        // ];
+        // var surfA = new CGFnurbsSurface(1, 4, this.controlPointsA);
+        // this.objA = new CGFnurbsObject(this.scene, this.stacks, Math.round(this.slices / 2), surfA);
+
+        // this.controlPointsB = [
+        //     // U = 0
+        //     [   // V = 0..4
+        //         [0, this.base, 0, 1],
+        //         [this.base, this.base, 0, Math.sqrt(2)/2],
+        //         [this.base, 0, 0, 1],
+        //         [this.base, -this.base, 0, Math.sqrt(2)/2],
+        //         [0, -this.base, 0, 1]
+        //     ],
+        //     // U = 1
+        //     [   // V = 0..4
+        //         [0, this.top, this.height, 1],
+        //         [this.top, this.top, this.height, Math.sqrt(2)/2],
+        //         [this.top, 0, this.height, 1],
+        //         [this.top, -this.top, this.height, Math.sqrt(2)/2],
+        //         [0, -this.top, this.height, 1]
+        //     ]
+        // ];
+        // var surfB = new CGFnurbsSurface(1, 4, this.controlPointsB);
+        // this.objB = new CGFnurbsObject(this.scene, this.stacks, Math.round(this.slices / 2), surfB);
+
         this.controlPointsA = [
             // U = 0
             [   // V = 0..5

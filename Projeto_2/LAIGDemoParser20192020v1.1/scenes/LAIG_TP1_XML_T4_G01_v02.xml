@@ -428,7 +428,7 @@
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
                 <componentref id="flagNode" />
-                <!-- <componentref id="nurbsObjects" /> -->
+                <componentref id="nurbsObjects" />
             </children>
         </component>
 
@@ -444,6 +444,7 @@
                <primitiveref id="planetest" />
                <primitiveref id="patchtest" />
                <primitiveref id="cylinder2test" />
+               <!-- <primitiveref id="cylinder2test2" /> -->
             </children>
         </component>
 

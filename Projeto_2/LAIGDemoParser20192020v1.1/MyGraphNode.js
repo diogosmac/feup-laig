@@ -55,14 +55,4 @@ class MyGraphNode {
         if(this.keyframeAnimation != null)
             this.keyframeAnimation.update(deltaT);
     }
-
-    // multiplies the two matrixes of the node, the transformation matrix and the animation matrix, and returns it
-    getNodeMatrix() {
-        var nodeMatrix = this.transfMatrix;
-        if(this.keyframeAnimation != null) {
-            mat4.multiply(nodeMatrix, nodeMatrix,  this.keyframeAnimation.animationMatrix);
-        }
-        
-        return nodeMatrix;
-    }
 }

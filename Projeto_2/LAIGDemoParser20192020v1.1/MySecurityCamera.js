@@ -7,11 +7,18 @@ class MySecurityCamera extends CGFobject {
      * @param {*} scene - Reference to the scene object
      */
     constructor(scene) {
-        // TODO: make security camera display scene
         // TODO: implement the shaders
         super(scene);
         this.securityCameraShader = new CGFshader(scene.gl, "shaders/SecCamRec.vert", "shaders/SecCamRec.frag");
         this.securityCameraRec = new MyRectangle(scene, "SecurityCameraRec", 0.5, 1, -1, -0.5);
+        // change texCoords for security camera rectangle
+        this.securityCameraRec.texCoords = [
+            0, 0,
+			1, 0,
+			0, 1,
+			1, 1
+        ];
+        this.securityCameraRec.updateTexCoordsGLBuffers();
     }
 
 
@@ -19,8 +26,8 @@ class MySecurityCamera extends CGFobject {
      * Display method for the security camera object
      */
     display() {
-        this.scene.rttTexture.bind();
         this.scene.setActiveShader(this.securityCameraShader);
+        this.scene.rttTexture.bind();
         this.securityCameraRec.display();
         this.scene.setActiveShader(this.scene.defaultShader);
         this.scene.rttTexture.unbind();
