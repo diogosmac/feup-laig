@@ -325,12 +325,12 @@
         </primitive>
 
         <primitive id="cylinder2test">
-            <cylinder2 base="7" top="4" height="1" slices="25" stacks="25" />
+            <cylinder2 base="7" top="4" height="1" slices="16" stacks="16" />
         </primitive>
 
         <primitive id="cylinder2test2">
-            <cylinder base="12" top="6" height="12" slices="25" stacks="25" />
-        </primitive>    
+            <cylinder base="7" top="4" height="1" slices="16" stacks="16" />
+        </primitive>
 
         <primitive id="mainPlane">
             <rectangle x1="-5" y1="-5" x2="5" y2="5" />
