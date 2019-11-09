@@ -67,7 +67,6 @@ class NurbCylinder extends CGFobject {
     }
 
     display(ls, lt) {
-        console.log("AH");
         this.objA.display();
         this.objB.display();
     }
