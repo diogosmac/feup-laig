@@ -23,6 +23,15 @@ class MySecurityCamera extends CGFobject {
 
 
     /**
+     * Function to update the time factor in the fragment shader, in order to draw the white lines of the security camera
+     * @param {*} t - Time factor for the shader
+     */
+    update(t) {
+        this.securityCameraShader.setUniformsValues({ timeFactor: t / 100 % 1000});
+    }
+
+
+    /**
      * Display method for the security camera object
      */
     display() {

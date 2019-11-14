@@ -123,7 +123,7 @@ class XMLscene extends CGFscene {
                 this.graph.animateNodes(this.deltaT);
             }
         }
-        
+        this.secCameraObject.update(t);
         this.checkKeys();
     }
 
