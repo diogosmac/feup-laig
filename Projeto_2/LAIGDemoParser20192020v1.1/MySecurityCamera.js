@@ -7,7 +7,6 @@ class MySecurityCamera extends CGFobject {
      * @param {*} scene - Reference to the scene object
      */
     constructor(scene) {
-        // TODO: implement the shaders
         super(scene);
         this.securityCameraShader = new CGFshader(scene.gl, "shaders/SecCamRec.vert", "shaders/SecCamRec.frag");
         this.securityCameraRec = new MyRectangle(scene, "SecurityCameraRec", 0.5, 1, -1, -0.5);

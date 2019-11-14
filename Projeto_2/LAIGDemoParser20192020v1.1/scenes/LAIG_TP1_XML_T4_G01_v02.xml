@@ -234,35 +234,19 @@
             <rotate axis="z" angle="100" />
         </transformation>
 
+        <transformation id="mainPlaneTransf">
+            <scale x="40" y="40" z="1" />
+            <rotate axis="x" angle="90" />
+        </transformation>
+
+        <transformation id="poolWaterTransf">
+            <scale x="20" y="10" z="1" />
+            <rotate axis="x" angle="90" />
+        </transformation>
+
     </transformations>
 
     <animations>
-
-        <animation id="testOne">
-            <keyframe instant="10">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="45" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-            <keyframe instant="20">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="0" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-        </animation>
-
-        <animation id="testTwo">
-            <keyframe instant="10">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="45" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-            <keyframe instant="20">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="0" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-        </animation>
 
         <animation id="flagAnimation">
             <keyframe instant="1">
@@ -311,33 +295,12 @@
 
     <primitives>
 
-        <primitive id="planetest">
-            <plane npartsU="5" npartsV="8" />
-        </primitive>
-
-        <primitive id="patchtest">
-            <patch npointsU="2" npointsV="2" npartsU="5" npartsV="8">
-                <controlpoint xx="6.0" yy="0" zz="-2.0" />
-                <controlpoint xx="6.0" yy="0" zz="2.0" />
-                <controlpoint xx="2.0" yy="0" zz="-2.0" />
-                <controlpoint xx="2.0" yy="0" zz="2.0" />
-            </patch>
-        </primitive>
-
-        <primitive id="cylinder2test">
-            <cylinder2 base="7" top="4" height="1" slices="16" stacks="16" />
-        </primitive>
-
-        <primitive id="cylinder2test2">
-            <cylinder base="7" top="4" height="1" slices="16" stacks="16" />
-        </primitive>
-
         <primitive id="mainPlane">
-            <rectangle x1="-5" y1="-5" x2="5" y2="5" />
+            <plane npartsU="20" npartsV="20" />
         </primitive>
 
         <primitive id="parasolStick">
-            <cylinder base="0.05" top="0.05" height="2.5" slices="30" stacks="5" />
+            <cylinder2 base="0.05" top="0.05" height="2.5" slices="30" stacks="5" />
         </primitive>
   
         <primitive id="parasolTop">
@@ -353,7 +316,7 @@
         </primitive>
         
         <primitive id="poolWaterRectangle">
-            <rectangle x1="-5" y1="-2.5" x2="5" y2="2.5" />            
+            <plane npartsU="5" npartsV="10" />           
         </primitive>
 
         <primitive id="poolFloater">
@@ -408,6 +371,17 @@
             <cylinder2 base="0.8" top="0.1" height="3.2" slices="20" stacks="5" />
         </primitive>
 
+        <primitive id="tentSide">
+            <patch npointsU="3" npointsV="2" npartsU="2" npartsV="2">
+                <controlpoint xx="" yy="" zz="" />
+                <controlpoint xx="" yy="" zz="" />
+                <controlpoint xx="" yy="" zz="" />
+                <controlpoint xx="" yy="" zz="" />
+                <controlpoint xx="" yy="" zz="" />
+                <controlpoint xx="" yy="" zz="" />
+            </patch>
+        </primitive>
+
     </primitives>
 
     <components>
@@ -428,25 +402,9 @@
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
                 <componentref id="flagNode" />
-                <componentref id="nurbsObjects" />
             </children>
         </component>
 
-        <component id="nurbsObjects">
-            <transformation>
-                <translate x="0" y="0" z="1" />  
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="none" />
-            <children>
-               <primitiveref id="planetest" />
-               <primitiveref id="patchtest" />
-               <primitiveref id="cylinder2test" />
-               <!-- <primitiveref id="cylinder2test2" /> -->
-            </children>
-        </component>
 
         <component id="flagNode">
             <transformation>
@@ -897,239 +855,16 @@
 
         <component id="mainPlaneNode">
             <transformation>
+                <transformationref id="mainPlaneTransf" />
             </transformation>
             <materials>
                 <material id="mainPlaneMat" />
             </materials>
-            <texture id="mainPlaneTex" length_s="15" length_t="15" />
-            <children>
-                <componentref id="mainPlaneNode1" />
-                <componentref id="mainPlaneNode2" />
-                <componentref id="mainPlaneNode3" />
-                <componentref id="mainPlaneNode4" />
-                <componentref id="mainPlaneNode5" />
-                <componentref id="mainPlaneNode6" />
-                <componentref id="mainPlaneNode7" />
-                <componentref id="mainPlaneNode8" />
-                <componentref id="mainPlaneNode9" />
-                <componentref id="mainPlaneNode10" />
-                <componentref id="mainPlaneNode11" />
-                <componentref id="mainPlaneNode12" />
-                <componentref id="mainPlaneNode13" />
-                <componentref id="mainPlaneNode14" />
-                <componentref id="mainPlaneNode15" />
-                <componentref id="mainPlaneNode16" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode1">
-            <transformation>
-                <translate x="-15" y="15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
+            <texture id="mainPlaneTex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="mainPlane" />
             </children>
         </component>
-
-        <component id="mainPlaneNode2">
-            <transformation>
-                <translate x="-5" y="15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode3">
-            <transformation>
-                <translate x="5" y="15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode4">
-            <transformation>
-                <translate x="15" y="15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-        
-        <component id="mainPlaneNode5">
-            <transformation>
-                <translate x="-15" y="5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode6">
-            <transformation>
-                <translate x="-5" y="5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-    
-        <component id="mainPlaneNode7">
-            <transformation>
-                <translate x="5" y="5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode8">
-            <transformation>
-                <translate x="15" y="5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode9">
-            <transformation>
-                <translate x="-15" y="-5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode10">
-            <transformation>
-                <translate x="-5" y="-5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode11">
-            <transformation>
-                <translate x="5" y="-5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode12">
-            <transformation>
-                <translate x="15" y="-5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode13">
-            <transformation>
-                <translate x="-15" y="-15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode14">
-            <transformation>
-                <translate x="-5" y="-15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode15">
-            <transformation>
-                <translate x="5" y="-15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
-        <component id="mainPlaneNode16">
-            <transformation>
-                <translate x="15" y="-15" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="mainPlane" />
-            </children>
-        </component>
-
 
         <component id="parasolNode">
             <transformation>
@@ -1290,67 +1025,12 @@
 
         <component id="poolWaterNode">
             <transformation>
-                <!-- <translate x="-5" y="2.5" z="0" /> -->
+                <transformationref id="poolWaterTransf" />
             </transformation>
             <materials>
                 <material id="waterMat" />
             </materials>
-            <texture id="waterTex" length_s="5" length_t="7.5" />
-            <children>
-                <componentref id="poolWaterNodeA" />
-                <componentref id="poolWaterNodeB" />
-                <componentref id="poolWaterNodeC" />
-                <componentref id="poolWaterNodeD" />
-            </children>
-        </component>
-
-        <component id="poolWaterNodeA">
-            <transformation>
-                <translate x="-5" y="-2.5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="poolWaterRectangle" />
-            </children>
-        </component>
-
-        <component id="poolWaterNodeB">
-            <transformation>
-                <translate x="-5" y="2.5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="poolWaterRectangle" />
-            </children>
-        </component>
-
-        <component id="poolWaterNodeC">
-            <transformation>
-                <translate x="5" y="-2.5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
-            <children>
-                <primitiveref id="poolWaterRectangle" />
-            </children>
-        </component>
-
-        <component id="poolWaterNodeD">
-            <transformation>
-                <translate x="5" y="2.5" z="0" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" />
+            <texture id="waterTex" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="poolWaterRectangle" />
             </children>
