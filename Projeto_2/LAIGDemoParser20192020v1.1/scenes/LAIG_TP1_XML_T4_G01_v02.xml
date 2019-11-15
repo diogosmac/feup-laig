@@ -264,45 +264,185 @@
             </keyframe>
         </animation>
 
-        <animation id="flagAnimation">
-            <keyframe instant="1">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="45" />
+        <animation id="floatieAnimation">
+            <keyframe instant="0.5">
+                <translate x="0" y="0" z="-5" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
-            <keyframe instant="2">
-                <translate x="5" y="5" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="90" />
+            <keyframe instant="1">
+                <translate x="0" y="0" z="-10" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="1.2">
+                <translate x="0" y="0" z="-9.8" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1.4" y="1.4" z="0.1" />
+            </keyframe>
+            <keyframe instant="1.4">
+                <translate x="0" y="0" z="-9.8" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="1.9">
+                <translate x="0" y="-2" z="-5" />
+                <rotate angle_x="75" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="2.05">
+                <translate x="0" y="-3" z="-5" />
+                <rotate angle_x="105" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="2.65">
+                <translate x="0" y="-5" z="-10" />
+                <rotate angle_x="180" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="2.825">
+                <translate x="0" y="-5.75" z="-10.3" />
+                <rotate angle_x="180" angle_y="0" angle_z="15" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="3">
-                <translate x="4" y="4" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="135" />
+                <translate x="0" y="-6.5" z="-10" />
+                <rotate angle_x="180" angle_y="0" angle_z="30" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="flagAnimation">
+            <keyframe instant="3">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="3.5">
+                <translate x="0" y="0" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="4">
-                <translate x="5" y="5" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="180" />
+                <translate x="0" y="0" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="4.5">
+                <translate x="0" y="0" z="6" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="5">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="225" />
+                <translate x="0" y="0" z="6" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
-            <keyframe instant="6">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="270" />
+            <keyframe instant="5.5">
+                <translate x="0" y="0" z="9" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
-            <keyframe instant="7">
+            <keyframe instant="6.5">
+                <translate x="0" y="0" z="9" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="ballThrowAnimation">
+            <keyframe instant="6.5">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="315" />
-                <scale x="0.2" y="0.2" z="0.2" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="7.5">
+                <translate x="14.6" y="-13.4" z="10" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="8">
+                <translate x="9.66" y="-9.06" z="13" />
+                <rotate angle_x="180" angle_y="180" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.15">
+                <translate x="8.66" y="-8.06" z="13" />
+                <rotate angle_x="225" angle_y="225" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.4">
+                <translate x="7.25" y="-6.8" z="11" />
+                <rotate angle_x="270" angle_y="270" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.65">
+                <translate x="4.83" y="-4.53" z="6" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.9">
+                <translate x="2.4" y="-2.3" z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.95">
+                <translate x="2.4" y="-2.3" z="0" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1.4" y="1.4" z="0.4" />
+            </keyframe>
+            <keyframe instant="9">
+                <translate x="2.4" y="-2.3" z="0" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9.15">
+                <translate x="1.6" y="-1.6" z="2" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9.35">
+                <translate x="0.8" y="-0.8" z="2" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9.55">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="360" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9.65">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1.4" y="1.4" z="0.4" />
+            </keyframe>
+            <keyframe instant="9.75">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            
+        </animation>
+
+        <animation id="atomiumFallAnimation">
+            <keyframe instant="7.5">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.5">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="-90" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.6">
+                <translate x="-0.7" y="0.7" z="0" />
+                <rotate angle_x="-90" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.8">
+                <translate x="-0.8" y="2.8" z="1.5" />
+                <rotate angle_x="-125" angle_y="-30" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
         </animation>
@@ -377,7 +517,7 @@
         </primitive>
 
         <primitive id="flagPole">
-            <cylinder base="0.1" top="0.1" height="12" slices="8" stacks="5" />
+            <cylinder2 base="0.1" top="0.1" height="12" slices="8" stacks="5" />
         </primitive>
 
         <primitive id="flagFabricSideA">
@@ -428,7 +568,7 @@
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
                 <componentref id="flagNode" />
-                <componentref id="nurbsObjects" />
+                <!-- <componentref id="nurbsObjects" /> -->
             </children>
         </component>
 
@@ -452,26 +592,39 @@
             <transformation>
                 <transformationref id="flagTransf" />
             </transformation>
-            <animationref id="flagAnimation" />
             <materials>
                 <material id="metalMat" />
             </materials>
             <texture id="flagPoleTex" length_s="6" length_t="6" />
             <children>
                 <primitiveref id="flagPole" />
+                <componentref id="flagFabric" />
+                <componentref id="flagTopNode" />
+            </children>
+        </component>
+
+        <component id="flagFabric">
+            <transformation>
+                <translate x="0" y="0" z="3" />
+                <rotate axis="z" angle="45" />
+            </transformation>
+            <animationref id="flagAnimation" />
+            <materials>
+                <material id="flagFabricMat" />
+            </materials>
+            <texture id="none" />
+            <children>
                 <componentref id="flagFabricSideANode" />
                 <componentref id="flagFabricSideBNode" />
-                <componentref id="flagTopNode" />
             </children>
         </component>
 
         <component id="flagFabricSideANode">
             <transformation>
-                <translate x="0" y="0" z="12" />
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
-                <material id="flagFabricMat" />
+                <material id="inherit" />
             </materials>
             <texture id="flagFabricSideATex" length_s="3" length_t="6" />
             <children>
@@ -481,11 +634,10 @@
 
         <component id="flagFabricSideBNode">
             <transformation>
-                <translate x="0" y="0" z="12" />
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
-                <material id="flagFabricMat" />
+                <material id="inherit" />
             </materials>
             <texture id="flagFabricSideBTex" length_s="3" length_t="6" />
             <children>
@@ -554,6 +706,7 @@
                 <rotate axis="x" angle="-45" />
                 <rotate axis="y" angle="-45" />
             </transformation>
+            <animationref id="atomiumFallAnimation" />
             <materials>
                 <material id="inherit" />
             </materials>
@@ -873,6 +1026,7 @@
             <transformation>
                 <translate x="-13" y="5" z="0.4" />
             </transformation>
+            <animationref id="ballThrowAnimation" />
             <materials>
                 <material id="beachBallMat" />
             </materials>
@@ -1369,10 +1523,12 @@
             </children>
         </component>
 
-        <component id="poolBuoyantNode">
+        <component id="poolFloatieNode">
             <transformation>
-                <translate x="2.5" y="2" z="0.0" />
+                <rotate axis="z" angle="180" />
+                <translate x="2.5" y="5" z="10" />
             </transformation>
+            <animationref id="floatieAnimation" />
             <materials>
                 <material id="whiteMaterial" />
             </materials>
@@ -1393,7 +1549,7 @@
             <children>
                 <componentref id="poolWaterNode" />
                 <componentref id="poolSideNode" />
-                <componentref id="poolBuoyantNode" />
+                <componentref id="poolFloatieNode" />
             </children>
         </component>
 
