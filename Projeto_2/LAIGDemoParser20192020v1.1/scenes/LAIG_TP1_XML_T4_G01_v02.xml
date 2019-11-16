@@ -524,19 +524,15 @@
         </primitive>
 
         <primitive id="tentSide">
-            <patch npointsU="3" npointsV="4" npartsU="2" npartsV="2">
-                <controlpoint xx="-2" yy="-2" zz="1" />
-                <controlpoint xx="-2" yy="-1" zz="-2" />
-                <controlpoint xx="-2" yy="1" zz="5" />
-                <controlpoint xx="-2" yy="2" zz="-1" />
-                <controlpoint xx="0" yy="-2" zz="0" />
-                <controlpoint xx="0" yy="-1" zz="-1" />
-                <controlpoint xx="0" yy="1" zz="1.5" />
-                <controlpoint xx="0" yy="2" zz="0" />
-                <controlpoint xx="2" yy="-2" zz="-1" />
-                <controlpoint xx="2" yy="-1" zz="2" />
-                <controlpoint xx="2" yy="1" zz="-5" />
-                <controlpoint xx="2" yy="2" zz="1" />
+            <patch npointsU="2" npointsV="4" npartsU="2" npartsV="2">
+                <controlpoint xx="0" yy="-1" zz="0" />
+                <controlpoint xx="-4/3" yy="-1" zz="0" />
+                <controlpoint xx="-4/3" yy="1" zz="0" />
+                <controlpoint xx="0" yy="1" zz="0" />
+                <controlpoint xx="0" yy="-1" zz="5" />
+                <controlpoint xx="-4/3" yy="-1" zz="5" />
+                <controlpoint xx="-4/3" yy="1" zz="5" />
+                <controlpoint xx="0" yy="1" zz="5" />
             </patch>
         </primitive>
 
@@ -552,19 +548,19 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="parasolGroupNode1" />
+                <!-- <componentref id="parasolGroupNode1" />
                 <componentref id="parasolGroupNode2" />
                 <componentref id="mainPlaneNode" />
                 <componentref id="poolNode" />
                 <componentref id="beachBallNode1" />
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
-                <componentref id="flagNode" />
-                <!-- <componentref id="tentNode" /> -->
+                <componentref id="flagNode" /> -->
+                <componentref id="tentNode" />
             </children>
         </component>
 
-        <!-- <component id="tentNode">
+        <component id="tentNode">
             <transformation>
             </transformation>
             <materials>
@@ -586,7 +582,7 @@
             <children>
                 <primitiveref id="tentSide" />
             </children>
-        </component> -->
+        </component>
 
         <component id="flagNode">
             <transformation>

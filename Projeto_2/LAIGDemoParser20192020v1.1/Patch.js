@@ -19,8 +19,11 @@ class Patch extends CGFobject {
         this.nPartsU = nPartsU;
         this.nPartsV = nPartsV;
         this.controlPoints = controlPoints;
+        this.initBuffers();
+    }
 
-        var surf = new CGFnurbsSurface(this.nPointsU - 1, this.nPointsV - 1, controlPoints);
+    initBuffers() {
+        var surf = new CGFnurbsSurface(this.nPointsU - 1, this.nPointsV - 1, this.controlPoints);
         this.obj = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, surf);
     }
 
