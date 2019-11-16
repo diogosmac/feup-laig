@@ -492,7 +492,7 @@
         </primitive>
 
         <primitive id="flagPole">
-            <cylinder2 base="0.1" top="0.1" height="12" slices="8" stacks="5" />
+            <cylinder base="0.1" top="0.1" height="12" slices="8" stacks="5" />
         </primitive>
 
         <primitive id="flagFabricSideA">
