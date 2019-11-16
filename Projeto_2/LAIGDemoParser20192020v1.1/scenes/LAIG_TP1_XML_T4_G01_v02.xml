@@ -238,32 +238,6 @@
 
     <animations>
 
-        <animation id="testOne">
-            <keyframe instant="10">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="45" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-            <keyframe instant="20">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="0" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-        </animation>
-
-        <animation id="testTwo">
-            <keyframe instant="10">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="45" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-            <keyframe instant="20">
-                <translate x="10" y="5.2" z="345" />
-                <rotate angle_x="0" angle_y="42" angle_z="12" />
-                <scale x="5" y="0" z="-4" />
-            </keyframe>
-        </animation>
-
         <animation id="floatieAnimation">
             <keyframe instant="0.5">
                 <translate x="0" y="0" z="-5" />
