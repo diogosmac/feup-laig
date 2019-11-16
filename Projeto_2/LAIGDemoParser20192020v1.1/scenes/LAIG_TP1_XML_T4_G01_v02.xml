@@ -117,6 +117,7 @@
         <texture id="poolsideTex" file="scenes/images/poolside.jpg" />
         <texture id="flagFabricSideATex" file="scenes/images/flagFabricSideA.png" />
         <texture id="flagFabricSideBTex" file="scenes/images/flagFabricSideB.png" />
+        <texture id="testTexture" file="scenes/images/texture.jpg" />
     </textures>
 
     <materials>
@@ -197,6 +198,12 @@
             <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
             <diffuse r="0.9" g="0.9" b="0.9" a="1.0" />
             <specular r="0.6" g="0.6" b="0.6" a="1.0" />             
+        </material>
+        <material id="tentSideMat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.15" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.5" b="0.0" a="1.0" />
+            <specular r="0.4" g="0.2" b="0.0" a="1.0" />             
         </material>
     </materials>
 
@@ -372,13 +379,19 @@
         </primitive>
 
         <primitive id="tentSide">
-            <patch npointsU="3" npointsV="2" npartsU="2" npartsV="2">
-                <controlpoint xx="" yy="" zz="" />
-                <controlpoint xx="" yy="" zz="" />
-                <controlpoint xx="" yy="" zz="" />
-                <controlpoint xx="" yy="" zz="" />
-                <controlpoint xx="" yy="" zz="" />
-                <controlpoint xx="" yy="" zz="" />
+            <patch npointsU="3" npointsV="4" npartsU="2" npartsV="2">
+                <controlpoint xx="-2" yy="-2" zz="1" />
+                <controlpoint xx="-2" yy="-1" zz="-2" />
+                <controlpoint xx="-2" yy="1" zz="5" />
+                <controlpoint xx="-2" yy="2" zz="-1" />
+                <controlpoint xx="0" yy="-2" zz="0" />
+                <controlpoint xx="0" yy="-1" zz="-1" />
+                <controlpoint xx="0" yy="1" zz="1.5" />
+                <controlpoint xx="0" yy="2" zz="0" />
+                <controlpoint xx="2" yy="-2" zz="-1" />
+                <controlpoint xx="2" yy="-1" zz="2" />
+                <controlpoint xx="2" yy="1" zz="-5" />
+                <controlpoint xx="2" yy="2" zz="1" />
             </patch>
         </primitive>
 
@@ -402,9 +415,33 @@
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
                 <componentref id="flagNode" />
+                <!-- <componentref id="tentNode" /> -->
             </children>
         </component>
 
+        <!-- <component id="tentNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="tentSidesNode" />
+            </children>
+        </component>
+
+        <component id="tentSidesNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="tentSideMat" />
+            </materials>
+            <texture id="testTexture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="tentSide" />
+            </children>
+        </component> -->
 
         <component id="flagNode">
             <transformation>
