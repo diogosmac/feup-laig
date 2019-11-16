@@ -12,9 +12,7 @@
 class Patch extends CGFobject {
 
     constructor(scene, id, nPointsU, nPointsV, nPartsU, nPartsV, controlPoints) {
-
         super(scene);
-
         this.id = id;
         this.nPointsU = nPointsU;
         this.nPointsV = nPointsV;
@@ -24,7 +22,6 @@ class Patch extends CGFobject {
 
         var surf = new CGFnurbsSurface(this.nPointsU - 1, this.nPointsV - 1, controlPoints);
         this.obj = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, surf);
-
     }
 
     display(ls, lt) {

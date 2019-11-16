@@ -9,9 +9,7 @@
 class Plane extends CGFobject {
 
     constructor(scene, id, nPartsU, nPartsV) {
-
         super(scene);
-
         this.id = id;
         this.nPartsU = nPartsU;
         this.nPartsV = nPartsV;
@@ -31,7 +29,6 @@ class Plane extends CGFobject {
 
         var surf = new CGFnurbsSurface(1, 1, points);
         this.obj = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, surf);
-
     }
     
     display(ls, lt) {
