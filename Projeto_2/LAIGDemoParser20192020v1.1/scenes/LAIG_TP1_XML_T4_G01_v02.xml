@@ -524,7 +524,7 @@
         </primitive>
 
         <primitive id="tentSide">
-            <patch npointsU="2" npointsV="4" npartsU="2" npartsV="2">
+            <patch npointsU="2" npointsV="4" npartsU="20" npartsV="20">
                 <controlpoint xx="0" yy="-1" zz="0" />
                 <controlpoint xx="-4/3" yy="-1" zz="0" />
                 <controlpoint xx="-4/3" yy="1" zz="0" />

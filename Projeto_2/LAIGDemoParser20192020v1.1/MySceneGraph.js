@@ -1222,8 +1222,6 @@ class MySceneGraph {
                         var controlPoint = this.parseControlPoint(controlPointNodes[j], "Error parsing control points for patch primitive with ID = " + primitiveId);
                         if (!Array.isArray(controlPoint))
                             return controlPoint;
-
-                        controlPoint.push(1.0);
     
                         u_points.push(controlPoint);
     
@@ -1703,7 +1701,7 @@ class MySceneGraph {
         if (!(zz != null && !isNaN(zz)))
             return "unable to parse zz-coordinate of the " + messageError;
 
-        position.push(...[xx, yy, zz]);
+        position.push(...[xx, yy, zz, 1.0]);
 
         return position;
 
