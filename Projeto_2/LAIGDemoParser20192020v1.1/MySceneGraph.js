@@ -1804,8 +1804,7 @@ class MySceneGraph {
         this.scene.multMatrix(node.transfMatrix);
         if(node.keyframeAnimation != null)
             node.keyframeAnimation.apply();
-
-
+            
         for (var i = 0; i < node.leafs.length; i++) {
             node.leafs[i].display(length_s, length_t);
         }
@@ -1814,9 +1813,11 @@ class MySceneGraph {
             this.displaySceneRecursive(node.childNodes[j], currMaterial, currTexture, length_s, length_t);
         }
 
-        if (currTexture != null)
+        if (currTexture != null) {
             currTexture.unbind();
-
+            currMaterial.setTexture(null);
+        }
+    
         this.scene.popMatrix();
 
     }
