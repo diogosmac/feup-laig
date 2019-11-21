@@ -476,7 +476,7 @@
     <primitives>
 
         <primitive id="mainPlane">
-            <plane npartsU="20" npartsV="20" />
+            <plane npartsU="40" npartsV="40" />
         </primitive>
 
         <primitive id="parasolStick">
