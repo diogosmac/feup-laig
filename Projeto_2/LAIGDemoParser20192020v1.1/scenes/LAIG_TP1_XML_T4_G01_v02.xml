@@ -35,9 +35,17 @@
             <from x="15.5" y="1" z="-15.5" />
             <to x="-25" y="7" z="9" />
         </perspective>
-        <perspective id="floatiePerspective" near="0.1" far="500" angle="45">
+        <perspective id="floaterPerspective" near="0.1" far="500" angle="45">
             <from x="12" y="2" z="-13" />
             <to x="4" y="3.1" z="0" />
+        </perspective>
+        <perspective id="tentPerspective" near="0.1" far="500" angle="45">
+            <from x="-24" y="6" z="0" />
+            <to x="-15" y="4" z="-10" />
+        </perspective>
+        <perspective id="towelPerspective" near="0.1" far="500" angle="45">
+            <from x="20" y="8" z="-30" />
+            <to x="0" y="2" z="-15" />
         </perspective>
     </views>
 
@@ -53,6 +61,22 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
+        </omni>
+
+        <omni id="towelLighting1" enabled="1">
+            <location x="12" y="5" z="-25" w="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
+        </omni>
+        
+        <omni id="towelLighting2" enabled="1">
+            <location x="0" y="5" z="-26" w="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
         </omni>
         
         <spot id="atomiumSpotlight" enabled="0" angle="5" exponent="3">
@@ -117,7 +141,11 @@
         <texture id="poolsideTex" file="scenes/images/poolside.jpg" />
         <texture id="flagFabricSideATex" file="scenes/images/flagFabricSideA.png" />
         <texture id="flagFabricSideBTex" file="scenes/images/flagFabricSideB.png" />
-        <texture id="testTexture" file="scenes/images/texture.jpg" />
+        <texture id="tentTexture" file="scenes/images/tentTexture.jpg" />
+        <texture id="towelStickTexture" file="scenes/images/towelStickTexture.png" />
+        <texture id="towel1Texture" file="scenes/images/towelTex1.jpeg" />
+        <texture id="towel2Texture" file="scenes/images/towelTex2.jpg" />
+        <texture id="towel3Texture" file="scenes/images/towelTex3.jpeg" />
     </textures>
 
     <materials>
@@ -242,7 +270,7 @@
         </transformation>
 
         <transformation id="mainPlaneTransf">
-            <scale x="40" y="40" z="1" />
+            <scale x="55" y="55" z="1" />
             <rotate axis="x" angle="90" />
         </transformation>
 
@@ -255,7 +283,7 @@
 
     <animations>
 
-        <animation id="floatieAnimation">
+        <animation id="floaterAnimation">
             <keyframe instant="0.5">
                 <translate x="0" y="0" z="-5" />
                 <rotate angle_x="0" angle_y="0" angle_z="0" />
@@ -384,37 +412,37 @@
             </keyframe>
             <keyframe instant="8.95">
                 <translate x="2.4" y="-2.3" z="0" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1.4" y="1.4" z="0.4" />
             </keyframe>
             <keyframe instant="9">
                 <translate x="2.4" y="-2.3" z="0" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="9.15">
                 <translate x="1.6" y="-1.6" z="2" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="9.35">
                 <translate x="0.8" y="-0.8" z="2" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="9.55">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="9.65">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1.4" y="1.4" z="0.4" />
             </keyframe>
             <keyframe instant="9.75">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
+                <rotate angle_x="450" angle_y="450" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             
@@ -524,20 +552,140 @@
         </primitive>
 
         <primitive id="tentSide">
-            <patch npointsU="3" npointsV="4" npartsU="2" npartsV="2">
+            <patch npointsU="3" npointsV="2" npartsU="10" npartsV="10">
+                <controlpoint xx="-7" yy="0" zz="8" />
+                <controlpoint xx="-7" yy="0" zz="8" />
+                <controlpoint xx="-1.2" yy="-5.8" zz="5.6" />
+                <controlpoint xx="-1.2" yy="5.8" zz="5.6" />
+                <controlpoint xx="0" yy="-7" zz="0" />
+                <controlpoint xx="0" yy="7" zz="0" />
+            </patch>
+        </primitive>
+
+        <primitive id="towel1SideA">
+            <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10">
                 <controlpoint xx="-2" yy="-2" zz="1" />
                 <controlpoint xx="-2" yy="-1" zz="-2" />
                 <controlpoint xx="-2" yy="1" zz="5" />
-                <controlpoint xx="-2" yy="2" zz="-1" />
+                <controlpoint xx="-2" yy="2" zz="1" />
                 <controlpoint xx="0" yy="-2" zz="0" />
                 <controlpoint xx="0" yy="-1" zz="-1" />
-                <controlpoint xx="0" yy="1" zz="1.5" />
+                <controlpoint xx="0" yy="4" zz="1.5" />
                 <controlpoint xx="0" yy="2" zz="0" />
-                <controlpoint xx="2" yy="-2" zz="-1" />
-                <controlpoint xx="2" yy="-1" zz="2" />
-                <controlpoint xx="2" yy="1" zz="-5" />
-                <controlpoint xx="2" yy="2" zz="1" />
+                <controlpoint xx="4" yy="-2" zz="-1" />
+                <controlpoint xx="3" yy="-1" zz="2" />
+                <controlpoint xx="4" yy="1" zz="-5" />
+                <controlpoint xx="4" yy="2" zz="1" />
             </patch>
+        </primitive>
+
+        <primitive id="towel1SideB">
+            <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10">
+                <controlpoint xx="4" yy="-2" zz="-1" />
+                <controlpoint xx="3" yy="-1" zz="2" />
+                <controlpoint xx="4" yy="1" zz="-5" />
+                <controlpoint xx="4" yy="2" zz="1" />
+                <controlpoint xx="0" yy="-2" zz="0" />
+                <controlpoint xx="0" yy="-1" zz="-1" />
+                <controlpoint xx="0" yy="4" zz="1.5" />
+                <controlpoint xx="0" yy="2" zz="0" />
+                <controlpoint xx="-2" yy="-2" zz="1" />
+                <controlpoint xx="-2" yy="-1" zz="-2" />
+                <controlpoint xx="-2" yy="1" zz="5" />
+                <controlpoint xx="-2" yy="2" zz="1" />
+            </patch>
+        </primitive>
+
+        <primitive id="towel2SideA">
+            <patch npointsU="4" npointsV="5" npartsU="10" npartsV="10">
+                <controlpoint xx="-2" yy="-2" zz="-1" />
+                <controlpoint xx="-2" yy="-1" zz="-2" />
+                <controlpoint xx="-2" yy="0" zz="1" />
+                <controlpoint xx="-2" yy="2" zz="1" />
+                <controlpoint xx="-2" yy="4" zz="1" />
+                <controlpoint xx="0" yy="-1" zz="-1" />
+                <controlpoint xx="3" yy="4" zz="1.5" />
+                <controlpoint xx="0" yy="5" zz="0" />
+                <controlpoint xx="4" yy="-2" zz="-1" />
+                <controlpoint xx="3" yy="-1" zz="2" />
+                <controlpoint xx="6" yy="1" zz="0" />
+                <controlpoint xx="6" yy="5" zz="-2" />
+                <controlpoint xx="6" yy="2" zz="2" />
+                <controlpoint xx="7" yy="3" zz="3" />
+                <controlpoint xx="6" yy="2" zz="1" />
+                <controlpoint xx="7" yy="-2" zz="-3" />
+                <controlpoint xx="7" yy="1" zz="0" />
+                <controlpoint xx="7" yy="-3" zz="1" />
+                <controlpoint xx="7" yy="2" zz="3" />
+                <controlpoint xx="7" yy="2" zz="4" />
+            </patch>
+        </primitive>
+
+        <primitive id="towel2SideB">
+            <patch npointsU="4" npointsV="5" npartsU="10" npartsV="10">
+                <controlpoint xx="7" yy="-2" zz="-3" />
+                <controlpoint xx="7" yy="1" zz="0" />
+                <controlpoint xx="7" yy="-3" zz="1" />
+                <controlpoint xx="7" yy="2" zz="3" />
+                <controlpoint xx="7" yy="2" zz="4" />
+                <controlpoint xx="6" yy="1" zz="0" />
+                <controlpoint xx="6" yy="5" zz="-2" />
+                <controlpoint xx="6" yy="2" zz="2" />
+                <controlpoint xx="7" yy="3" zz="3" />
+                <controlpoint xx="6" yy="2" zz="1" />
+                <controlpoint xx="0" yy="-1" zz="-1" />
+                <controlpoint xx="3" yy="4" zz="1.5" />
+                <controlpoint xx="0" yy="5" zz="0" />
+                <controlpoint xx="4" yy="-2" zz="-1" />
+                <controlpoint xx="3" yy="-1" zz="2" />
+                <controlpoint xx="-2" yy="-2" zz="-1" />
+                <controlpoint xx="-2" yy="-1" zz="-2" />
+                <controlpoint xx="-2" yy="0" zz="1" />
+                <controlpoint xx="-2" yy="2" zz="1" />
+                <controlpoint xx="-2" yy="4" zz="1" />
+            </patch>
+        </primitive>
+
+        <primitive id="towel3SideA">
+            <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10">
+                <controlpoint xx="-1.5" yy="-1.5" zz="0" />
+                <controlpoint xx="-2" yy="-2" zz="2" />
+                <controlpoint xx="-2" yy="2" zz="2" />
+                <controlpoint xx="-1.5" yy="1.5" zz="0" />
+                <controlpoint xx="0" yy="0" zz="3" />
+                <controlpoint xx="0" yy="-6" zz="3" />
+                <controlpoint xx="0" yy="6" zz="1" />
+                <controlpoint xx="0" yy="0" zz="3" />
+                <controlpoint xx="4" yy="-1.5" zz="0" />
+                <controlpoint xx="4" yy="2" zz="2" />
+                <controlpoint xx="5" yy="2" zz="2" />
+                <controlpoint xx="4" yy="1.5" zz="0" />
+            </patch>
+        </primitive>
+
+        <primitive id="towel3SideB">
+            <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10">
+                <controlpoint xx="4" yy="-1.5" zz="0" />
+                <controlpoint xx="4" yy="2" zz="2" />
+                <controlpoint xx="5" yy="2" zz="2" />
+                <controlpoint xx="4" yy="1.5" zz="0" />
+                <controlpoint xx="0" yy="0" zz="3" />
+                <controlpoint xx="0" yy="-6" zz="3" />
+                <controlpoint xx="0" yy="6" zz="1" />
+                <controlpoint xx="0" yy="0" zz="3" />
+                <controlpoint xx="-1.5" yy="-1.5" zz="0" />
+                <controlpoint xx="-2" yy="-2" zz="2" />
+                <controlpoint xx="-2" yy="2" zz="2" />
+                <controlpoint xx="-1.5" yy="1.5" zz="0" />
+            </patch>
+        </primitive>
+
+        <primitive id="towelStick">
+            <cylinder base="0.1" top="0.1" height="6" slices="8" stacks="5" />
+        </primitive>
+
+        <primitive id="towelWire">
+            <cylinder base="0.01" top="0.01" height="19" slices="8" stacks="5" />
         </primitive>
 
     </primitives>
@@ -560,33 +708,203 @@
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
                 <componentref id="flagNode" />
-                <!-- <componentref id="tentNode" /> -->
+                <componentref id="tentNode" />
+                <componentref id="towelsNode" />
             </children>
         </component>
 
-        <!-- <component id="tentNode">
+        <component id="towelsNode">
             <transformation>
+                <translate x="0" y="22" z="0" /> 
             </transformation>
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="tentSidesNode" />
+                <componentref id="towelStructureSticks" />
+                <componentref id="towelStructureWire" />
+                <componentref id="towel1Node" />
+                <componentref id="towel2Node" />
+                <componentref id="towel3Node" />
             </children>
         </component>
 
-        <component id="tentSidesNode">
+        <component id="towelStructureSticks">
             <transformation>
             </transformation>
             <materials>
-                <material id="tentSideMat" />
+                <material id="inherit" />
             </materials>
-            <texture id="testTexture" length_s="1" length_t="1" />
+            <texture id="towelStickTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="towelStick1" />
+                <componentref id="towelStick2" />
+            </children>
+        </component>
+
+        <component id="towelStructureWire">
+            <transformation>
+                <translate x="-2" y="0" z="5.8" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="towelWire" />
+            </children>
+        </component>
+
+        <component id="towelStick1">
+            <transformation>
+                <translate x="-2" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="towelStick" />
+            </children>
+        </component>
+
+        <component id="towelStick2">
+            <transformation>
+                <translate x="17" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="towelStick" />
+            </children>
+        </component>
+
+        <component id="towel1Node">
+            <transformation>
+                <translate x="0.6" y="-0.6" z="4.6" />
+                <rotate axis="z" angle="90" />
+                <rotate axis="y" angle="90" />
+                <scale x="0.6" y="0.6" z="0.6" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="towel1Texture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="towel1SideA" />
+                <primitiveref id="towel1SideB" />
+            </children>
+        </component>
+
+        <component id="towel2Node">
+            <transformation>
+                <translate x="7" y="-0.6" z="5" />
+                <rotate axis="z" angle="90" />
+                <rotate axis="y" angle="90" />
+                <scale x="0.4" y="0.6" z="0.6" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="towel2Texture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="towel2SideA" />
+                <primitiveref id="towel2SideB" />
+            </children>
+        </component>
+
+        <component id="towel3Node">
+            <transformation>
+                <translate x="12" y="-0.85" z="5.45" />
+                <rotate axis="z" angle="90" />
+                <rotate axis="y" angle="150" />
+                <scale x="0.6" y="0.6" z="0.6" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="towel3Texture" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="towel3SideA" />
+                <primitiveref id="towel3SideB" />
+            </children>
+        </component>
+
+        <component id="tentNode">
+            <transformation>
+                <translate x="-12.5" y="15.8" z="0" />
+                <scale x="0.4" y="0.4" z="0.4" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="tentTexture" length_s="1" length_t="1" />
+            <children>
+                <componentref id="tentSidesNode1" />
+                <componentref id="tentSidesNode2" />
+                <componentref id="tentSidesNode3" />
+                <componentref id="tentSidesNode4" />
+            </children>
+        </component>
+
+        <component id="tentSidesNode1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="tentSide" />
             </children>
-        </component> -->
+        </component>
+
+        <component id="tentSidesNode2">
+            <transformation>
+                <translate x="-7" y="7" z="0" />
+                <rotate axis="z" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="tentSide" />
+            </children>
+        </component>
+
+        <component id="tentSidesNode3">
+            <transformation>
+                <translate x="-7" y="-7" z="0" />
+                <rotate axis="z" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="tentSide" />
+            </children>
+        </component>
+
+        <component id="tentSidesNode4">
+            <transformation>
+                <translate x="-14" y="0" z="0" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="tentSide" />
+            </children>
+        </component>
+
 
         <component id="flagNode">
             <transformation>
@@ -1245,12 +1563,12 @@
             </children>
         </component>
 
-        <component id="poolFloatieNode">
+        <component id="poolFloaterNode">
             <transformation>
                 <rotate axis="z" angle="180" />
                 <translate x="2.5" y="5" z="10" />
             </transformation>
-            <animationref id="floatieAnimation" />
+            <animationref id="floaterAnimation" />
             <materials>
                 <material id="whiteMaterial" />
             </materials>
@@ -1271,7 +1589,7 @@
             <children>
                 <componentref id="poolWaterNode" />
                 <componentref id="poolSideNode" />
-                <componentref id="poolFloatieNode" />
+                <componentref id="poolFloaterNode" />
             </children>
         </component>
 

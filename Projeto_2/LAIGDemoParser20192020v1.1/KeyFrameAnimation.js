@@ -83,6 +83,7 @@ class KeyframeAnimation extends Animation {
             mat4.scale(newMatrix, newMatrix, curKeyframe.scaleValues);
         }
         else { // animation didn't end
+
             var segPercentage = this.sumT / this.segmentTime;
 
             // calculate scale values (segment values + anterior keyframe values)
@@ -105,6 +106,7 @@ class KeyframeAnimation extends Animation {
             mat4.rotate(newMatrix, newMatrix, newRotationYValue, [0, 1, 0]);
             mat4.rotate(newMatrix, newMatrix, newRotationZValue, [0, 0, 1]);
             mat4.scale(newMatrix, newMatrix, newScaleValues);
+        
         }
 
         this.animationMatrix = newMatrix;
