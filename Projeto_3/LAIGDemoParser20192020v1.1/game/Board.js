@@ -3,7 +3,8 @@
  */
 class Board extends CGFobject {
     /**
-     * Constructor of the board
+     * Constructor of the class
+     * @param {XMLScene} scene - Reference to the scene object
      */
     constructor(scene) {
         this.scene = scene;
@@ -14,9 +15,24 @@ class Board extends CGFobject {
 
 
     /**
+     * Function that adds a microbe to a tile
+     * @param {Microbe} microbe - Reference to the microbe
+     * @param {int} tileID - Unique ID of the tile
+     */
+    addMicrobeToTile(microbe, tileID) {
+
+    }
+
+
+    getTileByCoords() {
+        
+    }
+
+    /**
      * Function that generates the individual board cells that will interact with mouse events
      */
     generateBoardCells() {
+        let curID = 1;
 
     }
 }

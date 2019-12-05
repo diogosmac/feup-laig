@@ -28,6 +28,12 @@ serialInclude(['../lib/CGF.js',
                'Plane.js',
                'Patch.js',
                'NurbCylinder.js',
+               'Board.js',
+               'GameState.js',
+               'Comunicator.js',
+               'GameMove.js',
+               'GameOrchestrator.js',
+               'GameSequence.js',
 
 main=function()
 {
