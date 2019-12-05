@@ -1,8 +1,8 @@
 /**
- * Comunicator - class that represents the comunicator between the JS code and the Prolog server
+ * Communicator - class that represents the communicator between the JS code and the Prolog server
  * 
  */
-class Comunicator {
+class Communicator {
     // TODO: definir metodos para comunicar com o Prolog e retornar respostas em classes de JS do jogo
 
 

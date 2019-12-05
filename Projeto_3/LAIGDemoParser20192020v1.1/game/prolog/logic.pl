@@ -197,6 +197,30 @@ generateValidPosition(Line, Column, LineOut, ColumnOut) :-
 
 % </cpu move generation>
 
+
+% <user move generation>
+
+% -- Predicate that, using findall() with the findMove() predicate, generates
+% -- all possible moves available to the player, returning them in a list
+% -- (assumes OldLine and OldColumn are valid, that is, that there is a user microbe in that position)
+valid_moves_user(Player, Board, OldLine, OldColumn, ListOfValidMoves) :-
+    findall(OldLine-OldColumn-NewLine-NewColumn,
+            findMoveUser(Player, Board, OldLine,
+                     OldColumn, NewLine, NewColumn),
+            ListOfValidMoves).
+
+% -- Predicate to be used by the User, which generates a possible move
+% -- according to the board state
+% -- Player - the player for which the move is generated
+findMoveUser(Player, Board, OldLine, OldColumn, NewLine, NewColumn) :-
+    generateValidPosition(OldLine, OldColumn, NewLine, NewColumn),
+    once(checkValidMove(MicrobeType, OldLine, OldColumn,
+                    NewLine, NewColumn, Board, _)).
+
+
+% </user move generation>
+
+
 % <cpu move selection>
 
 % -- Predicate to be used by the Computer, that creates all possible

@@ -8,7 +8,7 @@ class GameOrchestrator {
      */
     constructor(scene) {
         this.scene = scene;
-        this.comunicator = new Comunicator();
+        this.communicator = new Communicator();
         this.gameStates = []; // array de game states
     }
 
