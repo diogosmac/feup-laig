@@ -1,7 +1,15 @@
 <lxs>
     <scene root="root" axis_length="1"/>
 
-    <views default="defaultPerspective">
+    <views default="Player1Perspective">
+        <perspective id="Player1Perspective" near="0.1" far="500" angle="45">
+            <from x="10" y="10" z="0" />
+            <to x="0" y="2" z="0" />
+        </perspective>
+        <perspective id="Player2Perspective" near="0.1" far="500" angle="45">
+            <from x="-10" y="10" z="0" />
+            <to x="0" y="2" z="0" />
+        </perspective>
         <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
             <from x="30" y="20" z="-25" />
             <to x="0" y="-2" z="0" />
@@ -9,43 +17,6 @@
         <perspective id="reverseAnglePerspective" near="0.1" far="500" angle="45">
             <from x="-30" y="20" z="25" />
             <to x="0" y="-2" z="0" />
-        </perspective>
-        <perspective id="housePerspective" near="0.1" far="500" angle="45">
-            <from x="5" y="8" z="-25" />
-            <to x="5" y="8" z="0" />
-        </perspective>
-        <ortho id="topDownOrtho" near="0.1" far="500" left="-20" right="20" top="20" bottom="-20">
-            <from x="0" y="40" z="0" />
-            <to x="0" y="0" z="0" />
-            <up x="0.0" y="0.0" z="1.0" />
-        </ortho>
-        <perspective id="flagCloseUpPerspective" near="6" far="500" angle="45">
-            <from x="4" y="3" z="-4" />
-            <to x="-12" y="6" z="12" />
-        </perspective>
-        <perspective id="parasolPerspective" near="0.1" far="500" angle="45">
-            <from x="-25" y="7" z="18" />
-            <to x="0" y="0" z="-10" />
-        </perspective>
-        <perspective id="classicBallPerspective" near="0.1" far="500" angle="45">
-            <from x="-14" y="0.5" z="-7" />
-            <to x="0" y="3" z="9" />
-        </perspective>
-        <perspective id="starBallPerspective" near="0.1" far="500" angle="45">
-            <from x="15.5" y="1" z="-15.5" />
-            <to x="-25" y="7" z="9" />
-        </perspective>
-        <perspective id="floaterPerspective" near="0.1" far="500" angle="45">
-            <from x="12" y="2" z="-13" />
-            <to x="4" y="3.1" z="0" />
-        </perspective>
-        <perspective id="tentPerspective" near="0.1" far="500" angle="45">
-            <from x="-24" y="6" z="0" />
-            <to x="-15" y="4" z="-10" />
-        </perspective>
-        <perspective id="towelPerspective" near="0.1" far="500" angle="45">
-            <from x="20" y="8" z="-30" />
-            <to x="0" y="2" z="-15" />
         </perspective>
     </views>
 
@@ -281,197 +252,7 @@
 
     </transformations>
 
-    <animations>
-
-        <animation id="floaterAnimation">
-            <keyframe instant="0.5">
-                <translate x="0" y="0" z="-5" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="1">
-                <translate x="0" y="0" z="-10" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="1.1">
-                <translate x="0" y="0" z="-9.8" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1.4" y="1.4" z="0.1" />
-            </keyframe>
-            <keyframe instant="1.2">
-                <translate x="0" y="0" z="-9.8" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="1.7">
-                <translate x="0" y="-2" z="-5" />
-                <rotate angle_x="75" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="1.85">
-                <translate x="0" y="-3" z="-5" />
-                <rotate angle_x="105" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="2.45">
-                <translate x="0" y="-5" z="-10" />
-                <rotate angle_x="180" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="2.625">
-                <translate x="0" y="-5.75" z="-10.3" />
-                <rotate angle_x="180" angle_y="0" angle_z="15" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="2.8">
-                <translate x="0" y="-6.5" z="-10" />
-                <rotate angle_x="180" angle_y="0" angle_z="30" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="3">
-                <translate x="0" y="-7.5" z="-10" />
-                <rotate angle_x="180" angle_y="0" angle_z="30" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-        </animation>
-
-        <animation id="flagAnimation">
-            <keyframe instant="3">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="3.5">
-                <translate x="0" y="0" z="3" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="4">
-                <translate x="0" y="0" z="3" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="4.5">
-                <translate x="0" y="0" z="6" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="5">
-                <translate x="0" y="0" z="6" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="5.5">
-                <translate x="0" y="0" z="9" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="6.5">
-                <translate x="0" y="0" z="9" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-        </animation>
-
-        <animation id="ballThrowAnimation">
-            <keyframe instant="7">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="7.5">
-                <translate x="14.6" y="-13.4" z="10" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8">
-                <translate x="9.66" y="-9.06" z="13" />
-                <rotate angle_x="180" angle_y="180" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.15">
-                <translate x="8.66" y="-8.06" z="13" />
-                <rotate angle_x="225" angle_y="225" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.4">
-                <translate x="7.25" y="-6.8" z="11" />
-                <rotate angle_x="270" angle_y="270" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.65">
-                <translate x="4.83" y="-4.53" z="6" />
-                <rotate angle_x="360" angle_y="360" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.9">
-                <translate x="2.4" y="-2.3" z="0" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.95">
-                <translate x="2.4" y="-2.3" z="0" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1.4" y="1.4" z="0.4" />
-            </keyframe>
-            <keyframe instant="9">
-                <translate x="2.4" y="-2.3" z="0" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="9.15">
-                <translate x="1.6" y="-1.6" z="2" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="9.35">
-                <translate x="0.8" y="-0.8" z="2" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="9.55">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="9.65">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1.4" y="1.4" z="0.4" />
-            </keyframe>
-            <keyframe instant="9.75">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="450" angle_y="450" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            
-        </animation>
-
-        <animation id="atomiumFallAnimation">
-            <keyframe instant="7.7">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.7">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x="-90" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="8.8">
-                <translate x="-0.7" y="0.7" z="0" />
-                <rotate angle_x="-90" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-            <keyframe instant="9">
-                <translate x="-0.8" y="2.8" z="1.5" />
-                <rotate angle_x="-125" angle_y="-30" angle_z="0" />
-                <scale x="1" y="1" z="1" />
-            </keyframe>
-        </animation>
-
-    </animations>
+    <animations></animations>
 
     <primitives>
 
@@ -688,6 +469,10 @@
             <cylinder base="0.01" top="0.01" height="19" slices="8" stacks="5" />
         </primitive>
 
+        <primitive id="gameTable">
+            <gametable x="0" y="0" side="6" thickness="0.3" height="2.5" /> 
+        </primitive>
+
     </primitives>
 
     <components>
@@ -710,6 +495,7 @@
                 <componentref id="flagNode" />
                 <componentref id="tentNode" />
                 <componentref id="towelsNode" />
+                <primitiveref id="gameTable" />
             </children>
         </component>
 
@@ -923,10 +709,9 @@
 
         <component id="flagFabric">
             <transformation>
-                <translate x="0" y="0" z="3" />
+                <translate x="0" y="0" z="12" />
                 <rotate axis="z" angle="45" />
             </transformation>
-            <animationref id="flagAnimation" />
             <materials>
                 <material id="flagFabricMat" />
             </materials>
@@ -992,7 +777,8 @@
 
         <component id="atomiumStructureNode">
             <transformation>
-                <translate x="-7" y="-5" z="10" />
+                <scale x="1.4" y="1.4" z="1.4" />
+                <translate x="-7" y="-10" z="10" />
                 <rotate axis="z" angle="-135" />
             </transformation>
             <materials>
@@ -1024,7 +810,6 @@
                 <rotate axis="x" angle="-45" />
                 <rotate axis="y" angle="-45" />
             </transformation>
-            <animationref id="atomiumFallAnimation" />
             <materials>
                 <material id="inherit" />
             </materials>
@@ -1206,8 +991,10 @@
 
         <component id="houseNode">
             <transformation>
-                <rotate axis="z" angle="180" /> 
-                <rotate axis="x" angle="90" /> 
+                <translate x="5" y="-5" z="0" />
+                <rotate axis="z" angle="180" />
+                <rotate axis="x" angle="90" />
+                <scale x="1.4" y="1.4" z="1.4" />
             </transformation>
             <materials>
                 <material id="houseMaterial" />
@@ -1344,7 +1131,6 @@
             <transformation>
                 <translate x="-13" y="5" z="0.4" />
             </transformation>
-            <animationref id="ballThrowAnimation" />
             <materials>
                 <material id="beachBallMat" />
             </materials>
@@ -1565,10 +1351,7 @@
 
         <component id="poolFloaterNode">
             <transformation>
-                <rotate axis="z" angle="180" />
-                <translate x="2.5" y="5" z="10" />
             </transformation>
-            <animationref id="floaterAnimation" />
             <materials>
                 <material id="whiteMaterial" />
             </materials>
@@ -1580,7 +1363,8 @@
 
         <component id="poolNode">
             <transformation>
-                <translate x="5" y="5" z="0.01" />
+                <translate x="20" y="5" z="0.01" />
+                <rotate axis="z" angle="90" />
             </transformation>
             <materials>
                 <material id="poolsideMat" />
