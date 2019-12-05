@@ -111,8 +111,7 @@ print_header_line(_).
 :- consult('utility.pl').
 
 % TODO: adicionar aqui todos os comandos e respostas que se podem fazer ao server
-parse_input(
-
+parse_input().
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).

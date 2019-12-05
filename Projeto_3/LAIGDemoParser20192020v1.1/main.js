@@ -34,6 +34,7 @@ serialInclude(['../lib/CGF.js',
                'GameMove.js',
                'GameOrchestrator.js',
                'GameSequence.js',
+               'MyGameTable.js',
 
 main=function()
 {

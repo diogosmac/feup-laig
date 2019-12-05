@@ -20,7 +20,8 @@ const ALL_PRIMITIVES = [
     'torus',
     'plane',
     'patch',
-    'cylinder2'
+    'cylinder2',
+    'gametable'
 ];
 
 /**
@@ -1274,6 +1275,36 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = obj;
                 primitiveCounter++;
+            
+            }
+
+            else if (primitiveType == 'gametable') {
+
+                var x = this.reader.getFloat(grandChildren[0], 'x');
+                if (!(x != null && !isNaN(x)))
+                    return "unable to parse x position of the primitive coordinates for ID = " + primitiveId;
+
+                var y = this.reader.getFloat(grandChildren[0], 'y');
+                if (!(y != null && !isNaN(y)))
+                    return "unable to parse y position of the primitive coordinates for ID = " + primitiveId;
+
+                var side = this.reader.getFloat(grandChildren[0], 'side');
+                if (!(side != null && !isNaN(side)))
+                    return "unable to parse side dimension of the primitive coordinates for ID = " + primitiveId;
+
+                var thickness = this.reader.getFloat(grandChildren[0], 'thickness');
+                if (!(thickness != null && !isNaN(thickness)))
+                    return "unable to parse thickness dimension of the primitive coordinates for ID = " + primitiveId;
+
+                    var height = this.reader.getFloat(grandChildren[0], 'height');
+                if (!(height != null && !isNaN(height)))
+                    return "unable to parse height dimension of the primitive coordinates for ID = " + primitiveId;
+
+                var obj = new MyGameTable(this.scene, primitiveId, x, y, side, thickness, height);
+
+                this.primitives[primitiveId] = obj;
+                primitiveCounter++;
+
             }
 
         }
