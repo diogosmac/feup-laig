@@ -8,6 +8,15 @@ class Communicator {
 
 
     /**
+     * Method that gets the valid moves for a human user, after he/she selects a microbe to move
+     * @param {int} oldLine - Old line 
+     * @param {int} oldColumn 
+     */
+    getValidMovesUser(oldLine, oldColumn) {
+
+    }
+
+    /**
      * Function that converts a game board into a string, to send to the Prolog server
      * @param {Board} board - Reference to the board object
      */
