@@ -109,9 +109,14 @@ print_header_line(_).
 :- consult('mainCycle.pl').
 :- consult('print.pl').
 :- consult('utility.pl').
+:- consult('test.pl');
 
 % TODO: adicionar aqui todos os comandos e respostas que se podem fazer ao server
-parse_input().
+
+% Valid Moves for User
+parse_input(valid_moves_user(Player, Board, OldLine, OldColumn), ListOfValidMoves) :-
+	tabuleiroTeste(NewBoard),
+	valid_moves_user(Player, NewBoard, OldLine, OldColumn, ListOfValidMoves).
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).

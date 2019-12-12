@@ -4,16 +4,40 @@
  */
 class Communicator {
     // TODO: definir metodos para comunicar com o Prolog e retornar respostas em classes de JS do jogo
-
+    /**
+     * Constructor of the class
+     * @param {GameOrchestrator} orchestrator - Reference to the Game Orchestrator 
+     */
+    constructor(orchestrator) {
+        this.orchestrator = orchestrator;
+    }
 
 
     /**
      * Method that gets the valid moves for a human user, after he/she selects a microbe to move
+     * @param {char} player - Current player
      * @param {int} oldLine - Old line 
-     * @param {int} oldColumn 
+     * @param {int} oldColumn - Old column
+     * @param {Array} board - Current board
      */
-    getValidMovesUser(oldLine, oldColumn) {
+    getValidMovesUser(player, oldLine, oldColumn, board) {
 
+        let boardString = this.getBoardString(board);
+
+        this.orchestrator.requestPending = true;
+
+        let requestString = 'valid_moves_user(' + player + ',' + boardString + ',' + oldLine + ',' + oldColumn + ')';
+        getPrologRequest(requestString, function(data) {
+            let validMovesString = data.target.response;
+            validMovesString = validMovesString.substr(1, validMovesString.length - 2); // removes parentheses
+            validMovesString = validMovesString.split(',');
+            this.validMoves = [];
+            for(let i = 0; i < validMovesString.length; i++) {
+                let move = validMovesString[i].split('-');
+                this.validMoves.push([parseInt(move[0]), parseInt(move[1])]);
+            }
+            this.orchestrator.requestPending = false;
+        });
     }
 
     /**
@@ -23,10 +47,20 @@ class Communicator {
     getBoardString(board) {
         let boardString = '[';
         for(let i = 0; i < board.length; i++) {
-            
+            let boardLine = board[i];
+            let lineString = '';
+            if (i) lineString += ',';
+            lineString += '[';
+            for(let j = 0; j < boardLine.length; j++) {
+                if(j) lineString += ',';
+                lineString += boardLine[j];
+            }
+            lineString += ']';
+            boardString += lineString;
         }
 
-        boardString.concat(']');
+        boardString += ']';
+        return boardString;
     } 
 
     /**
