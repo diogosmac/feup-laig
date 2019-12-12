@@ -214,6 +214,7 @@ valid_moves_user(Player, Board, OldLine, OldColumn, ListOfValidMoves) :-
 % -- Player - the player for which the move is generated
 findMoveUser(Player, Board, OldLine, OldColumn, NewLine, NewColumn) :-
     generateValidPosition(OldLine, OldColumn, NewLine, NewColumn),
+    getMicrobeType(Player, MicrobeType),
     once(checkValidMove(MicrobeType, OldLine, OldColumn,
                     NewLine, NewColumn, Board, _)).
 
