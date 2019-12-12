@@ -103,10 +103,29 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
+:- consult('boardManip.pl').
+:- consult('input.pl').
+:- consult('logic.pl').
+:- consult('mainCycle.pl').
+:- consult('print.pl').
+:- consult('utility.pl').
+:- consult('test.pl').
+
+% TODO: adicionar aqui todos os comandos e respostas que se podem fazer ao server
+
+% Valid Moves for User
+parse_input(valid_moves_user(Player, Board, OldLine, OldColumn), ListOfValidMoves) :-
+	valid_moves_user(Player, Board, OldLine, OldColumn, ListOfValidMoves).
+
+parse_input(game_over(Board), Winner) :-
+	tabuleiroTeste(NewBoard),
+	game_over(NewBoard, Winner), !.
+
+parse_input(game_over(Board), 'no') :- !.
+
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	
