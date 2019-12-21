@@ -112,16 +112,20 @@ print_header_line(_).
 :- consult('test.pl').
 
 % TODO: adicionar aqui todos os comandos e respostas que se podem fazer ao server
-
+% -----------------------
 % Valid Moves for User
 parse_input(valid_moves_user(Player, Board, OldLine, OldColumn), ListOfValidMoves) :-
 	valid_moves_user(Player, Board, OldLine, OldColumn, ListOfValidMoves).
 
-parse_input(game_over(Board), Winner) :-
+% -----------------------
+% Check game over (and calculate winner)
+parse_input(game_over_server(Board, PointsA, PointsB), Winner) :-
 	tabuleiroTeste(NewBoard),
-	game_over(NewBoard, Winner), !.
+	game_over_server(NewBoard, PointsA, PointsB, Winner), !.
 
-parse_input(game_over(Board), 'no') :- !.
+parse_input(game_over_server(Board, PointsA, PointsB), 'no') :- !.
+
+% -----------------------
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).

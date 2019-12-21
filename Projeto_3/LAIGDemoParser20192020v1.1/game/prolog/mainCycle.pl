@@ -103,6 +103,20 @@ game_over(Board, Winner) :-
     pointsB(B),
     declareWinner(A, B, Winner).
 
+% special game over checking function, to use in LAIG 3rd project
+game_over_server(Board, PointsA, PointsB, Winner) :-
+
+    ((getMicrobeType('B', MicrobeB),
+      boardEndCheck(MicrobeB, Board));
+     
+     (getMicrobeType('A', MicrobeA),
+      boardEndCheck(MicrobeA, Board));
+
+      boardEndCheck(' ', Board)),
+    
+    declareWinner(PointsA, PointsB, Winner).
+
+
 % -- Predicate that shows the winner of the game, and resets the game state so that
 % -- a new game may be started
 showWinnerAndReset(Winner) :-
@@ -117,3 +131,10 @@ showWinnerAndReset(Winner) :-
     retractDifficulty.
 
 % </endgame procedures>
+
+
+
+move_user_server(Player, Board, OldLine, OldColumn, NewLine, NewColumn, ListOfChangesAndScore) :-
+    move_server(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChangesAndScore).
+
+% move_cpu_server()

@@ -1199,7 +1199,7 @@
             <materials>
                 <material id="metalMat" />
             </materials>
-            <texture id="parasolMetalTex" length_s="1" length_t="1" />
+            <texture id="parasolMetalTex" length_s="1.5" length_t="1.5" />
             <children>
                 <primitiveref id="parasolBase" />
             </children>

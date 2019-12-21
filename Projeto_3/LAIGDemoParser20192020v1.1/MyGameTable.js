@@ -100,7 +100,6 @@ class MyGameTable extends CGFobject {
         this.makeBottom();
         this.makeSide();
         this.makeLeg();
-        console.log(this.leg);
     }
 
     display(ls, lt) {

@@ -109,19 +109,60 @@ print_header_line(_).
 :- consult('mainCycle.pl').
 :- consult('print.pl').
 :- consult('utility.pl').
-:- consult('test.pl');
+:- consult('test.pl').
 
 % TODO: adicionar aqui todos os comandos e respostas que se podem fazer ao server
-
+% -----------------------
 % Valid Moves for User
 parse_input(valid_moves_user(Player, Board, OldLine, OldColumn), ListOfValidMoves) :-
-	tabuleiroTeste(NewBoard),
-	valid_moves_user(Player, NewBoard, OldLine, OldColumn, ListOfValidMoves).
+	parse_board(Board, ParsedBoard),
+	valid_moves_user(Player, ParsedBoard, OldLine, OldColumn, ListOfValidMoves).
 
+% -----------------------
+% Check game over (and calculate winner)
+parse_input(game_over_server(Board, PointsA, PointsB), Winner) :-
+	parse_board(Board, ParsedBoard),
+	game_over_server(ParsedBoard, PointsA, PointsB, Winner), 
+	!.
+
+parse_input(game_over_server(Board, PointsA, PointsB), 'no') :- !.
+
+% -----------------------
+% Check existence of valid moves for user (if there is not, pass the turn)
+parse_input(valid_moves(Player, Board), ListOfValidMoves) :-
+	parse_board(Board, ParsedBoard),
+	valid_moves(Player, ParsedBoard, ListOfValidMoves).
+	
+% -----------------------
+% User move
+parse_input(move_user_server(Player, Board, OldLine, OldColumn, NewLine, NewColumn), ListOfChangesAndScore) :-
+	parse_board(Board, ParsedBoard),
+	move_user_server(Player, ParsedBoard, OldLine, OldColumn, NewLine, NewColumn, ListOfChangesAndScore),
+	!.
+
+parse_input(move_user_server(Player, Board, OldLine, OldColumn, NewLine, NewColumn), 'invalid') :- !.
+
+% -----------------------
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
 
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	
+
+% -----------------------
+% helper function to parse the board
+
+parse_board([], []).
+
+parse_board([Line | Rest], [NewLine | NewRest]) :-
+	parse_board_line(Line, NewLine),
+	parse_board(Rest, NewRest).
+
+parse_board_line([], []).
+
+parse_board_line([empty | Rest], [' ' | NewRest]) :-
+	parse_board_line(Rest, NewRest), !.
+
+parse_board_line([AnyOtherChar | Rest], [AnyOtherChar | NewRest]) :-
+	parse_board_line(Rest, NewRest), !.

@@ -8,7 +8,7 @@ class GameOrchestrator {
      */
     constructor(scene) {
         this.scene = scene;
-        this.communicator = new Communicator();
+        this.communicator = new Communicator(this);
         this.gameStates = []; // array de game states
         this.requestPending = false; // flag to indicate if a request is pending or not
 
