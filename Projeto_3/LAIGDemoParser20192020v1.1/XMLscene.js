@@ -41,9 +41,10 @@ class XMLscene extends CGFscene {
         this.lastT = 0; // aux variable in order to calculate time increments
         this.deltaT = 0; // time increments
 
-        this.rttTexture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        // --------------------------
+        // game related
 
-        this.secCameraObject = new MySecurityCamera(this);
+        this.gameOrchestrator = new GameOrchestrator();
     }
 
     /**
@@ -123,7 +124,6 @@ class XMLscene extends CGFscene {
                 this.graph.animateNodes(this.deltaT);
             }
         }
-        this.secCameraObject.update(t);
         this.checkKeys();
     }
 
@@ -226,12 +226,6 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
-        this.rttTexture.attachToFrameBuffer();
-        this.render(this.securityCamera);
-        this.rttTexture.detachFromFrameBuffer();
         this.render(this.normalCamera);
-        this.gl.disable(this.gl.DEPTH_TEST);
-        this.secCameraObject.display();
-        this.gl.enable(this.gl.DEPTH_TEST);
     }
 }

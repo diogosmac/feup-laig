@@ -37,6 +37,18 @@
 				// Make Request
 				getPrologRequest(requestString, handleReply);
 			}
+
+			function gassedUpXeggy(data) {
+				let validMovesString = data.target.response;
+				validMovesString = validMovesString.substr(1, validMovesString.length - 2); // removes parentheses
+				validMovesString = validMovesString.split(',');
+				let validMoves = [];
+				for (let i = 0; i < validMovesString.length; i++) {
+					let move = validMovesString[i].split('-');
+					validMoves.push([parseInt(move[0]), parseInt(move[1])]);
+				}
+				console.log(validMoves);
+			}
 			
 			//Handle the Reply
 			function handleReply(data){

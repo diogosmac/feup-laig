@@ -1,6 +1,5 @@
 :- consult('input.pl').
 :- use_module(library(random)).
-:- use_module(library(lists)).
 
 % <move execution>
 
@@ -18,44 +17,6 @@ move(Player, OldLine, OldColumn, NewLine, NewColumn, Board, NewBoard) :-
     playMicrobe(NewLine, NewColumn, MicrobeType, Board, BoardOut),
     handleIsAdjacent(IsAdjacent, OldLine, OldColumn, BoardOut, BoardOut2),
     contaminateAdjacent(Player, NewLine, NewColumn, BoardOut2, NewBoard).
-
-
-% move function to be used in the Prolog server, that returns array of changes instead of new board (also returns score)
-move_server(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChangesAndScore) :-
-    getMicrobeType(Player, MicrobeType),
-    checkValidMove(MicrobeType, OldLine, OldColumn, NewLine, NewColumn, Board, IsAdjacent),
-    getListOfChanges(IsAdjacent, MicrobeType, Board, movement(OldLine, OldColumn, NewLine, NewColumn), ListOfChanges),
-    playMicrobe(NewLine, NewColumn, MicrobeType, Board, BoardOut),
-    handleIsAdjacent(IsAdjacent, OldLine, OldColumn, BoardOut, BoardOut2),
-    contaminateAdjacent(Player, NewLine, NewColumn, BoardOut2, NewBoard),
-    updatePoints(NewBoard, 0, 0, PointsA, PointsB),
-    append(ListOfChanges, [['score', PointsA, PointsB]], ListOfChangesAndScore).
-
-
-getListOfChanges('no', MicrobeType, Board, movement(OldLine, OldColumn, NewLine, NewColumn), [['move', OldLine, OldColumn, NewLine, NewColumn] | Rest]) :-
-    getContaminateChanges(MicrobeType, Board, NewLine, NewColumn, Rest).
-
-getListOfChanges('yes', MicrobeType, Board, movement(OldLine, OldColumn, NewLine, NewColumn), [['new', NewLine, NewColumn] | Rest]) :-
-    getContaminateChanges(MicrobeType, Board, NewLine, NewColumn, Rest).
-
-getContaminateChanges(MicrobeType, Board, Line, Column, ListOfContaminationChanges) :-
-    AuxLine1 is Line - 1, AuxCol1 is Column - 1, getContChange(MicrobeType, AuxLine1, AuxCol1, Board, [], List1),
-    AuxLine2 is Line - 1, AuxCol2 is Column, getContChange(MicrobeType, AuxLine2, AuxCol2, Board, List1, List2),
-    AuxLine3 is Line - 1, AuxCol3 is Column + 1, getContChange(MicrobeType, AuxLine3, AuxCol3, Board, List2, List3),
-    AuxLine4 is Line, AuxCol4 is Column - 1, getContChange(MicrobeType, AuxLine4, AuxCol4, Board, List3, List4),
-    AuxLine5 is Line, AuxCol5 is Column + 1, getContChange(MicrobeType, AuxLine5, AuxCol5, Board, List4, List5),
-    AuxLine6 is Line + 1, AuxCol6 is Column - 1, getContChange(MicrobeType, AuxLine6, AuxCol6, Board, List5, List6),
-    AuxLine7 is Line + 1, AuxCol7 is Column, getContChange(MicrobeType, AuxLine7, AuxCol7, Board, List6, List7),
-    AuxLine8 is Line + 1, AuxCol8 is Column + 1, getContChange(MicrobeType, AuxLine8, AuxCol8, Board, List7, ListOfContaminationChanges).
-
-getContChange(MicrobeType, Line, Column, Board, List, [['cont', Line, Column] | List]) :-
-    Line > 0, Line < 8,
-    Column > 0, Column < 8,
-    returnMicrobeInPos(Line, Column, Board, Microbe),
-    Microbe \= MicrobeType, Microbe \= ' ', !.
-
-% -- -- Case where the position will not be contaminated
-getContChange(_, _, _, Board, List, List).
 
 % -- Predicate that distinguishes moves to adjacent positions, for the application of the special
 % -- rules for this kind of moves
