@@ -3,7 +3,6 @@
  * 
  */
 class Communicator {
-    // TODO: definir metodos para comunicar com o Prolog e retornar respostas em classes de JS do jogo
     /**
      * Constructor of the class
      * @param {GameOrchestrator} orchestrator - Reference to the Game Orchestrator 
