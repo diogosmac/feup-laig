@@ -204,6 +204,14 @@
             <diffuse r="1.0" g="0.5" b="0.0" a="1.0" />
             <specular r="0.4" g="0.2" b="0.0" a="1.0" />             
         </material>
+
+        <material id="tableMat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.15" b="0.0" a="1.0" />
+            <diffuse r="0.4" g="0.2" b="0.0" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.0" a="1.0" />             
+        </material>
+
     </materials>
 
     <transformations>
@@ -495,6 +503,18 @@
                 <componentref id="flagNode" />
                 <componentref id="tentNode" />
                 <componentref id="towelsNode" />
+                <componentref id="gameTableNode" />
+            </children>
+        </component>
+
+        <component id="gameTableNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="tableMat" />
+            </materials>
+            <texture id="none" />
+            <children>
                 <primitiveref id="gameTable" />
             </children>
         </component>
