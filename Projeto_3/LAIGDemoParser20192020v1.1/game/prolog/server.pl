@@ -143,6 +143,12 @@ parse_input(move_user_server(Player, Board, OldLine, OldColumn, NewLine, NewColu
 parse_input(move_user_server(Player, Board, OldLine, OldColumn, NewLine, NewColumn), 'invalid') :- !.
 
 % -----------------------
+% CPU move
+parse_input(move_cpu_server(Player, Board, Difficulty), ListOfChangesAndScore) :-
+	parse_board(Board, ParsedBoard),
+	move_cpu_server(Player, ParsedBoard, Difficulty, ListOfChangesAndScore).
+
+% -----------------------
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).

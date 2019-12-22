@@ -10,13 +10,6 @@ class Communicator {
      */
     constructor(orchestrator) {
         this.orchestrator = orchestrator;
-
-        // TODO: ver onde guardar, ou aqui ou no orchestrator
-        this.validMoves = [];
-        this.winner;
-
-        this.moveUser('A', [['a', 'a', 'a'], ['b', 'empty', 'empty'], ['b', 'b', 'empty']], 1, 1, 2, 2);
-        // this.quit();
     }
 
 
@@ -65,6 +58,38 @@ class Communicator {
 
         let requestString = 'move_user_server(\'' + player + '\',' + boardString + ',' + oldLine + ',' + oldColumn + ',' + newLine + ',' + newColumn + ')';
         this.getPrologRequest(requestString, function(data) {
+            let responseString = data.target.response;
+            if(responseString == 'invalid')
+                this.orchestrator.moveResults = responseString;
+            else
+                this.orchestrator.moveResults = this.parseMoveResults(responseString);
+
+            console.log(this.orchestrator.moveResults);
+
+            this.orchestrator.requestPending = false;
+        });
+    }
+
+
+    /**
+     * Method that lets the CPU make a move, by moving a microbe
+     * @param {char} player - player making the move
+     * @param {Array} board - current board
+     * @param {int} difficulty - difficulty level of the CPU AI
+     */
+    moveCPU(player, board, difficulty) {
+        let boardString = this.getBoardString(board);
+
+        this.orchestrator.requestPending = true;
+
+        let requestString = 'move_cpu_server(\'' + player + '\',' + boardString + ',' + difficulty + ')';
+        this.getPrologRequest(requestString, function(data) {
+            let responseString = data.target.response;
+            if(responseString == 'no moves')
+                this.orchestrator.moveResults = responseString;
+            else
+                this.orchestrator.moveResults = this.parseMoveResults(responseString);
+
             this.orchestrator.requestPending = false;
         });
     }
@@ -83,7 +108,7 @@ class Communicator {
 
         let requestString = 'game_over_server(' + boardString + ',' + pointsA + ',' + pointsB + ')';
         this.getPrologRequest(requestString, function(data) {
-            this.winner = data.target.response;
+            this.orchestrator.winner = data.target.response;
             this.orchestrator.requestPending = false;
         });
     }
@@ -104,14 +129,14 @@ class Communicator {
         let requestString = 'valid_moves_user(\'' + player + '\',' + boardString + ',' + oldLine + ',' + oldColumn + ')';
         this.getPrologRequest(requestString, function(data) {
             let validMovesString = data.target.response;
-            this.validMoves = [];
+            this.orchestrator.validMoves = [];
             if(validMovesString != '[]') {
                 validMovesString = validMovesString.substr(1, validMovesString.length - 2); // removes parentheses
                 validMovesString = validMovesString.split(',');
 
                 for(let i = 0; i < validMovesString.length; i++) {
                     let move = validMovesString[i].split('-');
-                    this.validMoves.push([parseInt(move[0]), parseInt(move[1])]);
+                    this.orchestrator.validMoves.push([parseInt(move[0]), parseInt(move[1])]);
                 }
             }
 
@@ -121,8 +146,35 @@ class Communicator {
 
 
     /**
+     * Auxiliary method that receives a string containing the results of a move, and returns an array with the same information
+     * @param {string} moveResultsString - string containing the move results
+     * @return Array containing the parsed move results
+     */
+    parseMoveResults(moveResultsString) {
+        let moveResults = [];
+        moveResultsString = moveResultsString.substr(1, moveResultsString.length - 2); // removes parentheses
+        moveResultsString = moveResultsString.split('],');
+        
+        for(let i = 0; i < moveResultsString.length; i++) {
+            moveResultsString[i] = moveResultsString[i].substr(1, moveResultsString[i].length - 1);
+            if(moveResultsString[i][moveResultsString[i].length - 1] == ']')
+                moveResultsString[i] = moveResultsString[i].substr(0, moveResultsString[i].length - 1);
+
+            let result = moveResultsString[i].split(',');
+            let resultArray = [result[0]];
+            for(let j = 1; j < result.length; j++) {
+                resultArray.push(parseInt(result[j]));
+            }
+            moveResults.push(resultArray);
+        }
+        return moveResults;
+    }
+
+
+    /**
      * Function that converts a game board into a string, to send to the Prolog server
      * @param {Board} board - Reference to the board object
+     * @return The board string
      */
     getBoardString(board) {
         let boardString = '[';

@@ -13,6 +13,8 @@ class GameOrchestrator {
         this.requestPending = false; // flag to indicate if a request is pending or not
 
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
+        this.winner = 'no'; // variable that will contain the winner of the game
+        this.moveResults = []; // array that will contain the consequences/results of each move
     }
 
     /**

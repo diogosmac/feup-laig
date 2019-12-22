@@ -137,4 +137,11 @@ showWinnerAndReset(Winner) :-
 move_user_server(Player, Board, OldLine, OldColumn, NewLine, NewColumn, ListOfChangesAndScore) :-
     move_server(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChangesAndScore).
 
-% move_cpu_server()
+move_cpu_server(Player, Board, Dif, ListOfChangesAndScore) :-
+    choose_move(Dif, Player, Board, movement(OldLine, OldColumn, NewLine, NewColumn)),
+    move_cpu_server_helper(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChangesAndScore).
+
+move_cpu_server_helper(Player, 0, 0, 0, 0, Board, 'no moves').
+
+move_cpu_server_helper(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChangesAndScore) :-
+    move_server(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChangesAndScore), !.
