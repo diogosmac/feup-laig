@@ -483,6 +483,13 @@
 
     </primitives>
 
+    <!-- NEW SECTION FOR THE GAME OBJECTS/ENTITIES -->
+    <templates>
+        <board />
+    </templates>
+
+
+
     <components>
         <component id="root">
             <transformation>

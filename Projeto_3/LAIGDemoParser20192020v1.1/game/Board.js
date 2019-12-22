@@ -2,11 +2,15 @@
  * Board - class that represents the board of the game
  */
 class Board {
-    constructor(orchestrator, tile1Mat, tile2Mat, selectedTile, ) {
+    /**
+     * Constructor of the class
+     * @param {GameOrchestrator} orchestrator - reference to the game orchestrator
+     * @param {TileTemplate} tileTemplate - reference to the current tile template
+     */
+    constructor(orchestrator, tileTemplate) {
         this.orchestrator = orchestrator;
-        this.board = new Plane(scene, "board", 30, 30); // board that is going to be displayed to the user
+        this.tileTemplate = tileTemplate;
         this.boardCells = this.generateBoardCells(); // individual board cells that interact with mouse events
-        // this.highlightCell = 
     }
 
 

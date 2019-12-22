@@ -10,7 +10,8 @@ var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var ANIMATIONS_INDEX = 7
 var PRIMITIVES_INDEX = 8;
-var COMPONENTS_INDEX = 9;
+var TEMPLATES_INDEX = 9;
+var COMPONENTS_INDEX = 10;
 
 const ALL_PRIMITIVES = [
     'rectangle',
@@ -47,6 +48,7 @@ class MySceneGraph {
         this.textures = [];
         this.transformations = [];
         this.animations = [];
+        this.templates = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -221,6 +223,20 @@ class MySceneGraph {
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
+
+
+        // <templates>
+        if ((index = nodeNames.indexOf("templates")) == -1)
+            return "tag <templates> missing";
+        else {
+            if (index != TEMPLATES_INDEX)
+                this.onXMLMinorError("tag <templates> out of order");
+
+            // Parse primitives block
+            if ((error = this.parseTemplates(nodes[index])) != null)
+                return error;
+        }
+
 
         // <components>
         if ((index = nodeNames.indexOf("components")) == -1)
@@ -1316,6 +1332,43 @@ class MySceneGraph {
         this.log("Parsed primitives");
         return null;
     }
+
+
+    /**
+     * Parses the <templates> block.
+     * @param {templates block element} templatesNode
+     */
+    parseTemplates(templatesNode) {
+        
+        var children = templatesNode.children;
+
+        var grandChildren = [];
+
+        // Any number of template.
+        for (var i = 0; i < children.length; i++) {
+
+            // Specifications for the current template.
+            var templateType = children[i].nodeName;
+
+            var currentTemplate;
+
+            // Retrieves the primitive coordinates.
+
+            // For the board template
+            if (templateType == 'board') {
+                
+
+                // currentTemplate = new Board(this.scene, primitiveId, x1, x2, y1, y2);
+            }
+
+            // else if (...)
+
+            this.templates[templateType] = currentTemplate;
+        }
+
+        this.log("Parsed templates");
+        return null;
+    } 
 
   /**
    * Parses the <components> block.
