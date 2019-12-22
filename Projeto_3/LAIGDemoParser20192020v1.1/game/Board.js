@@ -2,12 +2,8 @@
  * Board - class that represents the board of the game
  */
 class Board {
-    /**
-     * Constructor of the class
-     * @param {XMLScene} scene - Reference to the scene object
-     */
-    constructor(scene, tile1, tile2, selectedTile) {
-        this.scene = scene;
+    constructor(orchestrator, tile1Mat, tile2Mat, selectedTile, ) {
+        this.orchestrator = orchestrator;
         this.board = new Plane(scene, "board", 30, 30); // board that is going to be displayed to the user
         this.boardCells = this.generateBoardCells(); // individual board cells that interact with mouse events
         // this.highlightCell = 
