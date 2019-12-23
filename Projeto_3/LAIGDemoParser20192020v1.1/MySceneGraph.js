@@ -10,7 +10,8 @@ var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var ANIMATIONS_INDEX = 7
 var PRIMITIVES_INDEX = 8;
-var COMPONENTS_INDEX = 9;
+var TEMPLATES_INDEX = 9;
+var COMPONENTS_INDEX = 10;
 
 const ALL_PRIMITIVES = [
     'rectangle',
@@ -21,7 +22,9 @@ const ALL_PRIMITIVES = [
     'plane',
     'patch',
     'cylinder2',
-    'gametable'
+    'gametable',
+    'nurbscube',
+    'rectangleXZ'
 ];
 
 /**
@@ -47,6 +50,7 @@ class MySceneGraph {
         this.textures = [];
         this.transformations = [];
         this.animations = [];
+        this.templates = [];
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -221,6 +225,20 @@ class MySceneGraph {
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
+
+
+        // <templates>
+        if ((index = nodeNames.indexOf("templates")) == -1)
+            return "tag <templates> missing";
+        else {
+            if (index != TEMPLATES_INDEX)
+                this.onXMLMinorError("tag <templates> out of order");
+
+            // Parse primitives block
+            if ((error = this.parseTemplates(nodes[index])) != null)
+                return error;
+        }
+
 
         // <components>
         if ((index = nodeNames.indexOf("components")) == -1)
@@ -1304,7 +1322,48 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = obj;
                 primitiveCounter++;
+            }
 
+            else if (primitiveType == "nurbscube") {
+                var side = this.reader.getFloat(grandChildren[0], 'side');
+                if (!(side != null && !isNaN(side) && side > 0))
+                    return "unable to parse side of the primitive coordinates for ID = " + primitiveId;
+
+                var thickness = this.reader.getFloat(grandChildren[0], 'thickness');
+                if (!(thickness != null && !isNaN(thickness) && thickness > 0))
+                    return "unable to parse thickness of the primitive coordinates for ID = " + primitiveId;
+
+                var obj = new MyNurbsCube(this.scene, primitiveId, side, thickness);
+
+                this.primitives[primitiveId] = obj;
+                primitiveCounter++;
+            }
+
+            else if (primitiveType == "rectangleXZ") {
+                    // x1
+                    var x1 = this.reader.getFloat(grandChildren[0], 'x1');
+                    if (!(x1 != null && !isNaN(x1)))
+                        return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
+    
+                    // y1
+                    var y1 = this.reader.getFloat(grandChildren[0], 'y1');
+                    if (!(y1 != null && !isNaN(y1)))
+                        return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
+    
+                    // x2
+                    var x2 = this.reader.getFloat(grandChildren[0], 'x2');
+                    if (!(x2 != null && !isNaN(x2) && x2 > x1))
+                        return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
+    
+                    // y2
+                    var y2 = this.reader.getFloat(grandChildren[0], 'y2');
+                    if (!(y2 != null && !isNaN(y2) && y2 > y1))
+                        return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
+    
+                    var rect = new MyRectangleXZ(this.scene, primitiveId, x1, x2, y1, y2);
+    
+                    this.primitives[primitiveId] = rect;
+                    primitiveCounter++;
             }
 
         }
@@ -1316,6 +1375,119 @@ class MySceneGraph {
         this.log("Parsed primitives");
         return null;
     }
+
+
+    /**
+     * Parses the <templates> block.
+     * @param {templates block element} templatesNode
+     */
+    parseTemplates(templatesNode) {
+        
+        var children = templatesNode.children;
+
+        var grandChildren = [];
+
+        // Any number of template.
+        for (var i = 0; i < children.length; i++) {
+
+            // Specifications for the current template.
+            var templateType = children[i].nodeName;
+
+            var currentTemplate;
+
+            // Retrieves the primitive coordinates.
+
+            // For the board template
+            if (templateType == 'board') {
+                var boardGeometry = this.reader.getString(children[i], 'boardGeometry');
+                if (!(boardGeometry != null && this.primitives[boardGeometry] != null))
+                    return "unable to parse boardGeometry for template " + templateType;
+
+                boardGeometry = this.primitives[boardGeometry];
+
+                var boardMaterial = this.reader.getString(children[i], 'boardMaterial');
+                if (!(boardMaterial != null && this.materials[boardMaterial] != null))
+                    return "unable to parse boardMaterial for template " + templateType;
+
+                boardMaterial = this.materials[boardMaterial];
+
+                var boardTexture = this.reader.getString(children[i], 'boardTexture');
+                if (!(boardTexture != null && (boardTexture == "none" || (boardTexture != "none" && this.textures[boardTexture] != null))))
+                    return "unable to parse boardTexture for template " + templateType;
+                
+                if(boardTexture == "none")
+                    boardTexture = null;
+                else    
+                    boardTexture = this.textures[boardTexture];
+
+
+                var tileGeometry = this.reader.getString(children[i], 'tileGeometry');
+                if (!(tileGeometry != null && this.primitives[tileGeometry] != null))
+                    return "unable to parse tileGeometry for template " + templateType;
+
+                tileGeometry = this.primitives[tileGeometry];
+
+
+                var tile1Mat = this.reader.getString(children[i], 'tile1Mat');
+                if (!(tile1Mat != null && this.materials[tile1Mat] != null))
+                    return "unable to parse tile1Mat for template " + templateType;
+
+                tile1Mat = this.materials[tile1Mat];
+
+
+                var tile1Texture = this.reader.getString(children[i], 'tile1Texture');
+                if (!(tile1Texture != null && (tile1Texture == "none" || (tile1Texture != "none" && this.textures[tile1Texture] != null))))
+                    return "unable to parse tile1Texture for template " + templateType;
+                
+                if(tile1Texture == "none")
+                    tile1Texture = null;
+                else    
+                    tile1Texture = this.textures[tile1Texture];
+
+
+                var tile2Mat = this.reader.getString(children[i], 'tile2Mat');
+                if (!(tile2Mat != null && this.materials[tile2Mat] != null))
+                    return "unable to parse tile2Mat for template " + templateType;
+
+                tile2Mat = this.materials[tile2Mat];
+
+
+                var tile2Texture = this.reader.getString(children[i], 'tile2Texture');
+                if (!(tile2Texture != null && (tile2Texture == "none" || (tile2Texture != "none" && this.textures[tile2Texture] != null))))
+                    return "unable to parse tile2Texture for template " + templateType;
+                
+                if(tile2Texture == "none")
+                    tile2Texture = null;
+                else    
+                    tile2Texture = this.textures[tile2Texture];
+    
+
+                var selectedTileMat = this.reader.getString(children[i], 'selectedTileMat');
+                if (!(selectedTileMat != null && this.materials[selectedTileMat] != null))
+                    return "unable to parse selectedTileMat for template " + templateType;
+
+                selectedTileMat = this.materials[selectedTileMat];
+
+                var highlightedTileMat = this.reader.getString(children[i], 'highlightedTileMat');
+                if (!(highlightedTileMat != null && this.materials[highlightedTileMat] != null))
+                    return "unable to parse highlightedTileMat for template " + templateType;
+
+                highlightedTileMat = this.materials[highlightedTileMat];
+
+
+                currentTemplate = new BoardTemplate(boardGeometry, boardMaterial, boardTexture, tileGeometry,
+                                                    tile1Mat, tile1Texture, tile2Mat, tile2Texture,
+                                                    selectedTileMat, highlightedTileMat);
+            }
+
+            // else if (...)
+
+            this.templates[templateType] = currentTemplate;
+        }
+
+        this.log("Parsed templates");
+        return null;
+    } 
 
   /**
    * Parses the <components> block.

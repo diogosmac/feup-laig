@@ -1,7 +1,7 @@
 /**
  * Microbe - Class that represents a piece of the game
  */
-class Microbe extends GameObject {
+class Microbe {
     /**
      * Constructor of the class
      * @param {XMLScene} scene - Reference to the scene object
