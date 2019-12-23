@@ -82,6 +82,7 @@ class GameOrchestrator {
      */
     display() {
         this.scene.pushMatrix();
+        this.scene.translate(0, 2.5, 0); // to get everything to table height
         this.board.display();
         this.scene.popMatrix();
     }

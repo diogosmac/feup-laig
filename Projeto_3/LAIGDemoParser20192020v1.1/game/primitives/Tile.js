@@ -28,6 +28,17 @@ class Tile {
 
 
     /**
+     * Method to load a new template for the display of the tile
+     * @param {CGFappearance} tileMaterial - material to be used in the tile display
+     * @param {CGFtexture} tileTexture - texture to be used in the tile display
+     */
+    loadTemplate(tileMaterial, tileTexture) {
+        this.tileMaterial = tileMaterial;
+        this.tileTexture = tileTexture;
+    }
+
+
+    /**
      * Function that sets (or unsets) the microbe that is on this tile
      * @param {Microbe} microbe - Reference to the new microbe (if any)
      */
