@@ -22,7 +22,8 @@ const ALL_PRIMITIVES = [
     'plane',
     'patch',
     'cylinder2',
-    'gametable'
+    'gametable',
+    'nurbscube'
 ];
 
 /**
@@ -1320,7 +1321,21 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = obj;
                 primitiveCounter++;
+            }
 
+            else if (primitiveType == "nurbscube") {
+                var side = this.reader.getFloat(grandChildren[0], 'side');
+                if (!(side != null && !isNaN(side) && side > 0))
+                    return "unable to parse side of the primitive coordinates for ID = " + primitiveId;
+
+                var thickness = this.reader.getFloat(grandChildren[0], 'thickness');
+                if (!(thickness != null && !isNaN(thickness) && thickness > 0))
+                    return "unable to parse thickness of the primitive coordinates for ID = " + primitiveId;
+
+                var obj = new MyNurbsCube(this.scene, primitiveId, side, thickness);
+
+                this.primitives[primitiveId] = obj;
+                primitiveCounter++;
             }
 
         }

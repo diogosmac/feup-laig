@@ -28,7 +28,6 @@ class MyGameTable extends CGFobject {
      * Makes the top of the table
      */
     makeTop() {
-
         var points = [
             // U = 0
             [   // V = 0, 1
@@ -44,7 +43,6 @@ class MyGameTable extends CGFobject {
 
         var surf = new CGFnurbsSurface(1, 1, points);
         this.plane = new CGFnurbsObject(this.scene, this.nDivs, this.nDivs, surf);
-
     }
 
 
@@ -52,7 +50,6 @@ class MyGameTable extends CGFobject {
      * Makes the bottom of the table
      */
     makeBottom() {
-
         var points = [
             // U = 0
             [   // V = 0, 1
@@ -68,7 +65,6 @@ class MyGameTable extends CGFobject {
 
         var surf = new CGFnurbsSurface(1, 1, points);
         this.bottom = new CGFnurbsObject(this.scene, this.nDivs, this.nDivs, surf);
-
     }
 
 
@@ -76,7 +72,6 @@ class MyGameTable extends CGFobject {
      * Makes the side of the table
      */
     makeSide() {
-
         var points = [
             // U = 0
             [   // V = 0, 1
@@ -92,7 +87,6 @@ class MyGameTable extends CGFobject {
         var surf = new CGFnurbsSurface(1, 1, points);
         var sideDivs = Math.round((this.thick / this.height) * this.nDivs);
         this.sidePanel = new CGFnurbsObject(this.scene, sideDivs, this.nDivs, surf);
-
     }
 
 
@@ -100,14 +94,12 @@ class MyGameTable extends CGFobject {
      * Makes a leg of the table
      */
     makeLeg() {
-
         var legRadius = this.side / 20;
         var legSlices = 10;
         var legStacks = 20;
         this.leg = new NurbCylinder(
             this.scene, null, legRadius, legRadius, 
             this.height - this.thick, legSlices, legStacks);
-        
     }
 
 

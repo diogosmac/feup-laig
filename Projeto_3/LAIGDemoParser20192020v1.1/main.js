@@ -28,13 +28,15 @@ serialInclude(['../lib/CGF.js',
                'Plane.js',
                'Patch.js',
                'NurbCylinder.js',
+               'MyGameTable.js',
+               'MyNurbsCube.js',
                'game/Board.js',
-            //    'GameState.js',
                'game/Communicator.js',
                'game/GameMove.js',
                'game/GameOrchestrator.js',
                'game/GameSequence.js',
-               'MyGameTable.js',
+               'game/primitives/Tile.js',
+               'game/templates/BoardTemplate.js',
 
 main=function()
 {

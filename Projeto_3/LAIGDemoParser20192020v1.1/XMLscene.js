@@ -44,7 +44,8 @@ class XMLscene extends CGFscene {
         // --------------------------
         // game related
 
-        this.gameOrchestrator = new GameOrchestrator();
+        this.gameOrchestrator = new GameOrchestrator(this);
+        this.setPickEnabled(true);
     }
 
     /**
@@ -53,7 +54,6 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
         this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        this.securityCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
     /**
@@ -151,17 +151,14 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.normalCamera = this.graph.views[this.activeCameraID]; // default camera is activated
-        this.securityCamera = this.graph.views[this.activeSecCameraID]; // default camera is activated
+
+        this.gameOrchestrator.loadTemplates(this.graph.templates); // updates/initiates game templates
 
         this.interface.updateInterface();
     }
 
     changeCamera() {
         this.normalCamera = this.graph.views[this.activeCameraID];
-    }
-
-    changeSecurityCamera() {
-        this.securityCamera = this.graph.views[this.activeSecCameraID];
     }
 
     /**
@@ -214,6 +211,11 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+
+            // Displays everything related to the game (and invoques picking management).
+            this.gameOrchestrator.managePick(this.pickMode, this.pickResults);
+            this.clearPickRegistration();
+            this.gameOrchestrator.display();
         }
 
 
