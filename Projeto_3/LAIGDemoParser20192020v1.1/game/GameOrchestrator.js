@@ -20,8 +20,25 @@ class GameOrchestrator {
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
         this.winner = 'no'; // variable that will contain the winner of the game
         this.moveResults = []; // array that will contain the consequences/results of each move
+
+        this.boardArray = this.initBoard(); // initiates the structure representing the game board
     }
 
+
+    /**
+     * Method that generates the initial game board
+     * @return Array of arrays containing all the board positions
+     */
+    initBoard() {
+        let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
+        return boardArray;
+    }
 
     /**
      * Method that loads new templates to the game
@@ -62,12 +79,21 @@ class GameOrchestrator {
     onObjectSelected(object, uniqueId) {
         if(object instanceof Tile) { // a tile was picked
             this.board.toggleTile(uniqueId);
+
         }
         else {
             // error ?
         }
     }
 
+
+    /**
+     * Method that does all the process necessary to make a move
+     * @param {Array} moveArray - array 
+     */
+    makeMove(moveArray) {
+
+    }
 
     /**
      * Function that contains the main game cycle

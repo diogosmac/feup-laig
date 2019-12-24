@@ -29,7 +29,8 @@ move_server(Player, OldLine, OldColumn, NewLine, NewColumn, Board, ListOfChanges
     handleIsAdjacent(IsAdjacent, OldLine, OldColumn, BoardOut, BoardOut2),
     contaminateAdjacent(Player, NewLine, NewColumn, BoardOut2, NewBoard),
     updatePoints(NewBoard, 0, 0, PointsA, PointsB),
-    append(ListOfChanges, [['score', PointsA, PointsB]], ListOfChangesAndScore).
+    append(ListOfChanges, [['score', PointsA, PointsB]], ListOfChangesAndScoreAux),
+    append([[OldLine-OldColumn-NewLine-NewColumn]], ListOfChangesAndScoreAux, ListOfChangesAndScore).
 
 
 getListOfChanges('no', MicrobeType, Board, movement(OldLine, OldColumn, NewLine, NewColumn), [['move', OldLine, OldColumn, NewLine, NewColumn] | Rest]) :-

@@ -9,6 +9,14 @@ class Communicator {
      */
     constructor(orchestrator) {
         this.orchestrator = orchestrator;
+
+        this.moveUser('A', [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
+        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]], 1, 1, 3, 3);
     }
 
 
@@ -62,8 +70,6 @@ class Communicator {
                 this.orchestrator.moveResults = responseString;
             else
                 this.orchestrator.moveResults = this.parseMoveResults(responseString);
-
-            console.log(this.orchestrator.moveResults);
 
             this.orchestrator.requestPending = false;
         });
@@ -154,8 +160,15 @@ class Communicator {
         moveResultsString = moveResultsString.substr(1, moveResultsString.length - 2); // removes parentheses
         moveResultsString = moveResultsString.split('],');
         
-        for(let i = 0; i < moveResultsString.length; i++) {
+        // Move positions
+        moveResultsString[0] = moveResultsString[0].substr(1, moveResultsString[0].length - 1);
+        let movePositions = moveResultsString[0].split('-');
+        moveResults.push([parseInt(movePositions[0]), parseInt(movePositions[1]), parseInt(movePositions[2]), parseInt(movePositions[3])]);
+
+        // Move results & score
+        for(let i = 1; i < moveResultsString.length; i++) {
             moveResultsString[i] = moveResultsString[i].substr(1, moveResultsString[i].length - 1);
+
             if(moveResultsString[i][moveResultsString[i].length - 1] == ']')
                 moveResultsString[i] = moveResultsString[i].substr(0, moveResultsString[i].length - 1);
 
@@ -166,6 +179,7 @@ class Communicator {
             }
             moveResults.push(resultArray);
         }
+
         return moveResults;
     }
 

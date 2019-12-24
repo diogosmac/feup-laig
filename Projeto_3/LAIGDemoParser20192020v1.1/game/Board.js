@@ -61,13 +61,24 @@ class Board {
 
 
     /**
+     * Method that resets all tiles to their standard state (no selected, no highlighted)
+     */
+    resetTiles() {
+        for(let tile of this.boardTiles) {
+            tile.selected = false;
+            tile.highlighted = false;
+        }
+    }
+
+
+    /**
      * Method that returns the tile that is on the line and column specified in the arguments
      * @param {int} line - tile line
      * @param {int} column - tile column
      * @return the tile in those coordinates
      */
     getTileByCoords(line, column) {
-        let tileID = 7 * line + column;
+        let tileID = 7 * (line - 1) + column;
         return this.boardTiles[tileID - 1];
     }
 
@@ -127,6 +138,9 @@ class Board {
 
             scene.registerForPick(tile.id, tile);
             this.boardTemplate.tileGeometry.display();
+            if(tile.microbe != null)
+                tile.microbe.display();
+
             scene.clearPickRegistration();
             scene.popMatrix();
 
