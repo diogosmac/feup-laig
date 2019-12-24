@@ -10,18 +10,24 @@ class GameOrchestrator {
     constructor(scene, templates) {
         this.scene = scene;
         this.templates = templates;
+        this.boardArray = this.initBoard(); // initiates the structure representing the game board
         
-        this.communicator = new Communicator(this);
-        this.board = new Board(this);
-
         this.gameStates = []; // array de game states
-        this.requestPending = false; // flag to indicate if a request is pending or not
+        
+        this.currentPlayer = 'A'; // variable that stores the current player
+
 
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
         this.winner = 'no'; // variable that will contain the winner of the game
         this.moveResults = []; // array that will contain the consequences/results of each move
-
-        this.boardArray = this.initBoard(); // initiates the structure representing the game board
+        
+        this.checkValidMovesRequestDone = false;
+        this.validMovesRequestDone = false;
+        this.checkGameOverRequestDone = false;
+        this.moveRequestDone = false;
+    
+        this.board = new Board(this);
+        this.communicator = new Communicator(this);
     }
 
 
@@ -37,8 +43,18 @@ class GameOrchestrator {
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
                           [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
+
+        // just to test stuff
+        // let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
+        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        //                   ['empty', 'a', 'b', 'empty', 'a', 'empty', 'empty'],
+        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        //                   ['empty', 'empty', 'b', 'empty', 'a', 'b', 'empty'],
+        //                   ['empty', 'b', 'empty', 'a', 'a', 'empty', 'empty'],
+        //                   [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
         return boardArray;
     }
+
 
     /**
      * Method that loads new templates to the game
@@ -47,6 +63,14 @@ class GameOrchestrator {
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
         this.board.loadTemplate(this.templates['board']);
+    }
+
+
+    /**
+     * Method that changes the turn, alternating the current player
+     */
+    changeTurn() {
+        this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
     }
 
 
@@ -78,8 +102,9 @@ class GameOrchestrator {
      */
     onObjectSelected(object, uniqueId) {
         if(object instanceof Tile) { // a tile was picked
+            this.board.resetTiles();
             this.board.toggleTile(uniqueId);
-
+            this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
         }
         else {
             // error ?
@@ -89,17 +114,21 @@ class GameOrchestrator {
 
     /**
      * Method that does all the process necessary to make a move
-     * @param {Array} moveArray - array 
+     * @param {Array} moveArray - array that 
      */
     makeMove(moveArray) {
 
     }
 
+    
     /**
-     * Function that contains the main game cycle
+     * Function that contains the main game cycle (called regularly by XMLScene's display/render method)
      */
     orchestrate() {
-
+        if(this.validMovesRequestDone) {
+            this.validMovesRequestDone = false;
+            this.board.highlightTilesForMove(this.validMoves);
+        }
     }
 
 

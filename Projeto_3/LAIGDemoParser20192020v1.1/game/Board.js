@@ -59,6 +59,26 @@ class Board {
         this.boardTiles[tileID - 1].selected = this.boardTiles[tileID - 1].selected ? false : true;
     }
 
+    
+    /**
+     * Method that receives an array with coordinate pairs, and highlights all the tiles in those coordinates
+     * @param {Array} validMoves - Array with the valid moves
+     */
+    highlightTilesForMove(validMoves) {
+        for(let validPosition of validMoves) {
+            this.getTileByCoords(validPosition[0], validPosition[1]).highlighted = true;
+        }
+    }
+
+    
+    /**
+     * Method that highlights a certain tile
+     * @param {int} tileID - unique tile ID of the tile
+     */
+    highlightTile(tileID) {
+        this.boardTiles[tileID - 1].highlighted = true;
+    }
+
 
     /**
      * Method that resets all tiles to their standard state (no selected, no highlighted)
@@ -127,6 +147,8 @@ class Board {
             let tile = this.boardTiles[i];
             if(tile.selected)
                 this.boardTemplate.selectedTileMat.apply();
+            else if(tile.highlighted)
+                this.boardTemplate.highlightedTileMat.apply();
             else
                 tile.tileMaterial.apply();
 

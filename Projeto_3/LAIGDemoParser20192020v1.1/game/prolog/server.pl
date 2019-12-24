@@ -111,7 +111,6 @@ print_header_line(_).
 :- consult('utility.pl').
 :- consult('test.pl').
 
-% TODO: adicionar aqui todos os comandos e respostas que se podem fazer ao server
 % -----------------------
 % Valid Moves for User
 parse_input(valid_moves_user(Player, Board, OldLine, OldColumn), ListOfValidMoves) :-

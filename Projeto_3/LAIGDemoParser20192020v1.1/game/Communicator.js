@@ -9,14 +9,6 @@ class Communicator {
      */
     constructor(orchestrator) {
         this.orchestrator = orchestrator;
-
-        this.moveUser('A', [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
-        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]], 1, 1, 3, 3);
     }
 
 
@@ -28,7 +20,7 @@ class Communicator {
     checkValidMoves(player, board) {
         let boardString = this.getBoardString(board);
 
-        this.orchestrator.requestPending = true;
+        this.orchestrator.checkValidMovesRequestDone = false;
 
         let requestString = 'valid_moves(\'' + player + '\',' + boardString + ')';
         this.getPrologRequest(requestString, function(data) {
@@ -44,7 +36,7 @@ class Communicator {
                 }
             }
 
-            this.orchestrator.requestPending = false;
+            this.orchestrator.checkValidMovesRequestDone = true;
         });
     }
 
@@ -61,7 +53,7 @@ class Communicator {
     moveUser(player, board, oldLine, oldColumn, newLine, newColumn) {
         let boardString = this.getBoardString(board);
 
-        this.orchestrator.requestPending = true;
+        this.orchestrator.moveRequestDone = false;
 
         let requestString = 'move_user_server(\'' + player + '\',' + boardString + ',' + oldLine + ',' + oldColumn + ',' + newLine + ',' + newColumn + ')';
         this.getPrologRequest(requestString, function(data) {
@@ -71,7 +63,7 @@ class Communicator {
             else
                 this.orchestrator.moveResults = this.parseMoveResults(responseString);
 
-            this.orchestrator.requestPending = false;
+            this.orchestrator.moveRequestDone = true;
         });
     }
 
@@ -85,7 +77,7 @@ class Communicator {
     moveCPU(player, board, difficulty) {
         let boardString = this.getBoardString(board);
 
-        this.orchestrator.requestPending = true;
+        this.orchestrator.moveRequestDone = false;
 
         let requestString = 'move_cpu_server(\'' + player + '\',' + boardString + ',' + difficulty + ')';
         this.getPrologRequest(requestString, function(data) {
@@ -95,7 +87,7 @@ class Communicator {
             else
                 this.orchestrator.moveResults = this.parseMoveResults(responseString);
 
-            this.orchestrator.requestPending = false;
+            this.orchestrator.moveRequestDone = true;
         });
     }
 
@@ -109,12 +101,12 @@ class Communicator {
     checkGameOver(board, pointsA, pointsB) {
         let boardString = this.getBoardString(board);
 
-        this.orchestrator.requestPending = true;
+        this.orchestrator.checkGameOverRequestDone = false;
 
         let requestString = 'game_over_server(' + boardString + ',' + pointsA + ',' + pointsB + ')';
         this.getPrologRequest(requestString, function(data) {
             this.orchestrator.winner = data.target.response;
-            this.orchestrator.requestPending = false;
+            this.orchestrator.checkGameOverRequestDone = true;
         });
     }
 
@@ -129,7 +121,7 @@ class Communicator {
     getValidMovesUser(player, oldLine, oldColumn, board) {
         let boardString = this.getBoardString(board);
 
-        this.orchestrator.requestPending = true;
+        this.orchestrator.validMovesRequestDone = false;
 
         let requestString = 'valid_moves_user(\'' + player + '\',' + boardString + ',' + oldLine + ',' + oldColumn + ')';
         this.getPrologRequest(requestString, function(data) {
@@ -145,7 +137,7 @@ class Communicator {
                 }
             }
 
-            this.orchestrator.requestPending = false;
+            this.orchestrator.validMovesRequestDone = true;
         });
     }
 
@@ -214,8 +206,6 @@ class Communicator {
      * Method used to close the Prolog server
      */
     quit() {
-        this.orchestrator.requestPending = true;
-
         this.getPrologRequest('quit', function(data) {
             if(data.target.response == 'goodbye') {
                 console.log("Closed server successfully");
@@ -223,8 +213,6 @@ class Communicator {
             else {
                 console.log("Error closing the server");
             }
-
-            this.orchestrator.requestPending = false;
         });
     }
 
