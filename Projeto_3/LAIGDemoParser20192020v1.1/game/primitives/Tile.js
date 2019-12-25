@@ -13,7 +13,7 @@ class Tile {
      * @param {Board} board - Reference to the game board object
      * @param {Microbe} microbe - Reference to the microbe that is on this tile (if any)
      */
-    constructor(orchestrator, id, line, column, x, y, gameboard, microbe = null) {
+    constructor(orchestrator, id, line, column, x, y, gameboard, microbe) {
         this.orchestrator = orchestrator;
         this.id = id;
         this.gameboard = gameboard;
@@ -21,7 +21,7 @@ class Tile {
         this.column = column;
         this.x = x;
         this.y = y;
-        this.microbe = microbe;
+        this.microbe = microbe || null;
         this.selected = false;
         this.highlighted = false;
     }

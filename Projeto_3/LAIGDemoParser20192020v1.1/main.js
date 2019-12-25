@@ -31,6 +31,8 @@ serialInclude(['../lib/CGF.js',
                'MyGameTable.js',
                'MyNurbsCube.js',
                'MyRectangleXZ.js',
+               'CGFOBJModel.js',
+               'CGFResourceReader.js',
                'game/Board.js',
                'game/Communicator.js',
                'game/GameMove.js',
@@ -38,6 +40,7 @@ serialInclude(['../lib/CGF.js',
                'game/GameSequence.js',
                'game/primitives/Tile.js',
                'game/templates/BoardTemplate.js',
+               'game/templates/MicrobeTemplate.js',
 
 main=function()
 {

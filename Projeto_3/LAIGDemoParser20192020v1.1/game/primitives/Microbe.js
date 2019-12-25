@@ -4,17 +4,41 @@
 class Microbe {
     /**
      * Constructor of the class
-     * @param {XMLScene} scene - Reference to the scene object
+     * @param {GameOrchestrator} orchestrator - reference to the game orchestrator
+     * @param {Tile} tile - reference to the board tile the microbe is currently on
      */
-    constructor(scene) {
-        super(scene, true, true);
+    constructor(orchestrator, tile) {
+        this.orchestrator = orchestrator;
+        this.tile = tile;
+    }
+
+    /**
+     * Method to receive a new template from the XML file
+     * @param {MicrobeTemplate} newTemplate - new microbe template
+     */
+    loadTemplate(newTemplate) {
+        this.microbeTemplate = newTemplate;
     }
 
     /**
      * Display method of the microbe object
-     * @param {int} ls - Texture length in S
-     * @param {int} lt - Texture length in T
      */
-    display(ls, lt) {
+    display() {
+        let scene = this.orchestrator.scene;
+
+        scene.pushMatrix();
+
+        this.microbeTemplate.microbeMaterial.apply();
+
+        if(this.microbeTemplate.microbeTexture != null)
+            this.microbeTemplate.microbeTexture.bind();
+        
+        scene.scale(this.microbeTemplate.microbeScale, this.microbeTemplate.microbeScale, this.microbeTemplate.microbeScale);
+        this.microbeTemplate.microbeGeometry.display();
+
+        if(this.microbeTemplate.microbeTexture != null)
+            this.microbeTemplate.microbeTexture.unbind();
+
+        scene.popMatrix();
     }
 }

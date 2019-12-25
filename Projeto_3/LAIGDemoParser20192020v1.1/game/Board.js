@@ -39,6 +39,7 @@ class Board {
      */
     addMicrobeToTile(microbe, tileID) {
         this.boardTiles[tileID - 1].microbe = microbe;
+        microbe.tile = this.boardTiles[tileID - 1];
     }
 
 

@@ -24,7 +24,8 @@ const ALL_PRIMITIVES = [
     'cylinder2',
     'gametable',
     'nurbscube',
-    'rectangleXZ'
+    'rectangleXZ',
+    'objmodel'
 ];
 
 /**
@@ -1366,6 +1367,17 @@ class MySceneGraph {
                     primitiveCounter++;
             }
 
+            else if (primitiveType == 'objmodel') {
+                var url = this.reader.getString(grandChildren[0], 'url');
+                if (!(url != null))
+                    return "unable to parse url for ID = " + primitiveId;
+
+                var obj = new CGFOBJModel(this.scene, url);
+
+                this.primitives[primitiveId] = obj;
+                primitiveCounter++;
+            }
+
         }
 
         if (primitiveCounter < 1)
@@ -1399,6 +1411,7 @@ class MySceneGraph {
 
             // For the board template
             if (templateType == 'board') {
+
                 var boardGeometry = this.reader.getString(children[i], 'boardGeometry');
                 if (!(boardGeometry != null && this.primitives[boardGeometry] != null))
                     return "unable to parse boardGeometry for template " + templateType;
@@ -1480,7 +1493,36 @@ class MySceneGraph {
                                                     selectedTileMat, highlightedTileMat);
             }
 
-            // else if (...)
+            // For the microbe templates
+            else if (templateType == 'microbeA' || templateType == 'microbeB') {
+
+                var microbeGeometry = this.reader.getString(children[i], 'microbeGeometry');
+                if (!(microbeGeometry != null && this.primitives[microbeGeometry] != null))
+                    return "unable to parse microbeGeometry for template " + templateType;
+
+                microbeGeometry = this.primitives[microbeGeometry];
+
+                var microbeMaterial = this.reader.getString(children[i], 'microbeMaterial');
+                if (!(microbeMaterial != null && this.materials[microbeMaterial] != null))
+                    return "unable to parse microbeMaterial for template " + templateType;
+
+                microbeMaterial = this.materials[microbeMaterial];
+
+                var microbeTexture = this.reader.getString(children[i], 'microbeTexture');
+                if (!(microbeTexture != null && (microbeTexture == "none" || (microbeTexture != "none" && this.textures[microbeTexture] != null))))
+                    return "unable to parse microbeTexture for template " + templateType;
+                
+                if(microbeTexture == "none")
+                    microbeTexture = null;
+                else    
+                    microbeTexture = this.textures[microbeTexture];
+
+                var microbeScale = this.reader.getFloat(children[i], 'microbeScale');
+                if (!(microbeScale != null && !isNaN(microbeScale)))
+                    return "unable to parse microbeTexture for template " + templateType;
+
+                currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture, microbeScale);
+            }
 
             this.templates[templateType] = currentTemplate;
         }
