@@ -1372,7 +1372,17 @@ class MySceneGraph {
                 if (!(url != null))
                     return "unable to parse url for ID = " + primitiveId;
 
-                var obj = new CGFOBJModel(this.scene, url);
+                var scale = this.reader.getFloat(grandChildren[0], 'scale');
+                if (!(scale != null && !isNaN(scale)))
+                    return "unable to parse scale for ID = " + primitiveId;
+
+                var rotate = this.reader.getFloat(grandChildren[0], 'rotate');
+                if (!(rotate != null && !isNaN(rotate)))
+                    return "unable to parse rotate for ID = " + primitiveId;
+
+                rotate *= DEGREE_TO_RAD;
+
+                var obj = new MyOBJModel(this.scene, primitiveId, url, scale, rotate);
 
                 this.primitives[primitiveId] = obj;
                 primitiveCounter++;

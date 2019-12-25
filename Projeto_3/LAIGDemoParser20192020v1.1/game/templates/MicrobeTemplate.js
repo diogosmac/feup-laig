@@ -4,15 +4,13 @@
 class MicrobeTemplate {
     /**
      * Constructor of the class
-     * @param {CGFOBJModel} microbeGeometry - object that represents a microbe
-     * @param {CGFappearance} microbeMat - material to be used in the display of the microbe
-     * @param {CGFtexture} microbeTexture - texture to be applied to the microbe 
-     * @param {float} microbeScale - scale factor to be applied in the display of the microbe
+     * @param {CGFobject} microbeGeometry - object that represents a microbe
+     * @param {CGFappearance} microbeMaterial - material to be used in the display of the microbe
+     * @param {CGFtexture} microbeTexture - texture to be applied to the microbe
      */
-    constructor(microbeGeometry, microbeMat, microbeTexture, microbeScale) {
+    constructor(microbeGeometry, microbeMaterial, microbeTexture) {
         this.microbeGeometry = microbeGeometry;
-        this.microbeMat = microbeMat;
+        this.microbeMaterial = microbeMaterial;
         this.microbeTexture = microbeTexture;
-        this.microbeScale = microbeScale;
     }
 }

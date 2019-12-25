@@ -11,9 +11,8 @@ class Tile {
      * @param {int} x - the x coordinate offset of the tile
      * @param {int} y - the y coordinate offset of the tile
      * @param {Board} board - Reference to the game board object
-     * @param {Microbe} microbe - Reference to the microbe that is on this tile (if any)
      */
-    constructor(orchestrator, id, line, column, x, y, gameboard, microbe) {
+    constructor(orchestrator, id, line, column, x, y, gameboard) {
         this.orchestrator = orchestrator;
         this.id = id;
         this.gameboard = gameboard;
@@ -21,7 +20,7 @@ class Tile {
         this.column = column;
         this.x = x;
         this.y = y;
-        this.microbe = microbe || null;
+        this.microbe = null;
         this.selected = false;
         this.highlighted = false;
     }
@@ -39,10 +38,19 @@ class Tile {
 
 
     /**
-     * Function that sets (or unsets) the microbe that is on this tile
-     * @param {Microbe} microbe - Reference to the new microbe (if any)
+     * Method that adds a microbe to a tile
+     * @param {Microbe} microbe - Reference to the microbe
      */
-    setMicrobe(microbe) {
+    addMicrobeToTile(microbe) {
         this.microbe = microbe;
+        microbe.assignMicrobeToTile(this);
+    }
+
+
+    /**
+     * Method that removes a microbe from a tile
+     */
+    removeMicrobeFromTile() {
+        this.microbe = null;
     }
 }

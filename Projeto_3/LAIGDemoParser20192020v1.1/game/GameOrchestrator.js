@@ -26,7 +26,7 @@ class GameOrchestrator {
         this.checkGameOverRequestDone = false;
         this.moveRequestDone = false;
     
-        this.board = new Board(this);
+        this.board = new Board(this, this.boardArray);
         this.communicator = new Communicator(this);
     }
 
@@ -36,22 +36,22 @@ class GameOrchestrator {
      * @return Array of arrays containing all the board positions
      */
     initBoard() {
-        let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
-                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
-
-        // just to test stuff
         // let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
         //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        //                   ['empty', 'a', 'b', 'empty', 'a', 'empty', 'empty'],
         //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        //                   ['empty', 'empty', 'b', 'empty', 'a', 'b', 'empty'],
-        //                   ['empty', 'b', 'empty', 'a', 'a', 'empty', 'empty'],
+        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
         //                   [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
+
+        // just to test stuff
+        let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          ['empty', 'a', 'b', 'empty', 'a', 'empty', 'empty'],
+                          ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
+                          ['empty', 'empty', 'b', 'empty', 'a', 'b', 'empty'],
+                          ['empty', 'b', 'empty', 'a', 'a', 'empty', 'empty'],
+                          [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
         return boardArray;
     }
 
@@ -62,7 +62,7 @@ class GameOrchestrator {
      */
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
-        this.board.loadTemplate(this.templates['board']);
+        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
     }
 
 

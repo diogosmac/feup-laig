@@ -5,13 +5,14 @@ class Microbe {
     /**
      * Constructor of the class
      * @param {GameOrchestrator} orchestrator - reference to the game orchestrator
-     * @param {Tile} tile - reference to the board tile the microbe is currently on
+     * @param {char} type - character that indicates if the microbe belongs to player A or B
      */
-    constructor(orchestrator, tile) {
+    constructor(orchestrator, type) {
         this.orchestrator = orchestrator;
-        this.tile = tile;
+        this.type = type;
     }
 
+    
     /**
      * Method to receive a new template from the XML file
      * @param {MicrobeTemplate} newTemplate - new microbe template
@@ -19,6 +20,16 @@ class Microbe {
     loadTemplate(newTemplate) {
         this.microbeTemplate = newTemplate;
     }
+
+
+    /**
+     * Method that assigns the microbe to a certain tile
+     * @param {Tile} tile - the tile where the microbe is currently on
+     */
+    assignMicrobeToTile(tile) {
+        this.tile = tile;
+    }
+
 
     /**
      * Display method of the microbe object
@@ -33,7 +44,6 @@ class Microbe {
         if(this.microbeTemplate.microbeTexture != null)
             this.microbeTemplate.microbeTexture.bind();
         
-        scene.scale(this.microbeTemplate.microbeScale, this.microbeTemplate.microbeScale, this.microbeTemplate.microbeScale);
         this.microbeTemplate.microbeGeometry.display();
 
         if(this.microbeTemplate.microbeTexture != null)

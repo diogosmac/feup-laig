@@ -5,50 +5,67 @@ class Board {
     /**
      * Constructor of the class
      * @param {GameOrchestrator} orchestrator - reference to the game orchestrator
+     * @param {Array} boardArray - array with the initial board layout, in terms of microbes
      */
-    constructor(orchestrator) {
+    constructor(orchestrator, boardArray) {
         this.orchestrator = orchestrator;
         this.initialTileX = 1.95; 
         this.initialTileY = -1.95;
         this.tileOffset = 0.65; // tile side + space between 2 tiles = 0.6 + 0.05 = 0.65 
         this.boardTiles = this.generateBoardTiles(); // individual board tiles that interact with mouse events
+        this.interpretBoardArray(boardArray);
     }
 
 
     /**
      * Method to receive a new template from the XML file
      * @param {BoardTemplate} newTemplate - new board template
+     * @param {MicrobeTemplate} newMicrobeATemplate - new template for the microbes of player A
+     * @param {MicrobeTemplate} newMicrobeBTemplate - new template for the microbes of player B
      */
-    loadTemplate(newTemplate) {
+    loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate) {
+        // loads template for the board
         this.boardTemplate = newTemplate;
         let currentTileMat = this.boardTemplate.tile1Mat;
         let currentTileTex = this.boardTemplate.tile1Texture;
 
         for(let i = 0; i < this.boardTiles.length; i++) {
+            // loads template for the tiles
             this.boardTiles[i].loadTemplate(currentTileMat, currentTileTex);
             currentTileMat = currentTileMat == this.boardTemplate.tile1Mat ? this.boardTemplate.tile2Mat : this.boardTemplate.tile1Mat;
             currentTileTex = currentTileTex == this.boardTemplate.tile1Texture ? this.boardTemplate.tile2Texture : this.boardTemplate.tile1Texture;
+        
+            // loads template for the microbes
+            if(this.boardTiles[i].microbe != null) {
+                let microbeTemplate = this.boardTiles[i].microbe.type == 'A' ? newMicrobeATemplate : newMicrobeBTemplate;
+                this.boardTiles[i].microbe.loadTemplate(microbeTemplate);
+            }
         }
     }
 
 
     /**
-     * Method that adds a microbe to a tile
-     * @param {Microbe} microbe - Reference to the microbe
-     * @param {int} tileID - Unique ID of the tile
-     */
-    addMicrobeToTile(microbe, tileID) {
-        this.boardTiles[tileID - 1].microbe = microbe;
-        microbe.tile = this.boardTiles[tileID - 1];
-    }
+     * Method that creates new microbe objects to store in the tiles, depending on the information stored in the board array
+     * @param {Array} boardArray - array with the initial board layout, in terms of microbes
+     */ 
+    interpretBoardArray(boardArray) {
+        for(let line = 0; line < boardArray.length; line++) {
+            let currentLine = boardArray[line];
 
-
-    /**
-     * Method that removes a microbe from a tile
-     * @param {int} tileID - Unique ID of the tile
-     */
-    removeMicrobeFromTile(tileID) {
-        this.boardTiles[tileID - 1].microbe = null;
+            for(let column = 0; column < currentLine.length; column++) {
+                let currentPosition = currentLine[column];
+                if(currentPosition == 'a') {
+                    let tile = this.getTileByCoords(line + 1, column + 1);
+                    let microbe = new Microbe(this.orchestrator, 'A');
+                    tile.addMicrobeToTile(microbe);
+                }
+                else if(currentPosition == 'b') {
+                    let tile = this.getTileByCoords(line + 1, column + 1);
+                    let microbe = new Microbe(this.orchestrator, 'B');
+                    tile.addMicrobeToTile(microbe);
+                }
+            } 
+        }
     }
 
 
@@ -115,7 +132,7 @@ class Board {
         for(let line = 1; line <= 7; line++) {
             let x = this.initialTileX;
             for(let column = 1; column <= 7; column++) {
-                tilesArray.push(new Tile(this.orchestrator, curTileID, line, column, x, y, this, null));
+                tilesArray.push(new Tile(this.orchestrator, curTileID, line, column, x, y, this));
                 curTileID++;
                 x -= this.tileOffset;
             }
