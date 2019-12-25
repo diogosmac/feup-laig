@@ -118,6 +118,7 @@
         <texture id="towel2Texture" file="scenes/images/towelTex2.jpg" />
         <texture id="towel3Texture" file="scenes/images/towelTex3.jpeg" />
         <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
+        <texture id="boardTex" file="scenes/images/board-tex.jpg" />
     </textures>
 
     <materials>
@@ -213,9 +214,9 @@
         </material>
         <material id="boardMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
-            <specular r="0.3" g="0.3" b="0.3" a="1.0" />             
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />             
         </material>
         <material id="tile1Mat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -523,7 +524,7 @@
 
     <!-- NEW SECTION FOR THE GAME OBJECTS/ENTITIES -->
     <templates>
-        <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="none" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
+        <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="boardTex" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
     </templates>
 
 
