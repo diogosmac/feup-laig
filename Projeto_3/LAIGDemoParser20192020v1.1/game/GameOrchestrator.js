@@ -15,7 +15,8 @@ class GameOrchestrator {
             "GAME": 2,
             "DIFFICULTY": 3,
             "SCENES": 4,
-            "GAME_OPTIONS": 5,
+            "SHOW_WINNER": 5,
+            "GAME_OPTIONS": 6,
         });
         this.gameState = this.gameStates.GAME;
 
@@ -29,7 +30,8 @@ class GameOrchestrator {
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
         this.winner = 'no'; // variable that will contain the winner of the game
         this.moveResults = []; // array that will contain the consequences/results of each move
-        
+        this.movesAvailable = false; // variable that will tell if the human user has any valid moves to make on his/her turn
+
         this.checkValidMovesRequestDone = false;
         this.validMovesRequestDone = false;
         this.checkGameOverRequestDone = false;
@@ -266,16 +268,20 @@ class GameOrchestrator {
             case this.board.pickStates.NO_PICK:
                 if(!this.requestSent) {
                     let playerStatus = this.currentPlayer == 'A' ? this.playerAStatus : this.playerBStatus;
-                    if(playerStatus == 'C') {
+                    if(playerStatus == 'C') { // if its computer (generate its move)
                         let difficulty = this.currentPlayer == 'A' ? this.difficultyA : this.difficultyB;
                         this.communicator.moveCPU(this.currentPlayer, this.boardArray, difficulty);
                         this.board.pickState = this.board.pickStates.ANIMATING;
                     }
-                    else {
-                        // TODO: send check valid moves request
-                        this.board.pickState = this.board.pickStates.PICK_PIECE;
+                    else { // if its human (check if there are any valid moves)
+                        this.communicator.checkValidMoves(this.currentPlayer, this.boardArray);
                     }
                     this.requestSent = true;
+                }
+                else if(this.checkValidMovesRequestDone) {
+                    this.checkGameOverRequestDone = false;
+                    this.requestSent = false;
+                    this.board.pickState = this.movesAvailable ? this.board.pickStates.PICK_PIECE : this.board.pickStates.CHECK_GAME_OVER;
                 }
 
                 break;
@@ -322,6 +328,7 @@ class GameOrchestrator {
                     }
                     else {
                         console.log(this.winner);
+                        // TODO: go to the "show winner" screen
                     }
                 }
                 
