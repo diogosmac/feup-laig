@@ -10,10 +10,21 @@ class GameOrchestrator {
         this.scene = scene;
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
         
-        this.gameStates = []; // array de game states
-        
-        this.currentPlayer = 'A'; // variable that stores the current player
+        this.gameStates = Object.freeze({
+            "MENU": 1,
+            "GAME": 2,
+            "DIFFICULTY": 3,
+            "SCENES": 4,
+            "GAME_OPTIONS": 5,
+        });
+        this.gameState = this.gameStates.GAME;
 
+
+        this.currentPlayer = 'A'; // variable that stores the current player
+        this.playerAStatus = 'H'; // by default, player A is human
+        this.playerBStatus = 'C'; // by default, player B is the computer
+        this.difficultyA = 1; // standard difficulty value for the player A (if it's computer)
+        this.difficultyB = 1; // standard difficulty value for the player B (if it's computer)
 
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
         this.winner = 'no'; // variable that will contain the winner of the game
@@ -65,6 +76,43 @@ class GameOrchestrator {
 
 
     /**
+     * Method that sets the new difficulty value
+     * @param {int} newDifficultyA - the new difficulty value for player A
+     * @param {int} newDifficultyB - the new difficulty value for player B
+     */
+    changeDifficulty(newDifficultyA, newDifficultyB) {
+        this.difficultyA = newDifficultyA;
+        this.difficultyB = newDifficultyB;
+    }
+
+
+    /**
+     * Method that changes the game options (whether players A and B are computers or humans)
+     * @param {int} newOption - integer value specifying the new game option 
+     */
+    changeGameOption(newOption) {
+        switch(newOption) {
+            case 1: // PVP
+                this.playerAStatus = 'H';
+                this.playerBStatus = 'H';
+                break;
+
+            case 2: // PVC
+                this.playerAStatus = 'H';
+                this.playerBStatus = 'C';
+                break;
+
+            case 3: // CVC
+                this.playerAStatus = 'C';
+                this.playerBStatus = 'C';
+                break;
+            
+            default:
+                break;
+        }
+    }
+
+    /**
      * Method that changes the turn, alternating the current player
      */
     changeTurn() {
@@ -78,7 +126,7 @@ class GameOrchestrator {
      * @param {*} pickResults - picking results
      */
     managePick(mode, pickResults) {
-        if (mode == false /* && some other game conditions */) {
+        if (mode == false && (this.board.pickState == this.board.pickStates.PICK_PIECE || this.board.pickState == this.board.pickStates.PICK_PLAYER_MOVE)) {
             if (pickResults != null && pickResults.length > 0) { // any results?
                 for (let i=0; i< pickResults.length; i++) {
                     let obj = pickResults[i][0]; // get object from result
@@ -100,9 +148,29 @@ class GameOrchestrator {
      */
     onObjectSelected(object, uniqueId) {
         if(object instanceof Tile) { // a tile was picked
-            this.board.resetTiles();
-            this.board.toggleTile(uniqueId);
-            this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
+            switch(this.board.pickState) {
+
+                case this.board.pickStates.PICK_PIECE:
+                    this.board.resetTiles();
+                    this.board.selectTile(uniqueId);
+                    this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
+                    break;
+
+                case this.board.pickStates.PICK_PLAYER_MOVE:
+                    if(!object.highlighted || this.board.selectedTileLine == null || this.board.selectedTileColumn == null) {
+                        this.board.pickState = this.board.pickStates.PICK_PIECE;
+                        this.onObjectSelected(object, uniqueId);
+                        return;
+                    }
+                    
+                    this.board.pickState = this.board.pickStates.PICK_PIECE;
+                    // this.communicator.moveUser(this.currentPlayer, this.boardArray, this.board.selectedTileLine, this.board.selectedTileColumn, object.line, object.column);
+                    this.board.resetTiles();
+                    break;
+
+                default:
+                    break;
+            }
         }
         else {
             // error ?
@@ -123,11 +191,34 @@ class GameOrchestrator {
      * Function that contains the main game cycle (called regularly by XMLScene's display/render method)
      */
     orchestrate() {
-        if(this.validMovesRequestDone) {
-            this.validMovesRequestDone = false;
-            this.board.highlightTilesForMove(this.validMoves);
+        switch(this.gameState) {
+
+            case this.gameStates.GAME:
+                this.orchestrateGame();
+                break;
+
+            default:
+                break;
         }
     }
+
+
+    orchestrateGame() {
+        switch(this.board.pickState) {
+            
+            case this.board.pickStates.PICK_PIECE:
+                if(this.validMovesRequestDone) {
+                    this.validMovesRequestDone = false;
+                    this.board.highlightTilesForMove(this.validMoves);
+                    this.board.pickState = this.board.pickStates.PICK_PLAYER_MOVE;
+                }
+                break;
+
+            case this.board.pickStates.PICK_PLAYER_MOVE:
+                break;
+        }
+    }
+
 
 
     /**
