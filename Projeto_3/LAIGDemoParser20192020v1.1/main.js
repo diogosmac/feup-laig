@@ -43,6 +43,7 @@ serialInclude(['../lib/CGF.js',
                'game/primitives/Microbe.js',
                'game/templates/BoardTemplate.js',
                'game/templates/MicrobeTemplate.js',
+               'game/templates/SideBoardTemplate.js',
 
 main=function()
 {

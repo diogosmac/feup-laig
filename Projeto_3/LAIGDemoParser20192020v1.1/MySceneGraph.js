@@ -1531,8 +1531,34 @@ class MySceneGraph {
                 else    
                     microbeTexture = this.textures[microbeTexture];
 
-
                 currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture);
+            }
+
+            else if (templateType == 'sideBoard') {
+
+                var sideBoardGeometry = this.reader.getString(children[i], 'sideBoardGeometry');
+                if (!(sideBoardGeometry != null && this.primitives[sideBoardGeometry] != null))
+                    return "unable to parse sideBoardGeometry for template " + templateType;
+
+                sideBoardGeometry = this.primitives[sideBoardGeometry];
+
+                var sideBoardMat = this.reader.getString(children[i], 'sideBoardMat');
+                if (!(sideBoardMat != null && this.materials[sideBoardMat] != null))
+                    return "unable to parse sideBoardMat for template " + templateType;
+
+                sideBoardMat = this.materials[sideBoardMat];
+
+                var sideBoardTex = this.reader.getString(children[i], 'sideBoardTex');
+                if (!(sideBoardTex != null && (sideBoardTex == "none" || (sideBoardTex != "none" && this.textures[sideBoardTex] != null))))
+                    return "unable to parse sideBoardTex for template " + templateType;
+
+                if (sideBoardTex == "none")
+                    sideBoardTex = null;
+                else
+                    sideBoardTex = this.textures[sideBoardTex];
+
+                currentTemplate = new SideBoardTemplate(sideBoardGeometry, sideBoardMat, sideBoardTex);
+
             }
 
             this.templates[templateType] = currentTemplate;

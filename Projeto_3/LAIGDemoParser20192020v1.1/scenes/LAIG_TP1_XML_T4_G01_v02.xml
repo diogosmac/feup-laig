@@ -119,6 +119,7 @@
         <texture id="towel3Texture" file="scenes/images/towelTex3.jpeg" />
         <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
         <texture id="boardTex" file="scenes/images/board-tex.jpg" />
+        <texture id="cardBoardTex" file="scenes/images/cardboard-tex.jpg" />
     </textures>
 
     <materials>
@@ -253,6 +254,12 @@
             <ambient r="0.35" g="0.03" b="0.03" a="1.0" />
             <diffuse r="0.71" g="0.03" b="0.03" a="1.0" />
             <specular r="0.71" g="0.03" b="0.03" a="1.0" />
+        </material>
+        <material id="boxMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.10" g="0.05" b="0" a="1.0" />
+            <diffuse r="0.20" g="0.10" b="0" a="1.0" />
+            <specular r="0.10" g="0.05" b="0" a="1.0" />
         </material>
     </materials>
 
@@ -536,6 +543,10 @@
             <objmodel url="scenes/models/piece.obj" scale="0.02" rotate="90" offsetHeight="0.2" />
         </primitive>
 
+        <primitive id="sideBoardGeometry">
+            <objmodel url="scenes/models/box.obj" scale="0.0045" rotate="0" offsetHeight="0.45" />
+        </primitive>
+
     </primitives>
 
     <!-- NEW SECTION FOR THE GAME OBJECTS/ENTITIES -->
@@ -543,6 +554,7 @@
         <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="boardTex" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
         <microbeA microbeGeometry="microbeGeometry" microbeMaterial="microbeAMat" microbeTexture="none" />
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
+        <sideBoard sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" />
     </templates>
 
 

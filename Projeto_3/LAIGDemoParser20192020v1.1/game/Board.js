@@ -22,8 +22,9 @@ class Board {
      * @param {BoardTemplate} newTemplate - new board template
      * @param {MicrobeTemplate} newMicrobeATemplate - new template for the microbes of player A
      * @param {MicrobeTemplate} newMicrobeBTemplate - new template for the microbes of player B
+     * @param {SideBoardTemplate} newSideBoardTemplate - new template for the side boards
      */
-    loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate) {
+    loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate, newSideBoardTemplate) {
         // loads template for the board
         this.boardTemplate = newTemplate;
         let currentTileMat = this.boardTemplate.tile1Mat;
@@ -41,6 +42,9 @@ class Board {
                 this.boardTiles[i].microbe.loadTemplate(microbeTemplate);
             }
         }
+
+        this.sideBoardTemplate = newSideBoardTemplate;
+        console.log(this.sideBoardTemplate.sideBoardTex);
     }
 
 
@@ -149,9 +153,11 @@ class Board {
      * Display method for the game board and its tiles
      */
     display() {
+        
         let scene = this.orchestrator.scene;
 
         scene.pushMatrix();
+
 
         this.boardTemplate.boardMaterial.apply();
         if(this.boardTemplate.boardTexture != null)
@@ -162,6 +168,27 @@ class Board {
         if(this.boardTemplate.boardTexture != null)
             this.boardTemplate.boardTexture.unbind();
 
+
+
+        this.sideBoardTemplate.sideBoardMat.apply();
+        if (this.sideBoardTemplate.sideBoardTexture != null) {
+            this.sideBoardTemplate.sideBoardTexture.bind();
+        }
+            
+        scene.pushMatrix();
+        scene.translate(0, 0, 3.2);
+        this.sideBoardTemplate.sideBoardGeometry.display();
+        scene.popMatrix();
+        
+        scene.pushMatrix();
+        scene.translate(0, 0, -3.2);
+        this.sideBoardTemplate.sideBoardGeometry.display();
+        scene.popMatrix();
+
+        if (this.sideBoardTemplate.sideBoardTexture != null)
+            this.sideBoardTemplate.sideBoardTexture.unbind();        
+
+            
 
         for(let i = 0; i < this.boardTiles.length; i++) {
             let tile = this.boardTiles[i];
@@ -190,6 +217,8 @@ class Board {
                 tile.tileTexture.unbind();
         }
 
+
         scene.popMatrix();
+    
     }
 }
