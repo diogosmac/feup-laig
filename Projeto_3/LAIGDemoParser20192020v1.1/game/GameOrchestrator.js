@@ -5,11 +5,9 @@ class GameOrchestrator {
     /**
      * Constructor of the class
      * @param {XMLScene} scene - Reference to the scene object
-     * @param {Array} templates - Array with all game object templates
      */
-    constructor(scene, templates) {
+    constructor(scene) {
         this.scene = scene;
-        this.templates = templates;
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
         
         this.gameStates = []; // array de game states

@@ -1382,7 +1382,11 @@ class MySceneGraph {
 
                 rotate *= DEGREE_TO_RAD;
 
-                var obj = new MyOBJModel(this.scene, primitiveId, url, scale, rotate);
+                var offsetHeight = this.reader.getFloat(grandChildren[0], 'offsetHeight');
+                if (!(offsetHeight != null && !isNaN(offsetHeight)))
+                    return "unable to parse offsetHeight for ID = " + primitiveId;
+
+                var obj = new MyOBJModel(this.scene, primitiveId, url, scale, rotate, offsetHeight);
 
                 this.primitives[primitiveId] = obj;
                 primitiveCounter++;
@@ -1527,11 +1531,8 @@ class MySceneGraph {
                 else    
                     microbeTexture = this.textures[microbeTexture];
 
-                var microbeScale = this.reader.getFloat(children[i], 'microbeScale');
-                if (!(microbeScale != null && !isNaN(microbeScale)))
-                    return "unable to parse microbeTexture for template " + templateType;
 
-                currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture, microbeScale);
+                currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture);
             }
 
             this.templates[templateType] = currentTemplate;

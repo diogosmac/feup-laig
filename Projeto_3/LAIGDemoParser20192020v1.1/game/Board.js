@@ -54,15 +54,17 @@ class Board {
 
             for(let column = 0; column < currentLine.length; column++) {
                 let currentPosition = currentLine[column];
+                let tile = this.getTileByCoords(line + 1, column + 1);
                 if(currentPosition == 'a') {
-                    let tile = this.getTileByCoords(line + 1, column + 1);
                     let microbe = new Microbe(this.orchestrator, 'A');
                     tile.addMicrobeToTile(microbe);
                 }
                 else if(currentPosition == 'b') {
-                    let tile = this.getTileByCoords(line + 1, column + 1);
                     let microbe = new Microbe(this.orchestrator, 'B');
                     tile.addMicrobeToTile(microbe);
+                }
+                else if(currentPosition == 'empty') {
+                    tile.removeMicrobeFromTile();
                 }
             } 
         }

@@ -10,9 +10,30 @@ class Microbe {
     constructor(orchestrator, type) {
         this.orchestrator = orchestrator;
         this.type = type;
+        this.animationMatrix = mat4.create();
+        mat4.identity(this.animationMatrix); // creates identity matrix for the animations
+
+        // mat4.translate(this.animationMatrix, this.animationMatrix, [0, 1, 0]);
     }
 
-    
+
+    /**
+     * Method that sets a new animation matrix for the microbe
+     * @param {Array} newMatrix - new animation matrix
+     */
+    setAnimationMatrix(newMatrix) {
+        this.animationMatrix = newMatrix;
+    }
+
+
+    /**
+     * Method that resets the microbe's animation matrix
+     */
+    resetAnimationMatrix() {
+        mat4.identity(this.animationMatrix);
+    }
+
+
     /**
      * Method to receive a new template from the XML file
      * @param {MicrobeTemplate} newTemplate - new microbe template
@@ -44,6 +65,7 @@ class Microbe {
         if(this.microbeTemplate.microbeTexture != null)
             this.microbeTemplate.microbeTexture.bind();
         
+        scene.multMatrix(this.animationMatrix);
         this.microbeTemplate.microbeGeometry.display();
 
         if(this.microbeTemplate.microbeTexture != null)
