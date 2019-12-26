@@ -122,6 +122,7 @@ class XMLscene extends CGFscene {
                 this.deltaT = (t - this.lastT) / 1000; // converts to seconds
                 this.lastT = t;
                 this.graph.animateNodes(this.deltaT);
+                this.gameOrchestrator.update(this.deltaT);
             }
         }
         this.checkKeys();

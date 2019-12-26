@@ -39,6 +39,10 @@ class Board {
     loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate) {
         // loads template for the board
         this.boardTemplate = newTemplate;
+
+        this.microbeATemplate = newMicrobeATemplate;
+        this.microbeBTemplate = newMicrobeBTemplate;
+
         let currentTileMat = this.boardTemplate.tile1Mat;
         let currentTileTex = this.boardTemplate.tile1Texture;
 
@@ -70,10 +74,12 @@ class Board {
                 let tile = this.getTileByCoords(line + 1, column + 1);
                 if(currentPosition == 'a') {
                     let microbe = new Microbe(this.orchestrator, 'A');
+                    microbe.loadTemplate(this.microbeATemplate);
                     tile.addMicrobeToTile(microbe);
                 }
                 else if(currentPosition == 'b') {
                     let microbe = new Microbe(this.orchestrator, 'B');
+                    microbe.loadTemplate(this.microbeBTemplate);
                     tile.addMicrobeToTile(microbe);
                 }
                 else if(currentPosition == 'empty') {
