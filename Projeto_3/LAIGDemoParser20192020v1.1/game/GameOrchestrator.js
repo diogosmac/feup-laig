@@ -124,7 +124,16 @@ class GameOrchestrator {
      * Method that changes the turn, alternating the current player
      */
     changeTurn() {
-        this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
+        if(this.currentPlayer == 'A') {
+            this.currentPlayer = 'B';
+            this.scene.normalCamera = this.scene.graph.views['Player2Perspective'];
+        }
+        else {
+            this.currentPlayer = 'A';
+            this.scene.normalCamera = this.scene.graph.views['Player1Perspective'];
+        }
+
+        this.board.pickState = this.board.pickStates.NO_PICK;
     }
 
 
@@ -251,8 +260,27 @@ class GameOrchestrator {
      * Method that contains the game cycle when in "game" mode
      */
     orchestrateGame() {
+
         switch(this.board.pickState) {
             
+            case this.board.pickStates.NO_PICK:
+                if(!this.requestSent) {
+                    let playerStatus = this.currentPlayer == 'A' ? this.playerAStatus : this.playerBStatus;
+                    if(playerStatus == 'C') {
+                        let difficulty = this.currentPlayer == 'A' ? this.difficultyA : this.difficultyB;
+                        this.communicator.moveCPU(this.currentPlayer, this.boardArray, difficulty);
+                        this.board.pickState = this.board.pickStates.ANIMATING;
+                    }
+                    else {
+                        // TODO: send check valid moves request
+                        this.board.pickState = this.board.pickStates.PICK_PIECE;
+                    }
+                    this.requestSent = true;
+                }
+
+                break;
+
+
             case this.board.pickStates.PICK_PIECE:
                 if(this.validMovesRequestDone) {
                     this.validMovesRequestDone = false;
@@ -267,13 +295,36 @@ class GameOrchestrator {
             case this.board.pickStates.ANIMATING:
                 if(this.moveRequestDone) {
                     this.moveRequestDone = false;
-                    if(this.makeMove(this.moveResults)) {
-                        this.board.interpretBoardArray(this.boardArray);
-                        this.board.pickState = this.board.pickStates.PICK_PIECE;
+                    this.requestSent = false;
+                    if(this.moveResults == "no moves") { // CPU has no moves left
+                        this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
                     }
-                    else
+                    else if(this.makeMove(this.moveResults)) { // parse move results
+                        this.board.interpretBoardArray(this.boardArray);
+                        this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
+                    }
+                    else // invalid user move
                         this.board.pickState = this.board.pickStates.PICK_PIECE;
                 }
+                break;
+
+
+            case this.board.pickStates.CHECK_GAME_OVER:
+                if(!this.requestSent) {
+                    this.communicator.checkGameOver(this.boardArray, this.pointsA, this.pointsB);
+                    this.requestSent = true;
+                }
+                else if(this.checkGameOverRequestDone) {
+                    this.checkGameOverRequestDone = false;
+                    this.requestSent = false;
+                    if(this.winner == 'no') {
+                        this.changeTurn();
+                    }
+                    else {
+                        console.log(this.winner);
+                    }
+                }
+                
                 break;
 
             default:

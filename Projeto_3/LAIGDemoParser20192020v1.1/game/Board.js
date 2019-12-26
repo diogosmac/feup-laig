@@ -17,7 +17,7 @@ class Board {
             "ANIMATING": 4,
             "CHECK_GAME_OVER": 5
           }); 
-        this.pickState = this.pickStates.PICK_PIECE;
+        this.pickState = this.pickStates.NO_PICK;
 
         this.selectedTileLine = null;
         this.selectedTileColumn = null;
