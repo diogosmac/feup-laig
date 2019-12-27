@@ -11,11 +11,12 @@ class Board {
         this.orchestrator = orchestrator;
 
         this.pickStates = Object.freeze({
-            "NO_PICK": 1, // when, for example, the camera is rotating or when the CPU move is processing
+            "NO_PICK": 1,
             "PICK_PIECE": 2,
             "PICK_PLAYER_MOVE": 3,
             "ANIMATING": 4,
-            "CHECK_GAME_OVER": 5
+            "CHECK_GAME_OVER": 5,
+            "ROTATING_CAMERA": 6
           }); 
         this.pickState = this.pickStates.NO_PICK;
 

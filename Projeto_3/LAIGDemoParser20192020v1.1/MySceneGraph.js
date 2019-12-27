@@ -66,7 +66,7 @@ class MySceneGraph {
         this.defaultMaterial.setDiffuse(0.5, 0.5, 0.5, 1);
         this.defaultMaterial.setSpecular(0, 0, 0, 1);
         this.defaultMaterial.setEmission(0, 0, 0, 1);
-        
+
         // File reading 
         this.reader = new CGFXMLreader();
 

@@ -14,17 +14,19 @@ class GameOrchestrator {
             "MENU": 1,
             "GAME": 2,
             "DIFFICULTY": 3,
-            "SCENES": 4,
-            "SHOW_WINNER": 5,
-            "GAME_OPTIONS": 6,
+            "CHOOSE_SCENE": 4,
+            "LOADING_SCENE": 5,
+            "SHOW_WINNER": 6,
+            "GAME_OPTIONS": 7,
+            "MOVIE": 8
         });
-        this.gameState = this.gameStates.GAME;
+        this.gameState = this.gameStates.LOADING_SCENE;
 
 
         this.currentPlayer = 'A'; // variable that stores the current player
         this.playerAStatus = 'H'; // by default, player A is human
         this.playerBStatus = 'C'; // by default, player B is the computer
-        this.difficultyA = 1; // standard difficulty value for the player A (if it's computer)
+        this.difficultyA = 2; // standard difficulty value for the player A (if it's computer)
         this.difficultyB = 1; // standard difficulty value for the player B (if it's computer)
 
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
@@ -47,6 +49,7 @@ class GameOrchestrator {
         this.communicator = new Communicator(this);
         this.gameSequence = new GameSequence(this);
         this.animator = new Animator(this);
+        this.panelsManager = new PanelsManager(this);
     }
 
 
@@ -63,15 +66,34 @@ class GameOrchestrator {
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
                           [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
 
-        // just to test stuff
-        // let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
-        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        //                   ['empty', 'a', 'b', 'empty', 'a', 'empty', 'empty'],
-        //                   ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-        //                   ['empty', 'empty', 'b', 'empty', 'a', 'b', 'empty'],
-        //                   ['empty', 'b', 'empty', 'a', 'a', 'empty', 'empty'],
-        //                   [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
         return boardArray;
+    }
+
+
+    /**
+     * Method to be called in order to reset all fields and begin a new game
+     */
+    resetGame() {
+        this.boardArray = this.initBoard();
+        this.board.interpretBoardArray(this.boardArray);
+        this.pointsA = 2;
+        this.pointsB = 2;
+
+        this.validMoves = [];
+        this.winner = 'no';
+        this.moveResults = [];
+        this.movesAvailable = false;
+
+        this.checkValidMovesRequestDone = false;
+        this.validMovesRequestDone = false;
+        this.checkGameOverRequestDone = false;
+        this.moveRequestDone = false;
+        this.requestSent = false;
+
+        this.board.pickState = this.board.pickStates.NO_PICK;
+
+        this.board.selectedTileLine = null;
+        this.board.selectedTileColumn = null;
     }
 
 
@@ -82,6 +104,7 @@ class GameOrchestrator {
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
         this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
+        this.gameState = this.gameStates.GAME;
     }
 
 
@@ -126,16 +149,23 @@ class GameOrchestrator {
      * Method that changes the turn, alternating the current player
      */
     changeTurn() {
-        if(this.currentPlayer == 'A') {
-            this.currentPlayer = 'B';
+        this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
+        this.board.pickState = this.board.pickStates.NO_PICK;
+    }
+
+
+    /**
+     * Method that alternates between the two game cameras
+     */
+    changeCamera() {
+        if(this.scene.normalCamera == this.scene.graph.views['Player1Perspective']) {
             this.scene.normalCamera = this.scene.graph.views['Player2Perspective'];
+            this.panelsManager.rotateGamePanels = true;
         }
         else {
-            this.currentPlayer = 'A';
             this.scene.normalCamera = this.scene.graph.views['Player1Perspective'];
+            this.panelsManager.rotateGamePanels = false;
         }
-
-        this.board.pickState = this.board.pickStates.NO_PICK;
     }
 
 
@@ -167,6 +197,9 @@ class GameOrchestrator {
      */
     onObjectSelected(object, uniqueId) {
         if(object instanceof Tile) { // a tile was picked
+            if(this.gameState != this.gameStates.GAME)
+                return;
+
             switch(this.board.pickState) {
 
                 case this.board.pickStates.PICK_PIECE:
@@ -191,6 +224,11 @@ class GameOrchestrator {
                     break;
             }
         }
+
+        else if(object instanceof Panel) { // if a panel was selected
+            this.panelsManager.onPanelSelected(object, uniqueId);
+        }
+
         else {
             // error ?
         }
@@ -356,6 +394,7 @@ class GameOrchestrator {
         this.scene.pushMatrix();
         this.scene.translate(0, 2.5, 0); // to get everything to table height
         this.board.display();
+        this.panelsManager.display();
         this.scene.popMatrix();
     }
 }

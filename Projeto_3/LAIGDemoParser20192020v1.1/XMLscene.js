@@ -148,18 +148,22 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
         this.initLights();
-
-        this.sceneInited = true;
+        
+        this.gameOrchestrator.loadTemplates(this.graph.templates); // updates/initiates game templates
 
         this.normalCamera = this.graph.views[this.activeCameraID]; // default camera is activated
 
-        this.gameOrchestrator.loadTemplates(this.graph.templates); // updates/initiates game templates
-
         this.interface.updateInterface();
+        
+        this.sceneInited = true;
     }
 
     changeCamera() {
         this.normalCamera = this.graph.views[this.activeCameraID];
+        if(this.activeCameraID == 'Player1Perspective')
+            this.gameOrchestrator.panelsManager.rotateGamePanels = false;
+        else if(this.activeCameraID == 'Player2Perspective')
+            this.gameOrchestrator.panelsManager.rotateGamePanels = true;
     }
 
     /**
