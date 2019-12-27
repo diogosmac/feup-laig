@@ -74,6 +74,8 @@ class GameOrchestrator {
      * Method to be called in order to reset all fields and begin a new game
      */
     resetGame() {
+        this.gameSequence.reset();
+
         this.boardArray = this.initBoard();
         this.board.interpretBoardArray(this.boardArray);
         this.pointsA = 2;
@@ -114,7 +116,7 @@ class GameOrchestrator {
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
 
         // TODO: implement menu panels
-        
+
         this.gameState = this.gameStates.GAME;
     }
 
@@ -183,12 +185,45 @@ class GameOrchestrator {
 
 
     /**
+     * Method that processes an undo request from the user
+     */
+    undo() {
+        if(!this.gameSequence.undo()) // removes the last 2 moves (in order to be the turn of the current player)
+            return;
+        
+        let lastBoardState;
+        let pointsA;
+        let pointsB;
+
+        let lastGameMove = this.gameSequence.getLastMove();
+        if(lastGameMove === false) {
+            this.boardArray = this.initBoard();
+            this.pointsA = 2;
+            this.pointsB = 2;
+        }
+        else {
+            this.boardArray = lastGameMove
+        }
+        
+
+        this.board.interpretBoardArray(this.boardArray);
+        this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
+    }
+
+    /**
      * Method that manages all the picking behaviour
      * @param {*} mode - picking mode
      * @param {*} pickResults - picking results
      */
     managePick(mode, pickResults) {
-        if (mode == false && (this.board.pickState == this.board.pickStates.PICK_PIECE || this.board.pickState == this.board.pickStates.PICK_PLAYER_MOVE)) {
+        let pickEnabled = false;
+        if(this.gameState == this.gameStates.GAME) {
+            if(this.board.pickState == this.board.pickStates.PICK_PIECE || this.board.pickState == this.board.pickStates.PICK_PLAYER_MOVE) {
+                pickEnabled = true;
+            }
+        }
+
+        if (mode == false && pickEnabled) {
             if (pickResults != null && pickResults.length > 0) { // any results?
                 for (let i=0; i< pickResults.length; i++) {
                     let obj = pickResults[i][0]; // get object from result
@@ -239,6 +274,10 @@ class GameOrchestrator {
         }
 
         else if(object instanceof Panel) { // if a panel was selected
+            if(this.gameState = this.gameStates.GAME)
+                this.board.pickState = this.board.pickStates.PICK_PIECE;
+            
+            this.board.resetTiles();
             this.panelsManager.onPanelSelected(object, uniqueId);
         }
 
@@ -257,7 +296,13 @@ class GameOrchestrator {
         if(moveArray == "invalid")
             return false;
 
+        if(moveArray == "no moves") // current player has no possible moves to choose from (skips turn)
+            moveArray = null;
+
         this.gameSequence.addGameMove(new GameMove(this, moveArray, this.boardArray)); // adds new game move to the sequence
+
+        if(moveArray == null) // moveArray is null when current player has no possible moves to choose from (skips turn)
+            return true;
 
         moveArray.shift(); // removes first element (old pos and new pos)
 
@@ -333,7 +378,14 @@ class GameOrchestrator {
                 else if(this.checkValidMovesRequestDone) {
                     this.checkGameOverRequestDone = false;
                     this.requestSent = false;
-                    this.board.pickState = this.movesAvailable ? this.board.pickStates.PICK_PIECE : this.board.pickStates.CHECK_GAME_OVER;
+                    if(this.movesAvailable) { // user has moves to choose from
+                        this.board.pickState = this.board.pickStates.PICK_PIECE;
+                    }
+                    else { // user has no possible moves left...
+                        this.makeMove("no moves");
+                        this.board.interpretBoardArray(this.boardArray);
+                        this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
+                    }
                 }
 
                 break;
@@ -354,10 +406,7 @@ class GameOrchestrator {
                 if(this.moveRequestDone) {
                     this.moveRequestDone = false;
                     this.requestSent = false;
-                    if(this.moveResults == "no moves") { // CPU has no moves left
-                        this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
-                    }
-                    else if(this.makeMove(this.moveResults)) { // parse move results
+                    if(this.makeMove(this.moveResults)) { // parse move results
                         this.board.interpretBoardArray(this.boardArray);
                         this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
                     }
