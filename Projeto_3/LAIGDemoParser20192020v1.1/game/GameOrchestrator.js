@@ -9,6 +9,7 @@ class GameOrchestrator {
     constructor(scene) {
         this.scene = scene;
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
+        this.time = 0;
         
         this.gameStates = []; // array de game states
         
@@ -45,10 +46,10 @@ class GameOrchestrator {
         // just to test stuff
         let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'a', 'b', 'empty', 'a', 'empty', 'empty'],
+                          ['empty',   'a'  ,   'b'  , 'empty',   'a'  , 'empty', 'empty'],
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'empty', 'b', 'empty', 'a', 'b', 'empty'],
-                          ['empty', 'b', 'empty', 'a', 'a', 'empty', 'empty'],
+                          ['empty', 'empty',   'b'  , 'empty',   'a'  ,   'b'  , 'empty'],
+                          ['empty',   'b'  , 'empty',   'a'  ,   'a'  , 'empty', 'empty'],
                           [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
         return boardArray;
     }
@@ -103,12 +104,35 @@ class GameOrchestrator {
             this.board.resetTiles();
             this.board.toggleTile(uniqueId);
             this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
+            if (object.microbe != null) {
+				object.leapAnimation(object);
+				// this.convert(object);
+            }
         }
         else {
             // error ?
         }
-    }
+	}
+	
+	/**
+	 * Method that converts a microbe to the opponent side
+	 */
+	convert(tile) {
+		
+		tile.convertAnimation();
+		
+		let microbe = tile.microbe;
 
+		if (microbe.type == 'A') {
+			microbe.type = 'B';
+			microbe.loadTemplate(this.templates['microbeB']);
+		}
+		else if (microbe.type == 'B') {
+			microbe.type = 'A';
+			microbe.loadTemplate(this.templates['microbeA']);
+		}
+
+	}
 
     /**
      * Method that does all the process necessary to make a move
@@ -138,5 +162,14 @@ class GameOrchestrator {
         this.scene.translate(0, 2.5, 0); // to get everything to table height
         this.board.display();
         this.scene.popMatrix();
+    }
+
+    update(t) {
+		for (let tile of this.board.boardTiles) {
+			if (tile.microbe != null && tile.microbe.animation != null) {
+				tile.microbe.update(t - this.time);
+            }
+        }
+		this.time = t;
     }
 }
