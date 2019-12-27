@@ -1535,6 +1535,126 @@ class MySceneGraph {
                 currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture);
             }
 
+            // For the number textures template
+            else if (templateType == 'panelNumbers') {
+
+                var numberTexturesArray = [];
+
+                var zero = this.reader.getString(children[i], 'zero');
+                if (!(zero != null && this.textures[zero] != null))
+                    return "unable to parse zero for template " + templateType;
+
+                numberTexturesArray.push(this.textures[zero]);
+
+                var one = this.reader.getString(children[i], 'one');
+                if (!(one != null && this.textures[one] != null))
+                    return "unable to parse one for template " + templateType;
+
+                numberTexturesArray.push(this.textures[one]);
+
+                var two = this.reader.getString(children[i], 'two');
+                if (!(two != null && this.textures[two] != null))
+                    return "unable to parse two for template " + templateType;
+
+                numberTexturesArray.push(this.textures[two]);
+
+                var three = this.reader.getString(children[i], 'three');
+                if (!(three != null && this.textures[three] != null))
+                    return "unable to parse three for template " + templateType;
+
+                numberTexturesArray.push(this.textures[three]);
+
+                var four = this.reader.getString(children[i], 'four');
+                if (!(four != null && this.textures[four] != null))
+                    return "unable to parse four for template " + templateType;
+
+                numberTexturesArray.push(this.textures[four]);
+
+                var five = this.reader.getString(children[i], 'five');
+                if (!(five != null && this.textures[five] != null))
+                    return "unable to parse five for template " + templateType;
+
+                numberTexturesArray.push(this.textures[five]);
+
+                var six = this.reader.getString(children[i], 'six');
+                if (!(six != null && this.textures[six] != null))
+                    return "unable to parse six for template " + templateType;
+
+                numberTexturesArray.push(this.textures[six]);
+
+                var seven = this.reader.getString(children[i], 'seven');
+                if (!(seven != null && this.textures[seven] != null))
+                    return "unable to parse seven for template " + templateType;
+
+                numberTexturesArray.push(this.textures[seven]);
+
+                var eight = this.reader.getString(children[i], 'eight');
+                if (!(eight != null && this.textures[eight] != null))
+                    return "unable to parse eight for template " + templateType;
+
+                numberTexturesArray.push(this.textures[eight]);
+
+                var nine = this.reader.getString(children[i], 'nine');
+                if (!(nine != null && this.textures[nine] != null))
+                    return "unable to parse nine for template " + templateType;
+
+                numberTexturesArray.push(this.textures[nine]);
+
+
+                currentTemplate = new NumbersTemplate(numberTexturesArray);
+            }
+
+            // For the game panel textures template
+            else if (templateType == 'panelGame') {
+
+                var playerATurnTex = this.reader.getString(children[i], 'playerATurnTex');
+                if (!(playerATurnTex != null && this.textures[playerATurnTex] != null))
+                    return "unable to parse playerATurnTex for template " + templateType;
+
+                playerATurnTex = this.textures[playerATurnTex];
+
+                var playerBTurnTex = this.reader.getString(children[i], 'playerBTurnTex');
+                if (!(playerBTurnTex != null && this.textures[playerBTurnTex] != null))
+                    return "unable to parse playerBTurnTex for template " + templateType;
+
+                playerBTurnTex = this.textures[playerBTurnTex];
+
+                var rotateTex = this.reader.getString(children[i], 'rotateTex');
+                if (!(rotateTex != null && this.textures[rotateTex] != null))
+                    return "unable to parse rotateTex for template " + templateType;
+
+                rotateTex = this.textures[rotateTex];
+
+                var scoreATex = this.reader.getString(children[i], 'scoreATex');
+                if (!(scoreATex != null && this.textures[scoreATex] != null))
+                    return "unable to parse scoreATex for template " + templateType;
+
+                scoreATex = this.textures[scoreATex];
+
+                var scoreBTex = this.reader.getString(children[i], 'scoreBTex');
+                if (!(scoreBTex != null && this.textures[scoreBTex] != null))
+                    return "unable to parse scoreBTex for template " + templateType;
+
+                scoreBTex = this.textures[scoreBTex];
+
+                var timerTex = this.reader.getString(children[i], 'timerTex');
+                if (!(timerTex != null && this.textures[timerTex] != null))
+                    return "unable to parse timerTex for template " + templateType;
+
+                timerTex = this.textures[timerTex];
+
+                var undoTex = this.reader.getString(children[i], 'undoTex');
+                if (!(undoTex != null && this.textures[undoTex] != null))
+                    return "unable to parse undoTex for template " + templateType;
+
+                undoTex = this.textures[undoTex];
+
+
+                currentTemplate = new GamePanelTemplate(playerATurnTex, playerBTurnTex, rotateTex, scoreATex, scoreBTex, timerTex, undoTex);
+            }
+
+            
+
             this.templates[templateType] = currentTemplate;
         }
 
