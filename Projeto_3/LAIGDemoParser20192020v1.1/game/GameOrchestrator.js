@@ -26,7 +26,7 @@ class GameOrchestrator {
         this.currentPlayer = 'A'; // variable that stores the current player
         this.playerAStatus = 'H'; // by default, player A is human
         this.playerBStatus = 'C'; // by default, player B is the computer
-        this.difficultyA = 2; // standard difficulty value for the player A (if it's computer)
+        this.difficultyA = 1; // standard difficulty value for the player A (if it's computer)
         this.difficultyB = 1; // standard difficulty value for the player B (if it's computer)
 
         this.validMoves = []; // array that will have the valid moves for a user when he/she selects a microbe
@@ -78,6 +78,7 @@ class GameOrchestrator {
         this.board.interpretBoardArray(this.boardArray);
         this.pointsA = 2;
         this.pointsB = 2;
+        this.currentPlayer = 'A';
 
         this.validMoves = [];
         this.winner = 'no';
@@ -94,6 +95,9 @@ class GameOrchestrator {
 
         this.board.selectedTileLine = null;
         this.board.selectedTileColumn = null;
+
+        this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
+        this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
     }
 
 
@@ -104,6 +108,13 @@ class GameOrchestrator {
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
         this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
+        this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], null);
+
+        this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
+        this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
+
+        // TODO: implement menu panels
+        
         this.gameState = this.gameStates.GAME;
     }
 
@@ -145,11 +156,13 @@ class GameOrchestrator {
         }
     }
 
+
     /**
      * Method that changes the turn, alternating the current player
      */
     changeTurn() {
         this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
+        this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.board.pickState = this.board.pickStates.NO_PICK;
     }
 
@@ -269,6 +282,7 @@ class GameOrchestrator {
                 case "score":
                     this.pointsA = moveElement[1];
                     this.pointsB = moveElement[2];
+                    this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
                     break;
 
                 default:

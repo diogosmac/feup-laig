@@ -55,10 +55,28 @@ class PanelsManager {
      */
     loadTemplate(numbersTemplate, gamePanelTemplate, menuPanelTemplate) {
         this.numbersTemplate = numbersTemplate;
-        this.gamePanelTemplates = gamePanelTemplates;
-        this.menuPanelTemplates = menuPanelTemplates;
+        this.gamePanelTemplate = gamePanelTemplate;
 
-        // TODO: atualizar todos os panels com texturas fixas (nao numeros)
+        this.undoPanel.loadPanelTexture(this.gamePanelTemplate.undoTexture);
+        this.rotatePanel.loadPanelTexture(this.gamePanelTemplate.rotateTexture);
+        this.timerPanel.loadPanelTexture(this.gamePanelTemplate.timerTexture);
+        this.scoreAPanel.loadPanelTexture(this.gamePanelTemplate.scoreATexture);
+        this.scoreBPanel.loadPanelTexture(this.gamePanelTemplate.scoreBTexture);
+
+
+        // TODO: implement timer
+        this.timerValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(0));
+        this.timerValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(0));
+    }
+
+
+    /**
+     * Method that updates the panel texture showing which player has the current turn
+     * @param {char} player - player A or B
+     */
+    changeTurnPanelTexture(player) {
+        let turnTexture = player == 'A' ? this.gamePanelTemplate.playerATurnTexture : this.gamePanelTemplate.playerBTurnTexture;
+        this.turnPanel.loadPanelTexture(turnTexture);
     }
 
 
@@ -67,8 +85,12 @@ class PanelsManager {
      * @param {int} pointsA - player A's score
      * @param {int} pointsB - player B's score
      */
-    updateScore(pointsA, pointsB) {
+    updateScoreTextures(pointsA, pointsB) {
+        this.scoreAValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureDozens(pointsA));
+        this.scoreAValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(pointsA));
 
+        this.scoreBValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureDozens(pointsB));
+        this.scoreBValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(pointsB));
     }
 
 

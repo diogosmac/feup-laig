@@ -97,6 +97,7 @@
     </lights>
 
     <textures>
+        <texture id="standardTexture" file="scenes/images/texture.jpg" />
         <texture id="parasolMetalTex" file="scenes/images/metalTex.jpg" />
         <texture id="mainPlaneTex" file="scenes/images/mainPlaneTex.jpg" />
         <texture id="waterTex" file="scenes/images/poolWater.jpg" />
@@ -563,7 +564,7 @@
         <microbeA microbeGeometry="microbeGeometry" microbeMaterial="microbeAMat" microbeTexture="none" />
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
         <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
-        <panelGame playerATurn="playerATurn" playerBTurn="playerBTurn" rotate="rotate" scoreA="scoreA" scoreB="scoreB" timer="timer" undo="undo" />
+        <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" />
         <!-- <panelMenu /> -->
     </templates>
 
