@@ -111,7 +111,7 @@ class PanelsManager {
     onPanelSelected(panel, uniqueId) {
         switch(uniqueId) {
             case this.panelIDs.ROTATE: // rotate panel
-                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME)
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME && this.orchestrator.gameState != this.orchestrator.gameStates.MOVIE)
                     return;
 
                 this.orchestrator.rotateCamera();
