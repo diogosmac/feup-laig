@@ -33,7 +33,9 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-        this.setUpdatePeriod(50);
+
+        this.fps = 60;
+        this.setUpdatePeriod(1000 / this.fps);
 
         this.matIndex = 0;
         this.interfaceArrayViews = {}; // array for the view IDs and indexes for the interface dropdown
@@ -138,13 +140,13 @@ class XMLscene extends CGFscene {
                 this.lastT = t;
             }
             else { // already have lastT value from last update() call
+                let gameTime = t - this.lastT;
                 this.deltaT = (t - this.lastT) / 1000; // converts to seconds
                 this.lastT = t;
                 this.graph.animateNodes(this.deltaT);
-                this.gameOrchestrator.update(this.deltaT);
+                this.gameOrchestrator.update(gameTime);
             }
         }
-        this.checkKeys();
     }
 
     changeMatIndex() {

@@ -63,10 +63,7 @@ class PanelsManager {
         this.scoreAPanel.loadPanelTexture(this.gamePanelTemplate.scoreATexture);
         this.scoreBPanel.loadPanelTexture(this.gamePanelTemplate.scoreBTexture);
 
-
-        // TODO: implement timer
-        this.timerValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(0));
-        this.timerValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(0));
+        // TODO: menu panels
     }
 
 
@@ -99,7 +96,8 @@ class PanelsManager {
      * @param {int} time - timer value, in seconds
      */
     updateTimer(time) {
-
+        this.timerValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureDozens(time));
+        this.timerValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(time));
     }
 
 
