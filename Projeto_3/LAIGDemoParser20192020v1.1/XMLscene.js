@@ -53,8 +53,12 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+		this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+		
+		this.cameraRotationActive = false;
+		this.angleRotated = 0;
     }
+
 
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -111,9 +115,24 @@ class XMLscene extends CGFscene {
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
-    }
-
+	}
+	
     update(t) {
+		this.checkKeys();
+
+		if (this.cameraRotationActive) {
+			let cameraAngRot = Math.PI * (t - this.lastT) / 2000;
+			cameraAngRot = Math.min(cameraAngRot, Math.PI - this.angleRotated);
+			this.angleRotated += cameraAngRot;
+			if (this.angleRotated == Math.PI) {
+				cameraAngRot -= this.angleRotated - Math.PI;
+				this.angleRotated = 0;
+                this.cameraRotationActive = false;
+                this.gameOrchestrator.rotatingCameraDone = true;
+			}
+			this.camera.orbit(vec3.fromValues(0, 1, 0), cameraAngRot);
+		}
+
         if(this.sceneInited) {
             if(this.lastT == 0) { // first time calling function
                 this.lastT = t;
@@ -122,6 +141,7 @@ class XMLscene extends CGFscene {
                 this.deltaT = (t - this.lastT) / 1000; // converts to seconds
                 this.lastT = t;
                 this.graph.animateNodes(this.deltaT);
+                this.gameOrchestrator.update(this.deltaT);
             }
         }
         this.checkKeys();
@@ -133,7 +153,7 @@ class XMLscene extends CGFscene {
 
     checkKeys() {
         if (this.gui.isKeyPressed("KeyM"))
-            this.changeMatIndex();
+			this.changeMatIndex();
     }
 
     /** Handler called when the graph is finally loaded. 
@@ -147,18 +167,19 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
         this.initLights();
-
-        this.sceneInited = true;
+        
+        this.gameOrchestrator.loadTemplates(this.graph.templates); // updates/initiates game templates
 
         this.normalCamera = this.graph.views[this.activeCameraID]; // default camera is activated
 
-        this.gameOrchestrator.loadTemplates(this.graph.templates); // updates/initiates game templates
-
         this.interface.updateInterface();
+        
+        this.sceneInited = true;
     }
 
     changeCamera() {
-        this.normalCamera = this.graph.views[this.activeCameraID];
+        if(!this.cameraRotationActive)
+            this.normalCamera = this.graph.views[this.activeCameraID];
     }
 
     /**

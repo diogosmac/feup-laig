@@ -15,7 +15,6 @@ class CGFOBJModel extends CGFobject {
 	constructor(scene, url, wireframe) 
 	{
 		super(scene);
-		
 		this.url = url;
 		
 		// false for triangles, true for lines (wireframe)

@@ -1,15 +1,15 @@
 <lxs>
     <scene root="root" axis_length="1"/>
 
-    <views default="Player1Perspective">
-        <perspective id="Player1Perspective" near="0.1" far="500" angle="45">
+    <views default="PlayerPerspective">
+        <perspective id="PlayerPerspective" near="0.1" far="500" angle="45">
             <from x="10" y="10" z="0" />
             <to x="0" y="2" z="0" />
         </perspective>
-        <perspective id="Player2Perspective" near="0.1" far="500" angle="45">
+        <!-- <perspective id="Player2Perspective" near="0.1" far="500" angle="45">
             <from x="-10" y="10" z="0" />
             <to x="0" y="2" z="0" />
-        </perspective>
+        </perspective> -->
         <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
             <from x="30" y="20" z="-25" />
             <to x="0" y="-2" z="0" />
@@ -97,6 +97,7 @@
     </lights>
 
     <textures>
+        <texture id="standardTexture" file="scenes/images/texture.jpg" />
         <texture id="parasolMetalTex" file="scenes/images/metalTex.jpg" />
         <texture id="mainPlaneTex" file="scenes/images/mainPlaneTex.jpg" />
         <texture id="waterTex" file="scenes/images/poolWater.jpg" />
@@ -119,6 +120,25 @@
         <texture id="towel3Texture" file="scenes/images/towelTex3.jpeg" />
         <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
         <texture id="boardTex" file="scenes/images/board-tex.jpg" />
+
+        <!-- panel textures -->
+        <texture id="zero" file="scenes/panels/game/0.png" />
+        <texture id="one" file="scenes/panels/game/1.png" />
+        <texture id="two" file="scenes/panels/game/2.png" />
+        <texture id="three" file="scenes/panels/game/3.png" />
+        <texture id="four" file="scenes/panels/game/4.png" />
+        <texture id="five" file="scenes/panels/game/5.png" />
+        <texture id="six" file="scenes/panels/game/6.png" />
+        <texture id="seven" file="scenes/panels/game/7.png" />
+        <texture id="eight" file="scenes/panels/game/8.png" />
+        <texture id="nine" file="scenes/panels/game/9.png" />
+        <texture id="playerATurn" file="scenes/panels/game/playerATurn.png" />
+        <texture id="playerBTurn" file="scenes/panels/game/playerBTurn.png" />
+        <texture id="rotate" file="scenes/panels/game/rotate.png" />
+        <texture id="scoreA" file="scenes/panels/game/score_a.png" />
+        <texture id="scoreB" file="scenes/panels/game/score_b.png" />
+        <texture id="timer" file="scenes/panels/game/timer.png" />
+        <texture id="undo" file="scenes/panels/game/undo.png" />
     </textures>
 
     <materials>
@@ -543,6 +563,9 @@
         <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="boardTex" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
         <microbeA microbeGeometry="microbeGeometry" microbeMaterial="microbeAMat" microbeTexture="none" />
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
+        <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
+        <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" />
+        <!-- <panelMenu /> -->
     </templates>
 
 

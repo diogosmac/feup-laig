@@ -9,6 +9,19 @@ class Board {
      */
     constructor(orchestrator, boardArray) {
         this.orchestrator = orchestrator;
+
+        this.pickStates = Object.freeze({
+            "NO_PICK": 1,
+            "PICK_PIECE": 2,
+            "PICK_PLAYER_MOVE": 3,
+            "ANIMATING": 4,
+            "CHECK_GAME_OVER": 5
+          }); 
+        this.pickState = this.pickStates.NO_PICK;
+
+        this.selectedTileLine = null;
+        this.selectedTileColumn = null;
+
         this.initialTileX = 1.95; 
         this.initialTileY = -1.95;
         this.tileOffset = 0.65; // tile side + space between 2 tiles = 0.6 + 0.05 = 0.65 
@@ -26,6 +39,10 @@ class Board {
     loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate) {
         // loads template for the board
         this.boardTemplate = newTemplate;
+
+        this.microbeATemplate = newMicrobeATemplate;
+        this.microbeBTemplate = newMicrobeBTemplate;
+
         let currentTileMat = this.boardTemplate.tile1Mat;
         let currentTileTex = this.boardTemplate.tile1Texture;
 
@@ -57,10 +74,12 @@ class Board {
                 let tile = this.getTileByCoords(line + 1, column + 1);
                 if(currentPosition == 'a') {
                     let microbe = new Microbe(this.orchestrator, 'A');
+                    microbe.loadTemplate(this.microbeATemplate);
                     tile.addMicrobeToTile(microbe);
                 }
                 else if(currentPosition == 'b') {
                     let microbe = new Microbe(this.orchestrator, 'B');
+                    microbe.loadTemplate(this.microbeBTemplate);
                     tile.addMicrobeToTile(microbe);
                 }
                 else if(currentPosition == 'empty') {
@@ -72,11 +91,13 @@ class Board {
 
 
     /**
-     * Method that selects/deselects a tile after it's been picked
+     * Method that selects a tile after it's been picked
      * @param {int} tileID - unique tile ID of the picked tile
      */
-    toggleTile(tileID) {
-        this.boardTiles[tileID - 1].selected = this.boardTiles[tileID - 1].selected ? false : true;
+    selectTile(tileID) {
+        this.boardTiles[tileID - 1].selected = true;
+        this.selectedTileLine = this.boardTiles[tileID - 1].line;
+        this.selectedTileColumn = this.boardTiles[tileID - 1].column;
     }
 
     
@@ -108,6 +129,8 @@ class Board {
             tile.selected = false;
             tile.highlighted = false;
         }
+        this.selectedTileLine = null;
+        this.selectedTileColumn = null;
     }
 
 

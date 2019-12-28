@@ -25,15 +25,11 @@ class Communicator {
         let requestString = 'valid_moves(\'' + player + '\',' + boardString + ')';
         this.getPrologRequest(requestString, function(data) {
             let validMovesString = data.target.response;
-            this.validMoves = [];
             if(validMovesString != '[]') {
-                validMovesString = validMovesString.substr(1, validMovesString.length - 2); // removes parentheses
-                validMovesString = validMovesString.split(',');
-
-                for(let i = 0; i < validMovesString.length; i++) {
-                    let move = validMovesString[i].split('-');
-                    this.validMoves.push([parseInt(move[0]), parseInt(move[1]), parseInt(move[2]), parseInt(move[3])]);
-                }
+                this.orchestrator.movesAvailable = true;
+            }
+            else {
+                this.orchestrator.movesAvailable = false;
             }
 
             this.orchestrator.checkValidMovesRequestDone = true;
