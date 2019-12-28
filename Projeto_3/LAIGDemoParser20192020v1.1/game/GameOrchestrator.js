@@ -194,8 +194,6 @@ class GameOrchestrator {
 
         this.boardArray = move.boardBefore; // resets the board array 2 moves before
 
-        console.log(this.boardArray);
-
         let lastGameMove = this.gameSequence.getLastMove();
         if(lastGameMove === false) { // if after the undo, we are back at the start of the game
             this.pointsA = 2;
@@ -298,9 +296,14 @@ class GameOrchestrator {
         if(moveArray == "invalid")
             return false;
 
-        if(moveArray == "no moves") // current player has no possible moves to choose from (skips turn)
-            moveArray = null;
+        let noMovesFlag = false;
 
+        if(moveArray == "no moves") { // current player has no possible moves to choose from (skips turn, and score is unchanged)
+            noMovesFlag = true;
+            let samePointsA = this.pointsA;
+            let samePointsB = this.pointsB;
+            moveArray = [["no moves"], ["score", samePointsA, samePointsB]];
+        }
 
         // makes a copy of the board array before making the move
         let boardBefore = this.boardArray.map(function(arr) {
@@ -308,24 +311,18 @@ class GameOrchestrator {
         });
 
         // makes copy of the move array before parsing and modifying it
-        let moveArrayStore;
+        let moveArrayStore = moveArray.map(function(arr) {
+            return arr.slice();
+        });
 
-        if(moveArray == null)
-            moveArrayStore = null;
-        else {
-            moveArrayStore = moveArray.map(function(arr) {
-                return arr.slice();
-            });
-        }
 
         this.gameSequence.addGameMove(new GameMove(this, moveArrayStore, boardBefore)); // adds new game move to the sequence
 
 
-        console.log(this.gameSequence);
-
-        if(moveArray == null) // moveArray is null when current player has no possible moves to choose from (skips turn)
+        if(noMovesFlag) // when current player has no possible moves to choose from (skips turn)
             return true;
 
+            
         moveArray.shift(); // removes first element (old pos and new pos)
 
         // TODO: create and launch animations for the movements, when parsing the move array
