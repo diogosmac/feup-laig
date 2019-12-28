@@ -97,6 +97,7 @@ class GameOrchestrator {
 
         this.boardArray = this.initBoard();
         this.board.interpretBoardArray(this.boardArray);
+        this.board.resetTiles();
         this.pointsA = 2;
         this.pointsB = 2;
         this.currentPlayer = 'A';
@@ -153,12 +154,14 @@ class GameOrchestrator {
 
     /**
      * Method that sets the new difficulty value
-     * @param {int} newDifficultyA - the new difficulty value for player A
-     * @param {int} newDifficultyB - the new difficulty value for player B
+     * @param {char} player - player A or B
+     * @param {int} newDifficulty - new difficulty for that player (if it's computer)
      */
-    changeDifficulty(newDifficultyA, newDifficultyB) {
-        this.difficultyA = newDifficultyA;
-        this.difficultyB = newDifficultyB;
+    changeDifficulty(player, newDifficulty) {
+        if(player == 'A')
+            this.difficultyA = newDifficulty;
+        else if(player == 'B')
+            this.difficultyB = newDifficulty;
     }
 
 
@@ -196,7 +199,7 @@ class GameOrchestrator {
         this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.resetTimer();
-
+        this.board.resetTiles();
         this.board.pickState = this.board.pickStates.NO_PICK;
     }
 

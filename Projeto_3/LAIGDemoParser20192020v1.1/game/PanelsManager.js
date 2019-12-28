@@ -13,7 +13,12 @@ class PanelsManager {
         this.panelIDs = Object.freeze({
             "UNDO": 100,
             "ROTATE": 101,
-            "DIFF": 102
+            "DIFF": 102,
+            "BACK": 103,
+            "EASY_A": 104,
+            "MEDIUM_A": 105,
+            "EASY_B": 106,
+            "MEDIUM_B": 107
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -23,16 +28,31 @@ class PanelsManager {
         this.panelMaterial.setSpecular(0, 0, 0, 1);
         this.panelMaterial.setEmission(1.0, 1.0, 1.0, 1);
 
+        this.selectedPanelMaterial = new CGFappearance(this.orchestrator.scene);
+        this.selectedPanelMaterial.setShininess(1);
+        this.selectedPanelMaterial.setAmbient(0, 0, 0, 1);
+        this.selectedPanelMaterial.setDiffuse(0, 0.7, 0, 1);
+        this.selectedPanelMaterial.setSpecular(0, 0, 0, 1);
+        this.selectedPanelMaterial.setEmission(0.2, 0.7, 0.2, 1);
+
+
+        this.backPanel = new Panel(this.orchestrator, new MyRectangle(scene, "backPanelRec", -1.2, -0.85, -0.75, -0.55, true), this.panelIDs.BACK);
 
         // menu panels - MAIN MENU
-        this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.6, 0.6, 0.5, 0.8, true));
+        this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.7, 0.7, 0.5, 0.8, true));
         this.difficultyPanel = new Panel(this.orchestrator, new MyRectangle(scene, "difficultyPanelRec", -1.1, -0.5, -0.1, 0.1, true), this.panelIDs.DIFF);
-        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.2, 0.2, 0.1, 0.4, true));
+        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.25, 0.25, 0.1, 0.4, true));
         this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -1.1, -0.5, -0.7, -0.5, true));
         this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.5, 1.1, -0.1, 0.1, true));
         this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.5, 1.1, -0.7, -0.5, true));
 
-        this.playerADiffPanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.3, 0.85, -0.8, -0.6, true));
+        // menu panels - DIFFICULTY
+        this.playerADiffPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playerADiffPanelRec", -0.6, 0.6, 0.5, 0.7, true));
+        this.playerBDiffPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playerBDiffPanelRec", -0.6, 0.6, -0.2, 0, true));
+        this.easyPlayerAPanel = new Panel(this.orchestrator, new MyRectangle(scene, "easyPlayerAPanelRec", -0.6, -0.2, 0.2, 0.4, true), this.panelIDs.EASY_A);
+        this.mediumPlayerAPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mediumPlayerAPanelRec", 0.0, 0.6, 0.2, 0.4, true), this.panelIDs.MEDIUM_A);
+        this.easyPlayerBPanel = new Panel(this.orchestrator, new MyRectangle(scene, "easyPlayerBPanelRec", -0.6, -0.2, -0.5, -0.3, true), this.panelIDs.EASY_B);
+        this.mediumPlayerBPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mediumPlayerBPanelRec", 0.0, 0.6, -0.5, -0.3, true), this.panelIDs.MEDIUM_B);
 
 
         // game panels
@@ -76,6 +96,8 @@ class PanelsManager {
 
 
         // TODO: menu panels
+        this.backPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('backTex'));
+        
         this.mainTitlePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('gameTitleTex'));
         this.difficultyPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('difficultyTex'));
         this.playPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('playTex'));
@@ -84,6 +106,11 @@ class PanelsManager {
         this.chooseScenePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('chooseSceneTex'));
 
         this.playerADiffPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('playerADiffTex'));
+        this.playerBDiffPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('playerBDiffTex'));
+        this.easyPlayerAPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('easyTex'));
+        this.mediumPlayerAPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('mediumTex'));
+        this.easyPlayerBPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('easyTex'));
+        this.mediumPlayerBPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('mediumTex'));
     }
 
 
@@ -154,6 +181,42 @@ class PanelsManager {
                 this.orchestrator.gameState = this.orchestrator.gameStates.DIFFICULTY;
                 break;
 
+            case this.panelIDs.BACK:
+                if(this.orchestrator.gameState == this.orchestrator.gameStates.GAME)
+                    return;
+                    
+                this.orchestrator.gameState = this.orchestrator.gameStates.MENU;
+                break;
+
+
+            case this.panelIDs.EASY_A:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
+                    return;
+
+                this.orchestrator.changeDifficulty('A', 1);
+                break;
+
+            case this.panelIDs.MEDIUM_A:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
+                    return;
+
+                this.orchestrator.changeDifficulty('A', 2);
+                break;
+
+            case this.panelIDs.EASY_B:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
+                    return;
+
+                this.orchestrator.changeDifficulty('B', 1);
+                break;
+
+            case this.panelIDs.MEDIUM_B:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
+                    return;
+
+                this.orchestrator.changeDifficulty('B', 2);
+                break;
+
             default:
                 break;
         }
@@ -165,6 +228,8 @@ class PanelsManager {
      * @param {XMLscene} scene - reference to the scene object
      */
     displayMainMenuPanels(scene) {
+
+        this.panelMaterial.apply();
 
         scene.pushMatrix();
         scene.translate(40, 8, 0);
@@ -186,15 +251,59 @@ class PanelsManager {
      * @param {XMLscene} scene - reference to the scene object
      */
     displayDifficultyPanels(scene) {
+
+        this.panelMaterial.apply();
+
+        scene.pushMatrix();
+        scene.translate(40, 8, 0);
+        scene.rotate(Math.PI / 2, 0, 1, 0);
+
         this.playerADiffPanel.display();
+        this.playerBDiffPanel.display();
+        this.backPanel.display();
+
+        let materialFirstOption, materialSecondOption;
+
+        if(this.orchestrator.difficultyA == 1) {
+            materialFirstOption = this.selectedPanelMaterial;
+            materialSecondOption = this.panelMaterial;
+        }
+        else if(this.orchestrator.difficultyA == 2) {
+            materialFirstOption = this.panelMaterial;
+            materialSecondOption = this.selectedPanelMaterial;  
+        }
+
+        materialFirstOption.apply();
+        this.easyPlayerAPanel.display();
+        materialSecondOption.apply();
+        this.mediumPlayerAPanel.display();
+
+
+        if(this.orchestrator.difficultyB == 1) {
+            materialFirstOption = this.selectedPanelMaterial;
+            materialSecondOption = this.panelMaterial;
+        }
+        else if(this.orchestrator.difficultyB == 2) {
+            materialFirstOption = this.panelMaterial;
+            materialSecondOption = this.selectedPanelMaterial;  
+        }
+
+        materialFirstOption.apply();
+        this.easyPlayerBPanel.display();
+        materialSecondOption.apply();
+        this.mediumPlayerBPanel.display();
+
+        scene.popMatrix();
     }
 
-    
+
     /**
      * Method that displays all game panels
      * @param {XMLscene} scene - reference to the scene object
      */
     displayGamePanels(scene) {
+
+        this.panelMaterial.apply();
 
         scene.translate(0, 2.5, 0);
 
@@ -282,7 +391,6 @@ class PanelsManager {
      */
     display() {
         let scene = this.orchestrator.scene;
-        this.panelMaterial.apply();
         scene.pushMatrix();
         
         switch(this.orchestrator.gameState) {
