@@ -128,7 +128,7 @@ class XMLscene extends CGFscene {
 				cameraAngRot -= this.angleRotated - Math.PI;
 				this.angleRotated = 0;
                 this.cameraRotationActive = false;
-                this.gameOrchestrator.changeCamera();
+                this.gameOrchestrator.rotatingCameraDone = true;
 			}
 			this.camera.orbit(vec3.fromValues(0, 1, 0), cameraAngRot);
 		}
@@ -154,11 +154,6 @@ class XMLscene extends CGFscene {
     checkKeys() {
         if (this.gui.isKeyPressed("KeyM"))
 			this.changeMatIndex();
-		
-		if (this.gui.isKeyPressed("KeyX")) {
-            if(this.normalCamera == this.graph.views["PlayerPerspective"])
-                this.cameraRotationActive = true;
-        }
     }
 
     /** Handler called when the graph is finally loaded. 
@@ -183,7 +178,8 @@ class XMLscene extends CGFscene {
     }
 
     changeCamera() {
-        this.normalCamera = this.graph.views[this.activeCameraID];
+        if(!this.cameraRotationActive)
+            this.normalCamera = this.graph.views[this.activeCameraID];
     }
 
     /**

@@ -22,6 +22,7 @@ class GameOrchestrator {
         });
         this.gameState = this.gameStates.LOADING_SCENE;
 
+        this.rotatingCameraDone = false; // variable that indicates 
 
         this.currentPlayer = 'A'; // variable that stores the current player
         this.playerAStatus = 'H'; // by default, player A is human
@@ -172,8 +173,11 @@ class GameOrchestrator {
     /**
      * Method that alternates between the two game cameras, changing the game panels's side
      */
-    changeCamera() {
-        this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
+    rotateCamera() {
+        if(this.scene.normalCamera != this.scene.graph.views["PlayerPerspective"])
+            return;
+        
+        this.scene.cameraRotationActive = true;
     }
 
 
@@ -209,14 +213,7 @@ class GameOrchestrator {
      * @param {*} pickResults - picking results
      */
     managePick(mode, pickResults) {
-        let pickEnabled = false;
-        if(this.gameState == this.gameStates.GAME) {
-            if(this.board.pickState == this.board.pickStates.PICK_PIECE || this.board.pickState == this.board.pickStates.PICK_PLAYER_MOVE) {
-                pickEnabled = true;
-            }
-        }
-
-        if (mode == false && pickEnabled) {
+        if (mode == false) {
             if (pickResults != null && pickResults.length > 0) { // any results?
                 for (let i=0; i< pickResults.length; i++) {
                     let obj = pickResults[i][0]; // get object from result
@@ -238,8 +235,10 @@ class GameOrchestrator {
      */
     onObjectSelected(object, uniqueId) {
         if(object instanceof Tile) { // a tile was picked
-            if(this.gameState != this.gameStates.GAME)
+            if(this.gameState != this.gameStates.GAME || 
+                (this.board.pickState != this.board.pickStates.PICK_PIECE && this.board.pickState != this.board.pickStates.PICK_PLAYER_MOVE)) {
                 return;
+            }
 
             switch(this.board.pickState) {
 
@@ -267,10 +266,6 @@ class GameOrchestrator {
         }
 
         else if(object instanceof Panel) { // if a panel was selected
-            if(this.gameState = this.gameStates.GAME)
-                this.board.pickState = this.board.pickStates.PICK_PIECE;
-            
-            this.board.resetTiles();
             this.panelsManager.onPanelSelected(object, uniqueId);
         }
 
@@ -371,6 +366,11 @@ class GameOrchestrator {
      * Method that contains the game cycle when in "game" mode
      */
     orchestrateGame() {
+        if(this.rotatingCameraDone) {
+            this.rotatingCameraDone = false;
+            this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
+        }
+
 
         switch(this.board.pickState) {
             
@@ -445,7 +445,7 @@ class GameOrchestrator {
                     }
                 }
                 
-                break;
+                break;            
 
             default:
                 break;

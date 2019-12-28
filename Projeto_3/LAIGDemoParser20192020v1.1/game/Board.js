@@ -15,8 +15,7 @@ class Board {
             "PICK_PIECE": 2,
             "PICK_PLAYER_MOVE": 3,
             "ANIMATING": 4,
-            "CHECK_GAME_OVER": 5,
-            "ROTATING_CAMERA": 6
+            "CHECK_GAME_OVER": 5
           }); 
         this.pickState = this.pickStates.NO_PICK;
 

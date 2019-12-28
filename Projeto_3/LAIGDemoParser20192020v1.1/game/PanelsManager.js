@@ -111,10 +111,20 @@ class PanelsManager {
     onPanelSelected(panel, uniqueId) {
         switch(uniqueId) {
             case this.panelIDs.ROTATE: // rotate panel
-                this.orchestrator.changeCamera();
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME)
+                    return;
+
+                this.orchestrator.rotateCamera();
                 break;
 
             case this.panelIDs.UNDO: // undo panel
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME || 
+                    (this.orchestrator.board.pickState != this.orchestrator.board.pickStates.PICK_PIECE && this.orchestrator.board.pickState != this.orchestrator.board.pickStates.PICK_PLAYER_MOVE)) {
+                    return;
+                }    
+
+                this.orchestrator.board.resetTiles();    
+                this.orchestrator.board.pickState = this.orchestrator.board.pickStates.PICK_PIECE;
                 this.orchestrator.undo();
                 break;
 
