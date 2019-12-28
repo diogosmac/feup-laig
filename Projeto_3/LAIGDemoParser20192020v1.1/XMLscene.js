@@ -206,7 +206,7 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
         
         this.pushMatrix();
-        this.axis.display();
+        // this.axis.display();
         
         
         if (this.sceneInited) {
