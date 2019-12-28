@@ -13,6 +13,7 @@ class PanelsManager {
         this.panelIDs = Object.freeze({
             "UNDO": 100,
             "ROTATE": 101,
+            "DIFF": 102
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -20,17 +21,18 @@ class PanelsManager {
         this.panelMaterial.setAmbient(0, 0, 0, 1);
         this.panelMaterial.setDiffuse(0.7, 0.7, 0.7, 1);
         this.panelMaterial.setSpecular(0, 0, 0, 1);
-        this.panelMaterial.setEmission(0, 0, 0, 1);
+        this.panelMaterial.setEmission(1.0, 1.0, 1.0, 1);
 
-        this.screenPanelShader = new CGFshader(scene.gl, "shaders/screenPanelShader.vert", "shaders/screenPanelShader.frag");
 
         // menu panels - MAIN MENU
-        this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.5, 0.5, 0.5, 0.8, true));
-        this.difficultyPanel = new Panel(this.orchestrator, new MyRectangle(scene, "difficultyPanelRec", -0.75, -0.3, -0.15, 0.1, true));
-        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.2, 0.2, -0.5, -0.2, true));
-        this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -0.75, -0.3, -0.8, -0.6, true));
-        this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.3, 0.85, -0.15, 0.1, true));
-        this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.3, 0.85, -0.8, -0.6, true));
+        this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.6, 0.6, 0.5, 0.8, true));
+        this.difficultyPanel = new Panel(this.orchestrator, new MyRectangle(scene, "difficultyPanelRec", -1.1, -0.5, -0.1, 0.1, true), this.panelIDs.DIFF);
+        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.2, 0.2, 0.1, 0.4, true));
+        this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -1.1, -0.5, -0.7, -0.5, true));
+        this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.5, 1.1, -0.1, 0.1, true));
+        this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.5, 1.1, -0.7, -0.5, true));
+
+        this.playerADiffPanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.3, 0.85, -0.8, -0.6, true));
 
 
         // game panels
@@ -80,6 +82,8 @@ class PanelsManager {
         this.setTurnTimePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('setTurnTimeTex'));
         this.gameOptionsPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('gameOptionsTex'));
         this.chooseScenePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('chooseSceneTex'));
+
+        this.playerADiffPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('playerADiffTex'));
     }
 
 
@@ -143,6 +147,13 @@ class PanelsManager {
                 }
                 break;
 
+            case this.panelIDs.DIFF: // difficulty panel
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
+                    return;
+
+                this.orchestrator.gameState = this.orchestrator.gameStates.DIFFICULTY;
+                break;
+
             default:
                 break;
         }
@@ -154,8 +165,10 @@ class PanelsManager {
      * @param {XMLscene} scene - reference to the scene object
      */
     displayMainMenuPanels(scene) {
-        scene.gl.disable(scene.gl.DEPTH_TEST);
-        scene.setActiveShader(this.screenPanelShader);
+
+        scene.pushMatrix();
+        scene.translate(40, 8, 0);
+        scene.rotate(Math.PI / 2, 0, 1, 0);
 
         this.mainTitlePanel.display();
         this.difficultyPanel.display();
@@ -164,11 +177,19 @@ class PanelsManager {
         this.gameOptionsPanel.display();
         this.chooseScenePanel.display();
 
-        scene.setActiveShader(scene.defaultShader);
-        scene.gl.enable(scene.gl.DEPTH_TEST);
+        scene.popMatrix();
     }
 
 
+    /**
+     * Method that displays all difficulty menu panels
+     * @param {XMLscene} scene - reference to the scene object
+     */
+    displayDifficultyPanels(scene) {
+        this.playerADiffPanel.display();
+    }
+
+    
     /**
      * Method that displays all game panels
      * @param {XMLscene} scene - reference to the scene object
@@ -179,25 +200,17 @@ class PanelsManager {
 
         if(this.rotateGamePanels)
             scene.rotate(Math.PI, 0, 1, 0);
-        
+
         scene.pushMatrix();
         scene.translate(4, 0, -3.75);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
-
-        scene.registerForPick(this.rotatePanel.id, this.rotatePanel);
         this.rotatePanel.display();
-        scene.clearPickRegistration();
-
         scene.popMatrix();
-        
+
         scene.pushMatrix();
         scene.translate(4, 0, -2.25);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
-
-        scene.registerForPick(this.undoPanel.id, this.undoPanel);
         this.undoPanel.display();
-        scene.clearPickRegistration();
-
         scene.popMatrix();
         
         scene.pushMatrix();
@@ -261,6 +274,9 @@ class PanelsManager {
         scene.popMatrix();
     }
 
+
+
+
     /**
      * Display method for all the panels
      */
@@ -272,6 +288,10 @@ class PanelsManager {
         switch(this.orchestrator.gameState) {
             case this.orchestrator.gameStates.MENU:
                 this.displayMainMenuPanels(scene);
+                break;
+
+            case this.orchestrator.gameStates.DIFFICULTY:
+                this.displayDifficultyPanels(scene);
                 break;
 
             case this.orchestrator.gameStates.GAME:

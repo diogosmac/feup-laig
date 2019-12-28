@@ -28,6 +28,9 @@ class Panel {
      * Display method of the panel
      */
     display() {
+        if(this.id != null)
+            this.orchestrator.scene.registerForPick(this.id, this);
+
         if(this.panelTexture != null)
             this.panelTexture.bind();
 
@@ -35,5 +38,8 @@ class Panel {
 
         if(this.panelTexture != null)
             this.panelTexture.unbind();
+
+        if(this.id != null)
+            this.orchestrator.scene.clearPickRegistration();
     }
 }

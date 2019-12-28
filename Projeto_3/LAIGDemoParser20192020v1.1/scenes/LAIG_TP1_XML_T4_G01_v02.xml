@@ -7,12 +7,8 @@
             <to x="0" y="2" z="0" />
         </perspective>
         <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
-            <from x="30" y="20" z="-25" />
-            <to x="0" y="-2" z="0" />
-        </perspective>
-        <perspective id="reverseAnglePerspective" near="0.1" far="500" angle="45">
-            <from x="-30" y="20" z="25" />
-            <to x="0" y="-2" z="0" />
+            <from x="42" y="8" z="0" />
+            <to x="0" y="8" z="0" />
         </perspective>
     </views>
 
