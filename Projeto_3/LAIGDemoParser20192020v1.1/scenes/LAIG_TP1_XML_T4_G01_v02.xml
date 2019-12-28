@@ -158,6 +158,7 @@
         <texture id="set_turn_time" file="scenes/panels/menu/set_turn_time.png" />
         <texture id="winner-a" file="scenes/panels/menu/winner-a.png" />
         <texture id="winner-b" file="scenes/panels/menu/winner-b.png" />
+        <texture id="play" file="scenes/panels/menu/play.png" />
 
     </textures>
 
@@ -585,7 +586,7 @@
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
         <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
         <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" />
-        <panelMenu timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" />
+        <panelMenu playTex="play" timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" />
     </templates>
 
     <components>

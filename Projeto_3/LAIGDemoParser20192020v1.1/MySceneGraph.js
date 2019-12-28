@@ -1658,6 +1658,12 @@ class MySceneGraph {
 
                 let allTextures = [];
 
+                var playTex = this.reader.getString(children[i], 'playTex');
+                if (!(playTex != null && this.textures[playTex] != null))
+                    return "unable to parse playTex for template " + templateType;
+
+                allTextures['playTex'] = this.textures[playTex];
+
                 var timer15Tex = this.reader.getString(children[i], 'timer15Tex');
                 if (!(timer15Tex != null && this.textures[timer15Tex] != null))
                     return "unable to parse timer15Tex for template " + templateType;

@@ -24,9 +24,13 @@ class PanelsManager {
 
         this.screenPanelShader = new CGFshader(scene.gl, "shaders/screenPanelShader.vert", "shaders/screenPanelShader.frag");
 
-        // menu panels
+        // menu panels - MAIN MENU
         this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.5, 0.5, 0.5, 0.8, true));
-
+        this.difficultyPanel = new Panel(this.orchestrator, new MyRectangle(scene, "difficultyPanelRec", -0.75, -0.3, -0.15, 0.1, true));
+        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.2, 0.2, -0.5, -0.2, true));
+        this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -0.75, -0.3, -0.8, -0.6, true));
+        this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.3, 0.85, -0.15, 0.1, true));
+        this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.3, 0.85, -0.8, -0.6, true));
 
 
         // game panels
@@ -71,6 +75,11 @@ class PanelsManager {
 
         // TODO: menu panels
         this.mainTitlePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('gameTitleTex'));
+        this.difficultyPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('difficultyTex'));
+        this.playPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('playTex'));
+        this.setTurnTimePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('setTurnTimeTex'));
+        this.gameOptionsPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('gameOptionsTex'));
+        this.chooseScenePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('chooseSceneTex'));
     }
 
 
@@ -149,6 +158,11 @@ class PanelsManager {
         scene.setActiveShader(this.screenPanelShader);
 
         this.mainTitlePanel.display();
+        this.difficultyPanel.display();
+        this.playPanel.display();
+        this.setTurnTimePanel.display();
+        this.gameOptionsPanel.display();
+        this.chooseScenePanel.display();
 
         scene.setActiveShader(scene.defaultShader);
         scene.gl.enable(scene.gl.DEPTH_TEST);
