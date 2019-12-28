@@ -23,7 +23,7 @@ class GameOrchestrator {
         });
         this.gameState = this.gameStates.LOADING_SCENE;
 
-        this.maxTimes = [15, 30, 45, 60];
+        this.maxTimes = [15, 30, 60];
         this.maxTimeID = 0;
         this.MAX_TURN_TIME = this.maxTimes[this.maxTimeID]; // by default, each player can take up to 15 seconds in their turns (after that, the turn is passed to the other player)
         this.time = this.MAX_TURN_TIME;

@@ -18,7 +18,11 @@ class PanelsManager {
             "EASY_A": 104,
             "MEDIUM_A": 105,
             "EASY_B": 106,
-            "MEDIUM_B": 107
+            "MEDIUM_B": 107,
+            "TURN_TIME_15": 108,
+            "TURN_TIME_30": 109,
+            "TURN_TIME_60": 110,
+            "SET_TURN_TIME": 111
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -42,7 +46,7 @@ class PanelsManager {
         this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.7, 0.7, 0.5, 0.8, true));
         this.difficultyPanel = new Panel(this.orchestrator, new MyRectangle(scene, "difficultyPanelRec", -1.1, -0.5, -0.1, 0.1, true), this.panelIDs.DIFF);
         this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.25, 0.25, 0.1, 0.4, true));
-        this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -1.1, -0.5, -0.7, -0.5, true));
+        this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -1.1, -0.5, -0.7, -0.5, true), this.panelIDs.SET_TURN_TIME);
         this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.5, 1.1, -0.1, 0.1, true));
         this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.5, 1.1, -0.7, -0.5, true));
 
@@ -53,6 +57,13 @@ class PanelsManager {
         this.mediumPlayerAPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mediumPlayerAPanelRec", 0.0, 0.6, 0.2, 0.4, true), this.panelIDs.MEDIUM_A);
         this.easyPlayerBPanel = new Panel(this.orchestrator, new MyRectangle(scene, "easyPlayerBPanelRec", -0.6, -0.2, -0.5, -0.3, true), this.panelIDs.EASY_B);
         this.mediumPlayerBPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mediumPlayerBPanelRec", 0.0, 0.6, -0.5, -0.3, true), this.panelIDs.MEDIUM_B);
+
+
+        // menu panels - SET TURN TIME
+        this.setTurnTimeTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimeTitlePanelRec", -0.4, 0.4, 0.5, 0.7, true));
+        this.turnTime15Panel = new Panel(this.orchestrator, new MyRectangle(scene, "turnTime15Panel", -0.3, 0.3, 0.2, 0.4, true), this.panelIDs.TURN_TIME_15);
+        this.turnTime30Panel = new Panel(this.orchestrator, new MyRectangle(scene, "turnTime30Panel", -0.3, 0.3, -0.2, 0.0, true), this.panelIDs.TURN_TIME_30);
+        this.turnTime60Panel = new Panel(this.orchestrator, new MyRectangle(scene, "turnTime60Panel", -0.3, 0.3, -0.6, -0.4, true), this.panelIDs.TURN_TIME_60);
 
 
         // game panels
@@ -111,6 +122,11 @@ class PanelsManager {
         this.mediumPlayerAPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('mediumTex'));
         this.easyPlayerBPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('easyTex'));
         this.mediumPlayerBPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('mediumTex'));
+
+        this.setTurnTimeTitlePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('setTurnTimeTex'));
+        this.turnTime15Panel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('timer15Tex'));
+        this.turnTime30Panel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('timer30Tex'));
+        this.turnTime60Panel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('timer60Tex'));
     }
 
 
@@ -217,6 +233,34 @@ class PanelsManager {
                 this.orchestrator.changeDifficulty('B', 2);
                 break;
 
+            case this.panelIDs.SET_TURN_TIME:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
+                    return;
+
+                this.orchestrator.gameState = this.orchestrator.gameStates.SET_TIMER;
+                break;
+
+            case this.panelIDs.TURN_TIME_15:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.SET_TIMER)
+                    return;
+
+                this.orchestrator.changeMaxTurnDuration(0);
+                break;
+
+            case this.panelIDs.TURN_TIME_30:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.SET_TIMER)
+                    return;
+
+                this.orchestrator.changeMaxTurnDuration(1);
+                break;
+
+            case this.panelIDs.TURN_TIME_60:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.SET_TIMER)
+                    return;
+
+                this.orchestrator.changeMaxTurnDuration(2);
+                break;
+
             default:
                 break;
         }
@@ -292,6 +336,49 @@ class PanelsManager {
         this.easyPlayerBPanel.display();
         materialSecondOption.apply();
         this.mediumPlayerBPanel.display();
+
+        scene.popMatrix();
+    }
+
+
+    /**
+     * Method that displays all set turn time panels
+     * @param {XMLscene} scene - reference to the scene object
+     */
+    displaySetTurnTimerPanels(scene) {
+        this.panelMaterial.apply();
+
+        scene.pushMatrix();
+        scene.translate(40, 8, 0);
+        scene.rotate(Math.PI / 2, 0, 1, 0);
+
+        this.setTurnTimeTitlePanel.display();
+        this.backPanel.display();
+
+        let materialFirstOption, materialSecondOption, materialThirdOption;
+
+        if(this.orchestrator.maxTimeID == 0) {
+            materialFirstOption = this.selectedPanelMaterial;
+            materialSecondOption = this.panelMaterial;
+            materialThirdOption = this.panelMaterial;
+        }
+        else if(this.orchestrator.maxTimeID == 1) {
+            materialFirstOption = this.panelMaterial;
+            materialSecondOption = this.selectedPanelMaterial;
+            materialThirdOption = this.panelMaterial;  
+        }
+        else if(this.orchestrator.maxTimeID == 2) {
+            materialFirstOption = this.panelMaterial;
+            materialSecondOption = this.panelMaterial; 
+            materialThirdOption = this.selectedPanelMaterial;
+        }
+
+        materialFirstOption.apply();
+        this.turnTime15Panel.display();
+        materialSecondOption.apply();
+        this.turnTime30Panel.display();
+        materialThirdOption.apply();
+        this.turnTime60Panel.display();
 
         scene.popMatrix();
     }
@@ -400,6 +487,10 @@ class PanelsManager {
 
             case this.orchestrator.gameStates.DIFFICULTY:
                 this.displayDifficultyPanels(scene);
+                break;
+
+            case this.orchestrator.gameStates.SET_TIMER:
+                this.displaySetTurnTimerPanels(scene);
                 break;
 
             case this.orchestrator.gameStates.GAME:
