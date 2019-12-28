@@ -137,7 +137,27 @@
         <texture id="undo" file="scenes/panels/game/undo.png" />
 
         <!-- panel textures(menu) -->
-        <texture id="n" file="scenes/panels/game/undo.png" />
+        <texture id="15" file="scenes/panels/menu/15.png" />
+        <texture id="30" file="scenes/panels/menu/30.png" />
+        <texture id="60" file="scenes/panels/menu/60.png" />
+        <texture id="back" file="scenes/panels/menu/back.png" />
+        <texture id="chooseScene" file="scenes/panels/menu/chooseScene.png" />
+        <texture id="cvc" file="scenes/panels/menu/cvc.png" />
+        <texture id="diff-easy" file="scenes/panels/menu/diff-easy.png" />
+        <texture id="diff-medium" file="scenes/panels/menu/diff-medium.png" />
+        <texture id="difficulty" file="scenes/panels/menu/difficulty.png" />
+        <texture id="draw" file="scenes/panels/menu/draw.png" />
+        <texture id="gameOptions" file="scenes/panels/menu/gameOptions.png" />
+        <texture id="gameTitle" file="scenes/panels/menu/gameTitle.png" />
+        <texture id="mainMenu" file="scenes/panels/menu/mainMenu.png" />
+        <texture id="pvp" file="scenes/panels/menu/pvp.png" />
+        <texture id="pvc" file="scenes/panels/menu/pvc.png" />
+        <texture id="movie" file="scenes/panels/menu/movie.png" />
+        <texture id="playerADiff" file="scenes/panels/menu/playerADiff.png" />
+        <texture id="playerBDiff" file="scenes/panels/menu/playerBDiff.png" />
+        <texture id="set_turn_time" file="scenes/panels/menu/set_turn_time.png" />
+        <texture id="winner-a" file="scenes/panels/menu/winner-a.png" />
+        <texture id="winner-b" file="scenes/panels/menu/winner-b.png" />
 
     </textures>
 
@@ -565,7 +585,7 @@
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
         <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
         <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" />
-        <!-- <panelMenu /> -->
+        <panelMenu timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" />
     </templates>
 
 
