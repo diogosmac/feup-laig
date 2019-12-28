@@ -21,11 +21,11 @@ class Animator {
 	leapAnimation(tile, newTile) {
 		if (tile.microbe != null) {
 			let transX = newTile.x - tile.x;
-			let transZ = newTile.y - tile.y;
+			let transY = newTile.y - tile.y;
 
-			let raise = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.3);
-			let hold = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.4);
-			let strike = new MyKeyframe([transX, 0, transZ], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.5);
+			let raise = new MyKeyframe([transY / 4, 1.5, transX / 4], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 0.5);
+			let hold = new MyKeyframe([(3/4) * transY, 1.5, (3/4) * transX], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.0);
+			let strike = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.5);
 
 			let keyframes = [raise, hold, strike];
 
