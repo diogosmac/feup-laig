@@ -109,7 +109,18 @@ class PanelsManager {
      * @param {int} uniqueId - unique ID of that panel
      */
     onPanelSelected(panel, uniqueId) {
+        switch(uniqueId) {
+            case this.panelIDs.ROTATE: // rotate panel
+                this.orchestrator.changeCamera();
+                break;
 
+            case this.panelIDs.UNDO: // undo panel
+                
+                break;
+
+            default:
+                break;
+        }
     }
 
 
@@ -125,18 +136,26 @@ class PanelsManager {
             case this.orchestrator.gameStates.GAME:
                 
                 if(this.rotateGamePanels)
-                scene.rotate(Math.PI, 0, 1, 0);
+                    scene.rotate(Math.PI, 0, 1, 0);
                 
                 scene.pushMatrix();
                 scene.translate(4, 0, -3.75);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
+
+                scene.registerForPick(this.rotatePanel.id, this.rotatePanel);
                 this.rotatePanel.display();
+                scene.clearPickRegistration();
+
                 scene.popMatrix();
                 
                 scene.pushMatrix();
                 scene.translate(4, 0, -2.25);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
+
+                scene.registerForPick(this.undoPanel.id, this.undoPanel);
                 this.undoPanel.display();
+                scene.clearPickRegistration();
+
                 scene.popMatrix();
                 
                 scene.pushMatrix();

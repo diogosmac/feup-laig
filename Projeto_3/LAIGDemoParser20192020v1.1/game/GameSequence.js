@@ -13,6 +13,40 @@ class GameSequence {
 
 
     /**
+     * Method that resets the game sequence
+     */
+    reset() {
+        this.moves = [];
+    }
+
+
+    /**
+     * Method that undoes the last move
+     * @return true if the undo operation was done successfully, false if not (not enough moves to backtrack)
+     */
+    undo() {
+        if(this.moves.length < 2)
+            return false;
+
+        this.moves.pop();
+        this.moves.pop();
+        return true;
+    }
+
+
+    /**
+     * Method that returns the last move made
+     * @return Last move made, false if there are no moves yet
+     */
+    getLastMove() {
+        if(this.moves.length == 0)
+            return false;
+
+        return this.moves[this.moves.length - 1];
+    }
+
+
+    /**
      * Method that adds a new game move to the sequence
      * @param {GameMove} gameMove - new game move to be added
      */
