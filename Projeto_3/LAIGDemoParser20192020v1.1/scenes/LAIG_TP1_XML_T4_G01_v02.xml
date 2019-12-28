@@ -6,10 +6,6 @@
             <from x="10" y="10" z="0" />
             <to x="0" y="2" z="0" />
         </perspective>
-        <!-- <perspective id="Player2Perspective" near="0.1" far="500" angle="45">
-            <from x="-10" y="10" z="0" />
-            <to x="0" y="2" z="0" />
-        </perspective> -->
         <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
             <from x="30" y="20" z="-25" />
             <to x="0" y="-2" z="0" />
@@ -121,7 +117,7 @@
         <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
         <texture id="boardTex" file="scenes/images/board-tex.jpg" />
 
-        <!-- panel textures -->
+        <!-- panel textures(game) -->
         <texture id="zero" file="scenes/panels/game/0.png" />
         <texture id="one" file="scenes/panels/game/1.png" />
         <texture id="two" file="scenes/panels/game/2.png" />
@@ -139,6 +135,10 @@
         <texture id="scoreB" file="scenes/panels/game/score_b.png" />
         <texture id="timer" file="scenes/panels/game/timer.png" />
         <texture id="undo" file="scenes/panels/game/undo.png" />
+
+        <!-- panel textures(menu) -->
+        <texture id="n" file="scenes/panels/game/undo.png" />
+
     </textures>
 
     <materials>

@@ -144,6 +144,8 @@ class PanelsManager {
         switch(this.orchestrator.gameState) {
             case this.orchestrator.gameStates.GAME:
                 
+                scene.translate(0, 2.5, 0);
+
                 if(this.rotateGamePanels)
                     scene.rotate(Math.PI, 0, 1, 0);
                 
