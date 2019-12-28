@@ -56,6 +56,7 @@ class PanelsManager {
     loadTemplate(numbersTemplate, gamePanelTemplate, menuPanelTemplate) {
         this.numbersTemplate = numbersTemplate;
         this.gamePanelTemplate = gamePanelTemplate;
+        this.menuPanelTemplate = menuPanelTemplate;
 
         this.undoPanel.loadPanelTexture(this.gamePanelTemplate.undoTexture);
         this.rotatePanel.loadPanelTexture(this.gamePanelTemplate.rotateTexture);

@@ -1653,7 +1653,144 @@ class MySceneGraph {
                 currentTemplate = new GamePanelTemplate(playerATurnTex, playerBTurnTex, rotateTex, scoreATex, scoreBTex, timerTex, undoTex);
             }
 
-            
+            // For the menu panel textures template
+            else if (templateType == 'panelMenu') {
+
+                let allTextures = [];
+
+                var timer15Tex = this.reader.getString(children[i], 'timer15Tex');
+                if (!(timer15Tex != null && this.textures[timer15Tex] != null))
+                    return "unable to parse timer15Tex for template " + templateType;
+
+                allTextures[timer15Tex] = this.textures[timer15Tex];
+
+                var timer30Tex = this.reader.getString(children[i], 'timer30Tex');
+                if (!(timer30Tex != null && this.textures[timer30Tex] != null))
+                    return "unable to parse timer30Tex for template " + templateType;
+
+                allTextures[timer30Tex] = this.textures[timer30Tex];
+
+                var timer60Tex = this.reader.getString(children[i], 'timer60Tex');
+                if (!(timer60Tex != null && this.textures[timer60Tex] != null))
+                    return "unable to parse timer60Tex for template " + templateType;
+
+                allTextures[timer60Tex] = this.textures[timer60Tex];
+
+                var backTex = this.reader.getString(children[i], 'backTex');
+                if (!(backTex != null && this.textures[backTex] != null))
+                    return "unable to parse backTex for template " + templateType;
+
+                allTextures[backTex] = this.textures[backTex];
+
+                var chooseSceneTex = this.reader.getString(children[i], 'chooseSceneTex');
+                if (!(chooseSceneTex != null && this.textures[chooseSceneTex] != null))
+                    return "unable to parse chooseSceneTex for template " + templateType;
+
+                allTextures[chooseSceneTex] = this.textures[chooseSceneTex];
+
+                var cvcTex = this.reader.getString(children[i], 'cvcTex');
+                if (!(cvcTex != null && this.textures[cvcTex] != null))
+                    return "unable to parse cvcTex for template " + templateType;
+
+                allTextures[cvcTex] = this.textures[cvcTex];
+
+                var easyTex = this.reader.getString(children[i], 'easyTex');
+                if (!(easyTex != null && this.textures[easyTex] != null))
+                    return "unable to parse easyTex for template " + templateType;
+
+                allTextures[easyTex] = this.textures[easyTex];
+
+
+                var mediumTex = this.reader.getString(children[i], 'mediumTex');
+                if (!(mediumTex != null && this.textures[mediumTex] != null))
+                    return "unable to parse mediumTex for template " + templateType;
+
+                allTextures[mediumTex] = this.textures[mediumTex];
+
+
+                var difficultyTex = this.reader.getString(children[i], 'difficultyTex');
+                if (!(difficultyTex != null && this.textures[difficultyTex] != null))
+                    return "unable to parse difficultyTex for template " + templateType;
+
+                allTextures[difficultyTex] = this.textures[difficultyTex];
+
+
+                var drawTex = this.reader.getString(children[i], 'drawTex');
+                if (!(drawTex != null && this.textures[drawTex] != null))
+                    return "unable to parse drawTex for template " + templateType;
+
+                allTextures[drawTex] = this.textures[drawTex];
+
+
+                var gameOptionsTex = this.reader.getString(children[i], 'gameOptionsTex');
+                if (!(gameOptionsTex != null && this.textures[gameOptionsTex] != null))
+                    return "unable to parse gameOptionsTex for template " + templateType;
+
+                allTextures[gameOptionsTex] = this.textures[gameOptionsTex];
+
+
+                var gameTitleTex = this.reader.getString(children[i], 'gameTitleTex');
+                if (!(gameTitleTex != null && this.textures[gameTitleTex] != null))
+                    return "unable to parse gameTitleTex for template " + templateType;
+
+                allTextures[gameTitleTex] = this.textures[gameTitleTex];
+
+                var mainMenuTex = this.reader.getString(children[i], 'mainMenuTex');
+                if (!(mainMenuTex != null && this.textures[mainMenuTex] != null))
+                    return "unable to parse mainMenuTex for template " + templateType;
+
+                allTextures[mainMenuTex] = this.textures[mainMenuTex];
+
+                var pvpTex = this.reader.getString(children[i], 'pvpTex');
+                if (!(pvpTex != null && this.textures[pvpTex] != null))
+                    return "unable to parse pvpTex for template " + templateType;
+
+                allTextures[pvpTex] = this.textures[pvpTex];
+
+                var pvcTex = this.reader.getString(children[i], 'pvcTex');
+                if (!(pvcTex != null && this.textures[pvcTex] != null))
+                    return "unable to parse pvcTex for template " + templateType;
+
+                allTextures[pvcTex] = this.textures[pvcTex];
+
+                var movieTex = this.reader.getString(children[i], 'movieTex');
+                if (!(movieTex != null && this.textures[movieTex] != null))
+                    return "unable to parse movieTex for template " + templateType;
+
+                allTextures[movieTex] = this.textures[movieTex];
+
+                var playerADiffTex = this.reader.getString(children[i], 'playerADiffTex');
+                if (!(playerADiffTex != null && this.textures[playerADiffTex] != null))
+                    return "unable to parse playerADiffTex for template " + templateType;
+
+                allTextures[playerADiffTex] = this.textures[playerADiffTex];
+
+                var playerBDiffTex = this.reader.getString(children[i], 'playerBDiffTex');
+                if (!(playerBDiffTex != null && this.textures[playerBDiffTex] != null))
+                    return "unable to parse playerBDiffTex for template " + templateType;
+
+                allTextures[playerBDiffTex] = this.textures[playerBDiffTex];
+
+                var setTurnTimeTex = this.reader.getString(children[i], 'setTurnTimeTex');
+                if (!(setTurnTimeTex != null && this.textures[setTurnTimeTex] != null))
+                    return "unable to parse setTurnTimeTex for template " + templateType;
+
+                allTextures[setTurnTimeTex] = this.textures[setTurnTimeTex];
+
+                var winnerATex = this.reader.getString(children[i], 'winnerATex');
+                if (!(winnerATex != null && this.textures[winnerATex] != null))
+                    return "unable to parse winnerATex for template " + templateType;
+
+                allTextures[winnerATex] = this.textures[winnerATex];
+
+                var winnerBTex = this.reader.getString(children[i], 'winnerBTex');
+                if (!(winnerBTex != null && this.textures[winnerBTex] != null))
+                    return "unable to parse winnerBTex for template " + templateType;
+
+                allTextures[winnerBTex] = this.textures[winnerBTex];
+
+                currentTemplate = new MenuPanelTemplate(allTextures);
+            }
 
             this.templates[templateType] = currentTemplate;
         }

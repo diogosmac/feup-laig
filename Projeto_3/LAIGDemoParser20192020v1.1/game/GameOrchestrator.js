@@ -131,7 +131,7 @@ class GameOrchestrator {
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
         this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
-        this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], null);
+        this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], this.templates['panelMenu']);
 
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
@@ -139,7 +139,7 @@ class GameOrchestrator {
 
         // TODO: implement menu panels
 
-        this.gameState = this.gameStates.GAME;
+        this.gameState = this.gameStates.MENU;
     }
 
 
