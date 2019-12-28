@@ -1534,7 +1534,7 @@ class MySceneGraph {
                 currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture);
             }
 
-            else if (templateType == 'sideBoard') {
+            else if (templateType == 'sideBoardA' || templateType == 'sideBoardB') {
 
                 var sideBoardGeometry = this.reader.getString(children[i], 'sideBoardGeometry');
                 if (!(sideBoardGeometry != null && this.primitives[sideBoardGeometry] != null))
@@ -1555,9 +1555,17 @@ class MySceneGraph {
                 if (sideBoardTex == "none")
                     sideBoardTex = null;
                 else
-                    sideBoardTex = this.textures[sideBoardTex];
+					sideBoardTex = this.textures[sideBoardTex];
+				
+				var sideBoardX = this.reader.getFloat(children[i], 'x');
+				if (!(sideBoardX != null && !isNaN(sideBoardX)))
+					return "unable to parse the side board x position for the component with ID = " + componentID;
+				
+				var sideBoardY = this.reader.getFloat(children[i], 'y');
+				if (!(sideBoardY != null && !isNaN(sideBoardY)))
+					return "unable to parse the side board y position for the component with ID = " + componentID;
 
-                currentTemplate = new SideBoardTemplate(sideBoardGeometry, sideBoardMat, sideBoardTex);
+                currentTemplate = new SideBoardTemplate(sideBoardGeometry, sideBoardMat, sideBoardTex, sideBoardX, sideBoardY);
 
             }
 

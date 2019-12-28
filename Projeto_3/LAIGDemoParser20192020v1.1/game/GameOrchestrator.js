@@ -60,7 +60,7 @@ class GameOrchestrator {
      */
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
-        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB'], this.templates['sideBoard']);
+        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB'], this.templates['sideBoardA'], this.templates['sideBoardB']);
     }
 
 

@@ -22,9 +22,10 @@ class Board {
      * @param {BoardTemplate} newTemplate - new board template
      * @param {MicrobeTemplate} newMicrobeATemplate - new template for the microbes of player A
      * @param {MicrobeTemplate} newMicrobeBTemplate - new template for the microbes of player B
-     * @param {SideBoardTemplate} newSideBoardTemplate - new template for the side boards
+     * @param {SideBoardTemplate} newSideBoardTemplate - new template for the side board of player A
+     * @param {SideBoardTemplate} newSideBoardTemplate - new template for the side board of player B
      */
-    loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate, newSideBoardTemplate) {
+	loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate, newSideBoardATemplate, newSideBoardBTemplate) {
         // loads template for the board
         this.boardTemplate = newTemplate;
         let currentTileMat = this.boardTemplate.tile1Mat;
@@ -43,8 +44,8 @@ class Board {
             }
         }
 
-        this.sideBoardTemplate = newSideBoardTemplate;
-        console.log(this.sideBoardTemplate.sideBoardTex);
+        this.sideBoardATemplate = newSideBoardATemplate;
+		this.sideBoardBTemplate = newSideBoardBTemplate;
     }
 
 
@@ -170,25 +171,33 @@ class Board {
 
 
 
-        this.sideBoardTemplate.sideBoardMat.apply();
-        if (this.sideBoardTemplate.sideBoardTexture != null) {
-            this.sideBoardTemplate.sideBoardTexture.bind();
+        this.sideBoardATemplate.sideBoardMat.apply();
+        if (this.sideBoardATemplate.sideBoardTexture != null) {
+            this.sideBoardATemplate.sideBoardTexture.bind();
         }
             
         scene.pushMatrix();
-        scene.translate(0, 0, 3.2);
-        this.sideBoardTemplate.sideBoardGeometry.display();
+        scene.translate(this.sideBoardATemplate.y, 0, this.sideBoardATemplate.x);
+        this.sideBoardATemplate.sideBoardGeometry.display();
         scene.popMatrix();
-        
+		
+		if (this.sideBoardATemplate.sideBoardTexture != null)
+			this.sideBoardATemplate.sideBoardTexture.unbind();        
+
+
+		this.sideBoardBTemplate.sideBoardMat.apply();
+		if (this.sideBoardBTemplate.sideBoardTexture != null) {
+			this.sideBoardBTemplate.sideBoardTexture.bind();
+		}
+
         scene.pushMatrix();
-        scene.translate(0, 0, -3.2);
-        this.sideBoardTemplate.sideBoardGeometry.display();
+        scene.translate(this.sideBoardBTemplate.y, 0, this.sideBoardBTemplate.x);
+        this.sideBoardBTemplate.sideBoardGeometry.display();
         scene.popMatrix();
-
-        if (this.sideBoardTemplate.sideBoardTexture != null)
-            this.sideBoardTemplate.sideBoardTexture.unbind();        
-
             
+		if (this.sideBoardBTemplate.sideBoardTexture != null)
+			this.sideBoardBTemplate.sideBoardTexture.unbind();
+
 
         for(let i = 0; i < this.boardTiles.length; i++) {
             let tile = this.boardTiles[i];

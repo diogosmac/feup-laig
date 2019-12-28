@@ -554,7 +554,8 @@
         <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="boardTex" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
         <microbeA microbeGeometry="microbeGeometry" microbeMaterial="microbeAMat" microbeTexture="none" />
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
-        <sideBoard sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" />
+        <sideBoardA sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="3.2" y="0"/>
+        <sideBoardB sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="-3.2" y="0"/>
     </templates>
 
 
