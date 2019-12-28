@@ -47,42 +47,7 @@ class Tile {
         microbe.assignMicrobeToTile(this);
     }
 
-    /**
-     * Method that generates a leaping animation, for when the microbe on this tile moves
-     */
-    leapAnimation(newTile) {
-        if (this.microbe != null) {
-
-            let transX = newTile.x - this.x;
-			let transZ = newTile.y - this.y;
-
-            let raise = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.2);
-            let hold = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.4);
-            let strike = new MyKeyframe([transX, 0, transZ], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.5);
-
-            let keyframes = [raise, hold, strike];
-
-			this.microbe.animation = new KeyframeAnimation(this.orchestrator.scene, keyframes);
-        }
-	}
-	
 	/**
-	 * Method that generates a spinning animation, with a change of color
-	 */
-	convertAnimation() {
-		if (this.microbe != null) {
-			let jump = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 0.4);
-			let expand = new MyKeyframe([0, 2, 0], [0, Math.PI / 2, 0], [3, 1, 3], this.orchestrator.time + 0.7);
-			let twirl = new MyKeyframe([0, 1.8, 0], [0, Math.PI, 0], [1, 1, 1], this.orchestrator.time + 1);
-			let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], this.orchestrator.time + 1.5);
-
-			let keyframes = [jump, expand, twirl, restore];
-
-			this.microbe.animation = new KeyframeAnimation(this.orchestrator.scene, keyframes);
-		}
-	}
-
-    /**
      * Method that removes a microbe from a tile
      */
     removeMicrobeFromTile() {

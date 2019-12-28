@@ -7,7 +7,8 @@ class GameOrchestrator {
      * @param {XMLScene} scene - Reference to the scene object
      */
     constructor(scene) {
-        this.scene = scene;
+		this.scene = scene;
+		this.animator = new Animator(this);
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
         this.time = 0;
         
@@ -105,8 +106,8 @@ class GameOrchestrator {
             this.board.toggleTile(uniqueId);
             this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
             if (object.microbe != null) {
-				object.leapAnimation(object);
-				// this.convert(object);
+				// this.animator.leapAnimation(object, object);
+				this.animator.convertAnimation(object);
             }
         }
         else {
@@ -114,26 +115,6 @@ class GameOrchestrator {
         }
 	}
 	
-	/**
-	 * Method that converts a microbe to the opponent side
-	 */
-	convert(tile) {
-		
-		tile.convertAnimation();
-		
-		let microbe = tile.microbe;
-
-		if (microbe.type == 'A') {
-			microbe.type = 'B';
-			microbe.loadTemplate(this.templates['microbeB']);
-		}
-		else if (microbe.type == 'B') {
-			microbe.type = 'A';
-			microbe.loadTemplate(this.templates['microbeA']);
-		}
-
-	}
-
     /**
      * Method that does all the process necessary to make a move
      * @param {Array} moveArray - array that 
@@ -169,7 +150,8 @@ class GameOrchestrator {
 			if (tile.microbe != null && tile.microbe.animation != null) {
 				tile.microbe.update(t - this.time);
             }
-        }
+		}
+		this.animator.update(t);
 		this.time = t;
     }
 }
