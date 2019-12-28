@@ -23,7 +23,7 @@ class GameOrchestrator {
         });
         this.gameState = this.gameStates.LOADING_SCENE;
 
-        this.maxTimes = [15, 30, 45, 60];
+        this.maxTimes = [15, 30, 60];
         this.maxTimeID = 0;
         this.MAX_TURN_TIME = this.maxTimes[this.maxTimeID]; // by default, each player can take up to 15 seconds in their turns (after that, the turn is passed to the other player)
         this.time = this.MAX_TURN_TIME;
@@ -97,6 +97,7 @@ class GameOrchestrator {
 
         this.boardArray = this.initBoard();
         this.board.interpretBoardArray(this.boardArray);
+        this.board.resetTiles();
         this.pointsA = 2;
         this.pointsB = 2;
         this.currentPlayer = 'A';
@@ -116,9 +117,6 @@ class GameOrchestrator {
 
         this.board.pickState = this.board.pickStates.NO_PICK;
 
-        this.board.selectedTileLine = null;
-        this.board.selectedTileColumn = null;
-
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
     }
@@ -131,15 +129,13 @@ class GameOrchestrator {
     loadTemplates(newTemplates) {
         this.templates = newTemplates;
         this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
-        this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], null);
+        this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], this.templates['panelMenu']);
 
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
         this.panelsManager.updateTimer(this.time);
 
-        // TODO: implement menu panels
-
-        this.gameState = this.gameStates.GAME;
+        this.gameState = this.gameStates.MENU;
     }
 
 
@@ -155,12 +151,14 @@ class GameOrchestrator {
 
     /**
      * Method that sets the new difficulty value
-     * @param {int} newDifficultyA - the new difficulty value for player A
-     * @param {int} newDifficultyB - the new difficulty value for player B
+     * @param {char} player - player A or B
+     * @param {int} newDifficulty - new difficulty for that player (if it's computer)
      */
-    changeDifficulty(newDifficultyA, newDifficultyB) {
-        this.difficultyA = newDifficultyA;
-        this.difficultyB = newDifficultyB;
+    changeDifficulty(player, newDifficulty) {
+        if(player == 'A')
+            this.difficultyA = newDifficulty;
+        else if(player == 'B')
+            this.difficultyB = newDifficulty;
     }
 
 
@@ -198,7 +196,7 @@ class GameOrchestrator {
         this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.resetTimer();
-
+        this.board.resetTiles();
         this.board.pickState = this.board.pickStates.NO_PICK;
     }
 
@@ -210,6 +208,7 @@ class GameOrchestrator {
         if(this.scene.normalCamera != this.scene.graph.views["PlayerPerspective"])
             return;
         
+        this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
         this.scene.cameraRotationActive = true;
     }
 
@@ -405,9 +404,7 @@ class GameOrchestrator {
     orchestrateGame() {
         if(this.rotatingCameraDone) {
             this.rotatingCameraDone = false;
-            this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
         }
-
 
         switch(this.board.pickState) {
             
@@ -472,13 +469,15 @@ class GameOrchestrator {
                 }
                 else if(this.checkGameOverRequestDone) {
                     this.checkGameOverRequestDone = false;
-                    this.requestSent = false;
+                    this.requestSent = false;                    
                     if(this.winner == 'no') {
                         this.changeTurn();
                     }
                     else {
-                        console.log(this.winner);
-                        // TODO: go to the "show winner" screen
+                        this.panelsManager.changeWinnerPanelTexture(this.winner);
+                        this.scene.activeCameraID = "defaultPerspective";
+                        this.scene.changeCamera();
+                        this.gameState = this.gameStates.SHOW_WINNER;
                     }
                 }
                 
@@ -522,9 +521,14 @@ class GameOrchestrator {
      */
     display() {
         this.scene.pushMatrix();
+
+        this.scene.pushMatrix();
         this.scene.translate(0, 2.5, 0); // to get everything to table height
         this.board.display();
+        this.scene.popMatrix();
+
         this.panelsManager.display();
+        
         this.scene.popMatrix();
     }
 }

@@ -6,13 +6,15 @@
  * @param y - Scale of rectangle in Y
  */
 class MyRectangle extends CGFobject {
-	constructor(scene, id, x1, x2, y1, y2) {
+	constructor(scene, id, x1, x2, y1, y2, fixedTexture) {
 		super(scene);
 		this.id = id;
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
 		this.y2 = y2;
+
+		this.fixedTexture = fixedTexture || false;
 
 		this.initBuffers();
 	}
@@ -49,12 +51,22 @@ class MyRectangle extends CGFobject {
         t
         */
 
-		this.defaultTexCoords = [
-			0, this.y2 - this.y1,
-			this.x2 - this.x1, this.y2 - this.y1,
-			0, 0,
-			this.x2 - this.x1, 0
-		]
+		if(this.fixedTexture) {
+			this.defaultTexCoords = [
+				0, 1,
+				1, 1,
+				0, 0,
+				1, 0
+			]
+		}
+		else {
+			this.defaultTexCoords = [
+				0, this.y2 - this.y1,
+				this.x2 - this.x1, this.y2 - this.y1,
+				0, 0,
+				this.x2 - this.x1, 0
+			]
+		}
 		this.texCoords = this.defaultTexCoords.slice();
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();

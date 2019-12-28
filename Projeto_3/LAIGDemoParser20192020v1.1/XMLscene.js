@@ -46,6 +46,8 @@ class XMLscene extends CGFscene {
         // --------------------------
         // game related
 
+        this.pendingCameraChange = false;
+
         this.gameOrchestrator = new GameOrchestrator(this);
         this.setPickEnabled(true);
     }
@@ -133,7 +135,11 @@ class XMLscene extends CGFscene {
                 this.gameOrchestrator.rotatingCameraDone = true;
 			}
 			this.camera.orbit(vec3.fromValues(0, 1, 0), cameraAngRot);
-		}
+        }
+        else if(this.pendingCameraChange !== false) {
+            this.normalCamera = this.graph.views[this.pendingCameraChange];
+            this.pendingCameraChange = false;
+        }
 
         if(this.sceneInited) {
             if(this.lastT == 0) { // first time calling function
@@ -182,6 +188,8 @@ class XMLscene extends CGFscene {
     changeCamera() {
         if(!this.cameraRotationActive)
             this.normalCamera = this.graph.views[this.activeCameraID];
+        else
+            this.pendingCameraChange = this.activeCameraID;
     }
 
     /**
@@ -206,7 +214,7 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
         
         this.pushMatrix();
-        this.axis.display();
+        // this.axis.display();
         
         
         if (this.sceneInited) {

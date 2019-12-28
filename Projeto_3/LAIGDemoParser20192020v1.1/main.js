@@ -47,6 +47,7 @@ serialInclude(['../lib/CGF.js',
                'game/templates/MicrobeTemplate.js',
                'game/templates/NumbersTemplate.js',
                'game/templates/GamePanelTemplate.js',
+               'game/templates/MenuPanelTemplate.js',
                'game/animations/Animator.js',
 
 main=function()
