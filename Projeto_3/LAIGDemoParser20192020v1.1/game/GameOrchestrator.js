@@ -137,8 +137,6 @@ class GameOrchestrator {
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
         this.panelsManager.updateTimer(this.time);
 
-        // TODO: implement menu panels
-
         this.gameState = this.gameStates.MENU;
     }
 

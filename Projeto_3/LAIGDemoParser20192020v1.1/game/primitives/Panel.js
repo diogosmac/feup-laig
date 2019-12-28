@@ -30,7 +30,7 @@ class Panel {
     display() {
         if(this.panelTexture != null)
             this.panelTexture.bind();
-    
+
         this.geometry.display();
 
         if(this.panelTexture != null)
