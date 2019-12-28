@@ -123,9 +123,10 @@ class PanelsManager {
                     return;
                 }    
 
-                this.orchestrator.board.resetTiles();
-                this.orchestrator.board.pickState = this.orchestrator.board.pickStates.PICK_PIECE;
-                this.orchestrator.undo();
+                if(this.orchestrator.undo()) {
+                    this.orchestrator.board.pickState = this.orchestrator.board.pickStates.PICK_PIECE;
+                    this.orchestrator.board.resetTiles();
+                }
                 break;
 
             default:

@@ -183,11 +183,12 @@ class GameOrchestrator {
 
     /**
      * Method that processes an undo request from the user
+     * @return true if the undo was done succesfully, false otherwise
      */
     undo() {
         let move = this.gameSequence.undo(); // removes the last 2 moves (in order to be the turn of the current player)
         if(move === false) // not enough moves to backtrack
-            return;
+            return false;
 
         this.boardArray = move.boardBefore; // resets the board array 2 moves before
 
@@ -204,6 +205,8 @@ class GameOrchestrator {
 
         this.board.interpretBoardArray(this.boardArray);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
+
+        return true;
     }
 
 
