@@ -123,7 +123,7 @@ class PanelsManager {
                     return;
                 }    
 
-                this.orchestrator.board.resetTiles();    
+                this.orchestrator.board.resetTiles();
                 this.orchestrator.board.pickState = this.orchestrator.board.pickStates.PICK_PIECE;
                 this.orchestrator.undo();
                 break;
