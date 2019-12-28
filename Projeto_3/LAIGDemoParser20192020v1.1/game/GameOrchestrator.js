@@ -170,17 +170,10 @@ class GameOrchestrator {
 
 
     /**
-     * Method that alternates between the two game cameras
+     * Method that alternates between the two game cameras, changing the game panels's side
      */
     changeCamera() {
-        if(this.scene.normalCamera == this.scene.graph.views['Player1Perspective']) {
-            this.scene.normalCamera = this.scene.graph.views['Player2Perspective'];
-            this.panelsManager.rotateGamePanels = true;
-        }
-        else {
-            this.scene.normalCamera = this.scene.graph.views['Player1Perspective'];
-            this.panelsManager.rotateGamePanels = false;
-        }
+        this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
     }
 
 

@@ -55,11 +55,10 @@ class XMLscene extends CGFscene {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 		this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 		
-		this.cameraRotationAngle = 0;
 		this.cameraRotationActive = false;
-		this.reverseRotation = false;
 		this.angleRotated = 0;
     }
+
 
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -119,19 +118,17 @@ class XMLscene extends CGFscene {
 	}
 	
     update(t) {
-
 		this.checkKeys();
 
 		if (this.cameraRotationActive) {
-			let cameraAngRot = Math.PI * (t - this.lastT) / 4000;
+			let cameraAngRot = Math.PI * (t - this.lastT) / 2000;
 			cameraAngRot = Math.min(cameraAngRot, Math.PI - this.angleRotated);
 			this.angleRotated += cameraAngRot;
 			if (this.angleRotated == Math.PI) {
 				cameraAngRot -= this.angleRotated - Math.PI;
-				if (this.reverseRotation) cameraAngRot = -cameraAngRot;
 				this.angleRotated = 0;
-				this.reverseRotation = !this.reverseRotation;
-				this.cameraRotationActive = false;
+                this.cameraRotationActive = false;
+                this.gameOrchestrator.changeCamera();
 			}
 			this.camera.orbit(vec3.fromValues(0, 1, 0), cameraAngRot);
 		}
@@ -158,8 +155,10 @@ class XMLscene extends CGFscene {
         if (this.gui.isKeyPressed("KeyM"))
 			this.changeMatIndex();
 		
-		if (this.gui.isKeyPressed("KeyR"))
-			this.cameraRotationActive = true;
+		if (this.gui.isKeyPressed("KeyX")) {
+            if(this.normalCamera == this.graph.views["PlayerPerspective"])
+                this.cameraRotationActive = true;
+        }
     }
 
     /** Handler called when the graph is finally loaded. 
@@ -185,10 +184,6 @@ class XMLscene extends CGFscene {
 
     changeCamera() {
         this.normalCamera = this.graph.views[this.activeCameraID];
-        if(this.activeCameraID == 'Player1Perspective')
-            this.gameOrchestrator.panelsManager.rotateGamePanels = false;
-        else if(this.activeCameraID == 'Player2Perspective')
-            this.gameOrchestrator.panelsManager.rotateGamePanels = true;
     }
 
     /**
