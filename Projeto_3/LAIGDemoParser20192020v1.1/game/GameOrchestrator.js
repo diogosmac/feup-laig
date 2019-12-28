@@ -106,7 +106,7 @@ class GameOrchestrator {
             this.board.toggleTile(uniqueId);
             this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
             if (object.microbe != null) {
-				this.animator.leapAnimation(object, this.board.boardTiles[2]);
+				this.animator.leapAnimation(object, this.board.sideBoardATemplate);
 				// this.animator.convertAnimation(object);
             }
         }

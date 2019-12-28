@@ -23,8 +23,8 @@ class Animator {
 			let transX = newTile.x - tile.x;
 			let transY = newTile.y - tile.y;
 
-			let raise = new MyKeyframe([transY / 4, 1.5, transX / 4], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 0.5);
-			let hold = new MyKeyframe([(3/4) * transY, 1.5, (3/4) * transX], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.0);
+			let raise = new MyKeyframe([transY / 4, 2, transX / 4], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 0.5);
+			let hold = new MyKeyframe([(3/4) * transY, 2, (3/4) * transX], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.0);
 			let strike = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1, 1, 1], this.orchestrator.time + 1.5);
 
 			let keyframes = [raise, hold, strike];
