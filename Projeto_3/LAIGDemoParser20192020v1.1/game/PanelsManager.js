@@ -26,7 +26,9 @@ class PanelsManager {
             "GAME_OPTIONS": 112,
             "PVP": 113,
             "PVC": 114,
-            "CVC": 115
+            "CVC": 115,
+            "MAIN_MENU": 116,
+            "PLAY": 117
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -49,7 +51,7 @@ class PanelsManager {
         // menu panels - MAIN MENU
         this.mainTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainTitlePanelRec", -0.7, 0.7, 0.5, 0.8, true));
         this.difficultyPanel = new Panel(this.orchestrator, new MyRectangle(scene, "difficultyPanelRec", -1.1, -0.5, -0.1, 0.1, true), this.panelIDs.DIFF);
-        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.25, 0.25, 0.1, 0.4, true));
+        this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.25, 0.25, 0.1, 0.4, true), this.panelIDs.PLAY);
         this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -1.1, -0.5, -0.7, -0.5, true), this.panelIDs.SET_TURN_TIME);
         this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.5, 1.1, -0.1, 0.1, true), this.panelIDs.GAME_OPTIONS);
         this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.5, 1.1, -0.7, -0.5, true));
@@ -78,7 +80,9 @@ class PanelsManager {
 
 
         // menu panels - SHOW WINNER
-        
+        this.winnerPanel = new Panel(this.orchestrator, new MyRectangle(scene, "winnerPanelRec", -0.5, 0.5, 0.1, 0.3, true));
+        this.mainMenuPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainMenuPanelRec", -0.6, 0.0, -0.2, 0, true), this.panelIDs.MAIN_MENU);
+        this.moviePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mediumPlayerBPanelRec", 0.2, 0.6, -0.2, 0, true));
 
 
         // game panels
@@ -121,7 +125,6 @@ class PanelsManager {
         this.scoreBPanel.loadPanelTexture(this.gamePanelTemplate.scoreBTexture);
 
 
-        // TODO: menu panels
         this.backPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('backTex'));
         
         this.mainTitlePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('gameTitleTex'));
@@ -148,6 +151,25 @@ class PanelsManager {
         this.pvcPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('pvcTex'));
         this.cvcPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('cvcTex'));
     
+        this.mainMenuPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('mainMenuTex'));
+        this.moviePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('movieTex'));
+    }
+
+
+    /**
+     * Method that updates the texture used to display the winner of the game
+     * @param {String} winner - string indicating the outcome of the game (player A won, player B won, or draw)
+     */
+    changeWinnerPanelTexture(winner) {
+        if(winner == 'A') {
+            this.winnerPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('winnerATex'));
+        }
+        else if(winner == 'B') {
+            this.winnerPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('winnerBTex'));
+        }
+        else if(winner == 'draw') {
+            this.winnerPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('drawTex'));
+        }
     }
 
 
@@ -291,23 +313,40 @@ class PanelsManager {
 
             case this.panelIDs.PVP:
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME_OPTIONS)
-                return;
+                    return;
 
                 this.orchestrator.changeGameOption(1);
                 break;
 
             case this.panelIDs.PVC:
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME_OPTIONS)
-                return;
+                    return;
 
                 this.orchestrator.changeGameOption(2);
                 break;
 
             case this.panelIDs.CVC:
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME_OPTIONS)
-                return;
+                    return;
 
                 this.orchestrator.changeGameOption(3);
+                break;
+
+            case this.panelIDs.MAIN_MENU:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.SHOW_WINNER)
+                    return;
+
+                this.orchestrator.gameState = this.orchestrator.gameStates.MENU;
+                break;
+
+            case this.panelIDs.PLAY:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
+                    return;
+
+                this.orchestrator.resetGame();
+                this.orchestrator.scene.activeCameraID = "PlayerPerspective";
+                this.orchestrator.scene.changeCamera();
+                this.orchestrator.gameState = this.orchestrator.gameStates.GAME;
                 break;
 
             default:
@@ -476,6 +515,22 @@ class PanelsManager {
     }
 
 
+
+    displayShowWinnerPanels(scene) {
+        this.panelMaterial.apply();
+
+        scene.pushMatrix();
+        scene.translate(40, 8, 0);
+        scene.rotate(Math.PI / 2, 0, 1, 0);
+
+        this.winnerPanel.display();
+        this.mainMenuPanel.display();
+        this.moviePanel.display();
+
+        scene.popMatrix();
+    }
+
+
     /**
      * Method that displays all game panels
      * @param {XMLscene} scene - reference to the scene object
@@ -587,6 +642,10 @@ class PanelsManager {
 
             case this.orchestrator.gameStates.GAME_OPTIONS:
                 this.displayGameOptionsPanels(scene);
+                break;
+
+            case this.orchestrator.gameStates.SHOW_WINNER:
+                this.displayShowWinnerPanels(scene);
                 break;
 
             case this.orchestrator.gameStates.GAME:

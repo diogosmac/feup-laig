@@ -117,9 +117,6 @@ class GameOrchestrator {
 
         this.board.pickState = this.board.pickStates.NO_PICK;
 
-        this.board.selectedTileLine = null;
-        this.board.selectedTileColumn = null;
-
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
     }
@@ -211,6 +208,7 @@ class GameOrchestrator {
         if(this.scene.normalCamera != this.scene.graph.views["PlayerPerspective"])
             return;
         
+        this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
         this.scene.cameraRotationActive = true;
     }
 
@@ -406,9 +404,7 @@ class GameOrchestrator {
     orchestrateGame() {
         if(this.rotatingCameraDone) {
             this.rotatingCameraDone = false;
-            this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;
         }
-
 
         switch(this.board.pickState) {
             
@@ -473,13 +469,15 @@ class GameOrchestrator {
                 }
                 else if(this.checkGameOverRequestDone) {
                     this.checkGameOverRequestDone = false;
-                    this.requestSent = false;
+                    this.requestSent = false;                    
                     if(this.winner == 'no') {
                         this.changeTurn();
                     }
                     else {
-                        console.log(this.winner);
-                        // TODO: go to the "show winner" screen
+                        this.panelsManager.changeWinnerPanelTexture(this.winner);
+                        this.scene.activeCameraID = "defaultPerspective";
+                        this.scene.changeCamera();
+                        this.gameState = this.gameStates.SHOW_WINNER;
                     }
                 }
                 
