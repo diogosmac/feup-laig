@@ -114,6 +114,7 @@ class XMLscene extends CGFscene {
     }
 
     update(t) {
+        this.gameOrchestrator.update(t / 1000);
         if(this.sceneInited) {
             if(this.lastT == 0) { // first time calling function
                 this.lastT = t;

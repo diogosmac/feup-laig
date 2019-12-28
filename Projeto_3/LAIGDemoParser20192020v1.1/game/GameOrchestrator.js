@@ -7,8 +7,10 @@ class GameOrchestrator {
      * @param {XMLScene} scene - Reference to the scene object
      */
     constructor(scene) {
-        this.scene = scene;
+		this.scene = scene;
+		this.animator = new Animator(this);
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
+        this.time = 0;
         
         this.gameStates = []; // array de game states
         
@@ -45,10 +47,10 @@ class GameOrchestrator {
         // just to test stuff
         let boardArray = [[  'a'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'b'  ],
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'a', 'b', 'empty', 'a', 'empty', 'empty'],
+                          ['empty',   'a'  ,   'b'  , 'empty',   'a'  , 'empty', 'empty'],
                           ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'],
-                          ['empty', 'empty', 'b', 'empty', 'a', 'b', 'empty'],
-                          ['empty', 'b', 'empty', 'a', 'a', 'empty', 'empty'],
+                          ['empty', 'empty',   'b'  , 'empty',   'a'  ,   'b'  , 'empty'],
+                          ['empty',   'b'  , 'empty',   'a'  ,   'a'  , 'empty', 'empty'],
                           [  'b'  , 'empty', 'empty', 'empty', 'empty', 'empty',   'a'  ]];
         return boardArray;
     }
@@ -103,13 +105,16 @@ class GameOrchestrator {
             this.board.resetTiles();
             this.board.toggleTile(uniqueId);
             this.communicator.getValidMovesUser(this.currentPlayer, object.line, object.column, this.boardArray);
+            if (object.microbe != null) {
+				this.animator.leapAnimation(object, this.board.boardTiles[2]);
+				// this.animator.convertAnimation(object);
+            }
         }
         else {
             // error ?
         }
-    }
-
-
+	}
+	
     /**
      * Method that does all the process necessary to make a move
      * @param {Array} moveArray - array that 
@@ -139,4 +144,15 @@ class GameOrchestrator {
         this.board.display();
         this.scene.popMatrix();
     }
+
+    update(t) {
+		for (let tile of this.board.boardTiles) {
+			if (tile.microbe != null && tile.microbe.animation != null) {
+				tile.microbe.update(t - this.time);
+            }
+		}
+		this.animator.update(t);
+		this.time = t;
+    }
+
 }
