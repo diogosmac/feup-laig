@@ -51,7 +51,7 @@ class MyInterface extends CGFinterface {
     }
 
     updateInterface() {
-        this.addCamerasDropdown();
+        // this.addCamerasDropdown();
         this.addLightsFolder();
     }
 

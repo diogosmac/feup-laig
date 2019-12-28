@@ -63,10 +63,7 @@ class PanelsManager {
         this.scoreAPanel.loadPanelTexture(this.gamePanelTemplate.scoreATexture);
         this.scoreBPanel.loadPanelTexture(this.gamePanelTemplate.scoreBTexture);
 
-
-        // TODO: implement timer
-        this.timerValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(0));
-        this.timerValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(0));
+        // TODO: menu panels
     }
 
 
@@ -99,7 +96,8 @@ class PanelsManager {
      * @param {int} time - timer value, in seconds
      */
     updateTimer(time) {
-
+        this.timerValuePanel1.loadPanelTexture(this.numbersTemplate.getNumberTextureDozens(time));
+        this.timerValuePanel2.loadPanelTexture(this.numbersTemplate.getNumberTextureUnits(time));
     }
 
 
@@ -111,7 +109,7 @@ class PanelsManager {
     onPanelSelected(panel, uniqueId) {
         switch(uniqueId) {
             case this.panelIDs.ROTATE: // rotate panel
-                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME)
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME && this.orchestrator.gameState != this.orchestrator.gameStates.MOVIE)
                     return;
 
                 this.orchestrator.rotateCamera();
@@ -123,9 +121,10 @@ class PanelsManager {
                     return;
                 }    
 
-                this.orchestrator.board.resetTiles();
-                this.orchestrator.board.pickState = this.orchestrator.board.pickStates.PICK_PIECE;
-                this.orchestrator.undo();
+                if(this.orchestrator.undo()) {
+                    this.orchestrator.board.pickState = this.orchestrator.board.pickStates.PICK_PIECE;
+                    this.orchestrator.board.resetTiles();
+                }
                 break;
 
             default:

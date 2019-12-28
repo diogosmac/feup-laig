@@ -18,9 +18,17 @@ class GameOrchestrator {
             "LOADING_SCENE": 5,
             "SHOW_WINNER": 6,
             "GAME_OPTIONS": 7,
-            "MOVIE": 8
+            "MOVIE": 8,
+            "SET_TIMER": 9
         });
         this.gameState = this.gameStates.LOADING_SCENE;
+
+        this.maxTimes = [15, 30, 45, 60];
+        this.maxTimeID = 0;
+        this.MAX_TURN_TIME = this.maxTimes[this.maxTimeID]; // by default, each player can take up to 15 seconds in their turns (after that, the turn is passed to the other player)
+        this.time = this.MAX_TURN_TIME;
+        this.elapsedTime = this.time * 1000;
+
 
         this.rotatingCameraDone = false; // variable that indicates 
 
@@ -72,6 +80,16 @@ class GameOrchestrator {
 
 
     /**
+     * Method that resets the timer after the end of a turn
+     */
+    resetTimer() {
+        this.time = this.MAX_TURN_TIME;
+        this.elapsedTime = this.time * 1000;
+        this.panelsManager.updateTimer(this.time);
+    }
+
+
+    /**
      * Method to be called in order to reset all fields and begin a new game
      */
     resetGame() {
@@ -82,6 +100,8 @@ class GameOrchestrator {
         this.pointsA = 2;
         this.pointsB = 2;
         this.currentPlayer = 'A';
+
+        this.resetTimer();
 
         this.validMoves = [];
         this.winner = 'no';
@@ -115,10 +135,21 @@ class GameOrchestrator {
 
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
+        this.panelsManager.updateTimer(this.time);
 
         // TODO: implement menu panels
 
         this.gameState = this.gameStates.GAME;
+    }
+
+
+    /**
+     * Method that changes the max turn duration for each turn
+     * @param {int} id - ID of the duration option
+     */
+    changeMaxTurnDuration(id) {
+        this.maxTimeID = id;
+        this.MAX_TURN_TIME = this.maxTimes[this.maxTimeID];
     }
 
 
@@ -166,6 +197,8 @@ class GameOrchestrator {
     changeTurn() {
         this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
+        this.resetTimer();
+
         this.board.pickState = this.board.pickStates.NO_PICK;
     }
 
@@ -183,11 +216,12 @@ class GameOrchestrator {
 
     /**
      * Method that processes an undo request from the user
+     * @return true if the undo was done succesfully, false otherwise
      */
     undo() {
         let move = this.gameSequence.undo(); // removes the last 2 moves (in order to be the turn of the current player)
         if(move === false) // not enough moves to backtrack
-            return;
+            return false;
 
         this.boardArray = move.boardBefore; // resets the board array 2 moves before
 
@@ -204,6 +238,8 @@ class GameOrchestrator {
 
         this.board.interpretBoardArray(this.boardArray);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
+
+        return true;
     }
 
 
@@ -284,13 +320,14 @@ class GameOrchestrator {
         if(moveArray == "invalid")
             return false;
 
-        let noMovesFlag = false;
+        let skipTurnFlag = false;
 
-        if(moveArray == "no moves") { // current player has no possible moves to choose from (skips turn, and score is unchanged)
-            noMovesFlag = true;
+        if(moveArray == "no moves" || moveArray == "timeout") { // current player has no possible moves to choose from, or timeout occured (skips turn, and score is unchanged)
+            let reason = moveArray;
+            skipTurnFlag = true;
             let samePointsA = this.pointsA;
             let samePointsB = this.pointsB;
-            moveArray = [["no moves"], ["score", samePointsA, samePointsB]];
+            moveArray = [[reason], ["score", samePointsA, samePointsB]];
         }
 
         // makes a copy of the board array before making the move
@@ -307,7 +344,7 @@ class GameOrchestrator {
         this.gameSequence.addGameMove(new GameMove(this, moveArrayStore, boardBefore)); // adds new game move to the sequence
 
 
-        if(noMovesFlag) // when current player has no possible moves to choose from (skips turn)
+        if(skipTurnFlag) // when current player has no possible moves to choose from, or timeout occured (skips turn)
             return true;
 
             
@@ -455,10 +492,28 @@ class GameOrchestrator {
 
     /**
      * Method that is in charge of updating some aspects of the game based on the time
-     * @param {float} deltaTime - time difference between this function call and the last one 
+     * @param {float} deltaTime - time difference between this function call and the last one (in millisseconds)
      */
     update(deltaTime) {
+
         this.animator.update(deltaTime);
+
+        if(this.gameState == this.gameStates.GAME) {
+            if(this.board.pickState != this.board.pickStates.ANIMATING && this.board.pickState != this.board.pickStates.CHECK_GAME_OVER) {
+                this.elapsedTime -= deltaTime;
+                this.time = Math.floor(this.elapsedTime / 1000);
+
+                if(this.time <= 0) { // timeout ocurred
+                    this.time = 0;
+                    this.makeMove("timeout");
+                    this.board.interpretBoardArray(this.boardArray);
+
+                    this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
+                }
+
+                this.panelsManager.updateTimer(this.time);
+            }
+        }
     }
 
 
