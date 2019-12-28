@@ -14,6 +14,25 @@ class GameMove {
         this.boardBefore = boardBefore;
     }
 
+
+    /**
+     * Method that returns the score of player A after this move was made
+     * @return Player A's score
+     */
+    returnPointsA() {
+        return this.moveResultsArray[this.moveResultsArray.length - 1][1];
+    }
+
+
+    /**
+     * Method that returns the score of player B after this move was made
+     * @return Player B's score
+     */
+    returnPointsB() {
+        return this.moveResultsArray[this.moveResultsArray.length - 1][2];
+    }
+
+
     /**
      * Method that animates, on the board, the game move (uses the Animator class)
      */

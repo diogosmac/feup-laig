@@ -115,7 +115,7 @@ class PanelsManager {
                 break;
 
             case this.panelIDs.UNDO: // undo panel
-                
+                this.orchestrator.undo();
                 break;
 
             default:
@@ -185,37 +185,37 @@ class PanelsManager {
                 scene.pushMatrix();
                 scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 2.25);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
-                this.scoreAPanel.display();
+                this.scoreBPanel.display();
                 scene.popMatrix();
                 
                 scene.pushMatrix();
                 scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 1.875);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
-                this.scoreAValuePanel2.display();
+                this.scoreBValuePanel2.display();
                 scene.popMatrix();
                 
                 scene.pushMatrix();
                 scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 2.625);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
-                this.scoreAValuePanel1.display();
+                this.scoreBValuePanel1.display();
                 scene.popMatrix();
                 
                 scene.pushMatrix();
                 scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 3.75);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
-                this.scoreBPanel.display();
+                this.scoreAPanel.display();
                 scene.popMatrix();
                 
                 scene.pushMatrix();
                 scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 3.375);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
-                this.scoreBValuePanel2.display();
+                this.scoreAValuePanel2.display();
                 scene.popMatrix();
                 
                 scene.pushMatrix();
                 scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 4.125);
                 scene.rotate(-Math.PI / 4, 0, 0, 1);
-                this.scoreBValuePanel1.display();
+                this.scoreAValuePanel1.display();
                 scene.popMatrix();
                 break;
 

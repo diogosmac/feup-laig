@@ -22,15 +22,16 @@ class GameSequence {
 
     /**
      * Method that undoes the last move
-     * @return true if the undo operation was done successfully, false if not (not enough moves to backtrack)
+     * @return the game moves that has the board before if the undo operation was done successfully, false if not (not enough moves to backtrack)
      */
     undo() {
         if(this.moves.length < 2)
             return false;
 
         this.moves.pop();
+        let move = this.moves[this.moves.length - 1];
         this.moves.pop();
-        return true;
+        return move;
     }
 
 

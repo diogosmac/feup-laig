@@ -188,27 +188,29 @@ class GameOrchestrator {
      * Method that processes an undo request from the user
      */
     undo() {
-        if(!this.gameSequence.undo()) // removes the last 2 moves (in order to be the turn of the current player)
+        let move = this.gameSequence.undo(); // removes the last 2 moves (in order to be the turn of the current player)
+        if(move === false) // not enough moves to backtrack
             return;
-        
-        let lastBoardState;
-        let pointsA;
-        let pointsB;
+
+        this.boardArray = move.boardBefore; // resets the board array 2 moves before
+
+        console.log(this.boardArray);
 
         let lastGameMove = this.gameSequence.getLastMove();
-        if(lastGameMove === false) {
-            this.boardArray = this.initBoard();
+        if(lastGameMove === false) { // if after the undo, we are back at the start of the game
             this.pointsA = 2;
             this.pointsB = 2;
         }
         else {
-            this.boardArray = lastGameMove
+            this.pointsA = lastGameMove.returnPointsA();
+            this.pointsB = lastGameMove.returnPointsB();
         }
-        
+
 
         this.board.interpretBoardArray(this.boardArray);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
     }
+
 
     /**
      * Method that manages all the picking behaviour
@@ -299,7 +301,27 @@ class GameOrchestrator {
         if(moveArray == "no moves") // current player has no possible moves to choose from (skips turn)
             moveArray = null;
 
-        this.gameSequence.addGameMove(new GameMove(this, moveArray, this.boardArray)); // adds new game move to the sequence
+
+        // makes a copy of the board array before making the move
+        let boardBefore = this.boardArray.map(function(arr) {
+            return arr.slice();
+        });
+
+        // makes copy of the move array before parsing and modifying it
+        let moveArrayStore;
+
+        if(moveArray == null)
+            moveArrayStore = null;
+        else {
+            moveArrayStore = moveArray.map(function(arr) {
+                return arr.slice();
+            });
+        }
+
+        this.gameSequence.addGameMove(new GameMove(this, moveArrayStore, boardBefore)); // adds new game move to the sequence
+
+
+        console.log(this.gameSequence);
 
         if(moveArray == null) // moveArray is null when current player has no possible moves to choose from (skips turn)
             return true;
