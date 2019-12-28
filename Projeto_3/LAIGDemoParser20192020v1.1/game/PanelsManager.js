@@ -240,7 +240,7 @@ class PanelsManager {
                 this.orchestrator.gameState = this.orchestrator.gameStates.DIFFICULTY;
                 break;
 
-            case this.panelIDs.BACK:
+            case this.panelIDs.BACK: // back panel
                 if(this.orchestrator.gameState == this.orchestrator.gameStates.GAME)
                     return;
                     
@@ -248,98 +248,98 @@ class PanelsManager {
                 break;
 
 
-            case this.panelIDs.EASY_A:
+            case this.panelIDs.EASY_A: // "easy" difficulty option panel for player A
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
                     return;
 
                 this.orchestrator.changeDifficulty('A', 1);
                 break;
 
-            case this.panelIDs.MEDIUM_A:
+            case this.panelIDs.MEDIUM_A: // "medium" difficulty option panel for player A
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
                     return;
 
                 this.orchestrator.changeDifficulty('A', 2);
                 break;
 
-            case this.panelIDs.EASY_B:
+            case this.panelIDs.EASY_B: // "easy" difficulty option panel for player B
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
                     return;
 
                 this.orchestrator.changeDifficulty('B', 1);
                 break;
 
-            case this.panelIDs.MEDIUM_B:
+            case this.panelIDs.MEDIUM_B: // "medium" difficulty option panel for player B
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.DIFFICULTY)
                     return;
 
                 this.orchestrator.changeDifficulty('B', 2);
                 break;
 
-            case this.panelIDs.SET_TURN_TIME:
+            case this.panelIDs.SET_TURN_TIME: // set turn time panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
                     return;
 
                 this.orchestrator.gameState = this.orchestrator.gameStates.SET_TIMER;
                 break;
 
-            case this.panelIDs.TURN_TIME_15:
+            case this.panelIDs.TURN_TIME_15: // set turn time to 15 secs panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.SET_TIMER)
                     return;
 
                 this.orchestrator.changeMaxTurnDuration(0);
                 break;
 
-            case this.panelIDs.TURN_TIME_30:
+            case this.panelIDs.TURN_TIME_30: // set turn time to 30 secs panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.SET_TIMER)
                     return;
 
                 this.orchestrator.changeMaxTurnDuration(1);
                 break;
 
-            case this.panelIDs.TURN_TIME_60:
+            case this.panelIDs.TURN_TIME_60: // set turn time to 60 secs panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.SET_TIMER)
                     return;
 
                 this.orchestrator.changeMaxTurnDuration(2);
                 break;
 
-            case this.panelIDs.GAME_OPTIONS:
+            case this.panelIDs.GAME_OPTIONS: // game options panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
                     return;
 
                 this.orchestrator.gameState = this.orchestrator.gameStates.GAME_OPTIONS;
                 break;
 
-            case this.panelIDs.PVP:
+            case this.panelIDs.PVP: // pvp panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME_OPTIONS)
                     return;
 
                 this.orchestrator.changeGameOption(1);
                 break;
 
-            case this.panelIDs.PVC:
+            case this.panelIDs.PVC: // pvc panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME_OPTIONS)
                     return;
 
                 this.orchestrator.changeGameOption(2);
                 break;
 
-            case this.panelIDs.CVC:
+            case this.panelIDs.CVC: // cvc panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME_OPTIONS)
                     return;
 
                 this.orchestrator.changeGameOption(3);
                 break;
 
-            case this.panelIDs.MAIN_MENU:
+            case this.panelIDs.MAIN_MENU: // main menu panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.SHOW_WINNER)
                     return;
 
                 this.orchestrator.gameState = this.orchestrator.gameStates.MENU;
                 break;
 
-            case this.panelIDs.PLAY:
+            case this.panelIDs.PLAY: // play panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
                     return;
 
