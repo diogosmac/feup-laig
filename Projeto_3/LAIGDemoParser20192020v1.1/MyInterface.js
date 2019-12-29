@@ -51,10 +51,11 @@ class MyInterface extends CGFinterface {
     }
 
     updateInterface() {
-        // this.gui = new dat.GUI();
+        this.gui.destroy();
+        this.gui = new dat.GUI();
         // this.addCamerasDropdown();
         this.addLightsFolder();
-        // this.initKeys();
+        this.initKeys();
     }
 
     /**
