@@ -354,7 +354,6 @@ class PanelsManager {
                 break;
 
 
-            // TODO: MOVIE_GAME and MOVIE_END
             case this.panelIDs.MOVIE_GAME: // movie game panel
                 if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME)
                     return;
@@ -362,12 +361,15 @@ class PanelsManager {
                 this.orchestrator.startMovieDisplay();
                 break;
 
-            // case this.panelIDs.MOVIE_END:
-            //     if(this.orchestrator.gameState != this.orchestrator.gameStates.SHOW_WINNER)
-            //         return;
+            case this.panelIDs.MOVIE_END: // movie end panel
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.SHOW_WINNER)
+                    return;
 
-            //     this.orchestrator.scene.activeCameraID = "PlayerPerspective";
-            //     this.orchestrator.scene.changeCamera();
+                this.orchestrator.scene.activeCameraID = "PlayerPerspective";
+                this.orchestrator.scene.changeCamera();
+                this.orchestrator.movieRequestPending = true;
+                this.orchestrator.gameStateBuffer = this.orchestrator.gameState;
+                this.orchestrator.gameState = this.orchestrator.gameStates.MOVIE;
 
             default:
                 break;
