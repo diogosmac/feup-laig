@@ -637,7 +637,7 @@
                 <componentref id="parasolGroupNode1" />
                 <componentref id="parasolGroupNode2" />
                 <componentref id="mainPlaneNode" />
-                <componentref id="poolNode" />
+                <!-- <componentref id="poolNode" /> -->
                 <componentref id="beachBallNode1" />
                 <componentref id="beachBallNode2" />
                 <componentref id="buildingNode" />
