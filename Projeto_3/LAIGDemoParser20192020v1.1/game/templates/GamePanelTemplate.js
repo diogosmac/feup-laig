@@ -11,8 +11,9 @@ class GamePanelTemplate {
      * @param {CGFtexture} scoreBTexture - texture for the panel showing player B's score
      * @param {CGFtexture} timerTexture - texture for the timer panel
      * @param {CGFtexture} undoTexture - texture for the undo panel
+     * @param {CGFtexture} movieTexture - texture for the movie panel
      */
-    constructor(playerATurnTexture, playerBTurnTexture, rotateTexture, scoreATexture, scoreBTexture, timerTexture, undoTexture) {
+    constructor(playerATurnTexture, playerBTurnTexture, rotateTexture, scoreATexture, scoreBTexture, timerTexture, undoTexture, movieTexture) {
         this.playerATurnTexture = playerATurnTexture;
         this.playerBTurnTexture = playerBTurnTexture;
         this.rotateTexture = rotateTexture;
@@ -20,5 +21,6 @@ class GamePanelTemplate {
         this.scoreBTexture = scoreBTexture;
         this.timerTexture = timerTexture;
         this.undoTexture = undoTexture;
+        this.movieTexture = movieTexture;
     }
 }

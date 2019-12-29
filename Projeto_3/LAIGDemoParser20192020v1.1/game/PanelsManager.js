@@ -28,7 +28,9 @@ class PanelsManager {
             "PVC": 114,
             "CVC": 115,
             "MAIN_MENU": 116,
-            "PLAY": 117
+            "PLAY": 117,
+            "MOVIE_GAME": 118,
+            "MOVIE_END": 119
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -82,25 +84,26 @@ class PanelsManager {
         // menu panels - SHOW WINNER
         this.winnerPanel = new Panel(this.orchestrator, new MyRectangle(scene, "winnerPanelRec", -0.5, 0.5, 0.1, 0.3, true));
         this.mainMenuPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainMenuPanelRec", -0.6, 0.0, -0.2, 0, true), this.panelIDs.MAIN_MENU);
-        this.moviePanel = new Panel(this.orchestrator, new MyRectangle(scene, "mediumPlayerBPanelRec", 0.2, 0.6, -0.2, 0, true));
+        this.moviePanel = new Panel(this.orchestrator, new MyRectangle(scene, "moviePanelRec", 0.2, 0.6, -0.2, 0, true), this.panelIDs.MOVIE_END);
 
 
         // game panels
         this.undoPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'undoPanelRec', -0.5, 0.5, -0.75, 0.75), this.panelIDs.UNDO);
         this.rotatePanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'rotatePanelRec', -0.5, 0.5, -0.75, 0.75), this.panelIDs.ROTATE);
-        this.turnPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'turnPanelRec', -0.5, 0.5, -0.75, 0.75));
-        
-        this.timerPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'timerPanelRec', -0.25, 0.25, -0.75, 0.75));
-        this.timerValuePanel1 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'timerValuePanelRec1', -0.25, 0.25, -0.375, 0.375));
-        this.timerValuePanel2 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'timerValuePanelRec2', -0.25, 0.25, -0.375, 0.375));
+        this.turnPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'turnPanelRec', -0.5, 0.5, -1.15, 1.15));
+        this.movieGamePanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'movieGamePanel', -0.5, 0.5, -0.75, 0.75), this.panelIDs.MOVIE_GAME);
 
-        this.scoreAPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreAPanelRec', -0.25, 0.25, -0.75, 0.75));
-        this.scoreAValuePanel1 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreAValuePanelRec1', -0.25, 0.25, -0.375, 0.375));
-        this.scoreAValuePanel2 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreAValuePanelRec2', -0.25, 0.25, -0.375, 0.375));
+        this.timerPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'timerPanelRec', -0.25, 0.25, -0.6, 0.6));
+        this.timerValuePanel1 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'timerValuePanelRec1', -0.25, 0.25, -0.3, 0.3));
+        this.timerValuePanel2 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'timerValuePanelRec2', -0.25, 0.25, -0.3, 0.3));
 
-        this.scoreBPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreBPanelRec', -0.25, 0.25, -0.75, 0.75));
-        this.scoreBValuePanel1 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreBValuePanelRec1', -0.25, 0.25, -0.375, 0.375));
-        this.scoreBValuePanel2 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreBValuePanelRec2', -0.25, 0.25, -0.375, 0.375));
+        this.scoreAPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreAPanelRec', -0.25, 0.25, -0.6, 0.6));
+        this.scoreAValuePanel1 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreAValuePanelRec1', -0.25, 0.25, -0.3, 0.3));
+        this.scoreAValuePanel2 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreAValuePanelRec2', -0.25, 0.25, -0.3, 0.3));
+
+        this.scoreBPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreBPanelRec', -0.25, 0.25, -0.6, 0.6));
+        this.scoreBValuePanel1 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreBValuePanelRec1', -0.25, 0.25, -0.3, 0.3));
+        this.scoreBValuePanel2 = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'scoreBValuePanelRec2', -0.25, 0.25, -0.3, 0.3));
 
 
         this.rotateGamePanels = false;
@@ -123,6 +126,7 @@ class PanelsManager {
         this.timerPanel.loadPanelTexture(this.gamePanelTemplate.timerTexture);
         this.scoreAPanel.loadPanelTexture(this.gamePanelTemplate.scoreATexture);
         this.scoreBPanel.loadPanelTexture(this.gamePanelTemplate.scoreBTexture);
+        this.movieGamePanel.loadPanelTexture(this.gamePanelTemplate.movieTexture);
 
 
         this.backPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('backTex'));
@@ -349,6 +353,9 @@ class PanelsManager {
                 this.orchestrator.gameState = this.orchestrator.gameStates.GAME;
                 break;
 
+
+            // TODO: MOVIE_GAME and MOVIE_END
+            
             default:
                 break;
         }
@@ -545,78 +552,83 @@ class PanelsManager {
             scene.rotate(Math.PI, 0, 1, 0);
 
         scene.pushMatrix();
-        scene.translate(4, 0, -3.75);
+        scene.translate(4, 0, -4.45);
+        scene.rotate(-Math.PI / 4, 0, 0, 1);
+        this.movieGamePanel.display();
+        scene.popMatrix();
+
+        scene.pushMatrix();
+        scene.translate(4, 0, -2.95);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.rotatePanel.display();
         scene.popMatrix();
 
         scene.pushMatrix();
-        scene.translate(4, 0, -2.25);
+        scene.translate(4, 0, -1.45);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.undoPanel.display();
         scene.popMatrix();
         
         scene.pushMatrix();
-        scene.translate(4, 0, -0.75);
+        scene.translate(4, 0, 0.45);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.turnPanel.display();
         scene.popMatrix();
 
         scene.pushMatrix();
-        scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 0.75);
+        scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 2.2);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.timerPanel.display();
         scene.popMatrix();
 
         scene.pushMatrix();
-        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 0.375);
+        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 1.9);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.timerValuePanel2.display();
         scene.popMatrix();
 
         scene.pushMatrix();
-        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 1.125);
+        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 2.5);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.timerValuePanel1.display();
         scene.popMatrix();
 
         scene.pushMatrix();
-        scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 2.25);
+        scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 3.4);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scoreBPanel.display();
         scene.popMatrix();
         
         scene.pushMatrix();
-        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 1.875);
+        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 3.1);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scoreBValuePanel2.display();
         scene.popMatrix();
         
         scene.pushMatrix();
-        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 2.625);
+        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 3.7);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scoreBValuePanel1.display();
         scene.popMatrix();
         
         scene.pushMatrix();
-        scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 3.75);
+        scene.translate(4 - (Math.sqrt(2) / 8), Math.sqrt(2) / 8, 4.6);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scoreAPanel.display();
         scene.popMatrix();
         
         scene.pushMatrix();
-        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 3.375);
+        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 4.3);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scoreAValuePanel2.display();
         scene.popMatrix();
         
         scene.pushMatrix();
-        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 4.125);
+        scene.translate(4 + (Math.sqrt(2) / 8), -Math.sqrt(2) / 8, 4.9);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scoreAValuePanel1.display();
         scene.popMatrix();
     }
-
 
 
 

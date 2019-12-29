@@ -1649,8 +1649,13 @@ class MySceneGraph {
 
                 undoTex = this.textures[undoTex];
 
+                var movieTex = this.reader.getString(children[i], 'movieTex');
+                if (!(movieTex != null && this.textures[movieTex] != null))
+                    return "unable to parse movieTex for template " + templateType;
 
-                currentTemplate = new GamePanelTemplate(playerATurnTex, playerBTurnTex, rotateTex, scoreATex, scoreBTex, timerTex, undoTex);
+                movieTex = this.textures[movieTex];
+
+                currentTemplate = new GamePanelTemplate(playerATurnTex, playerBTurnTex, rotateTex, scoreATex, scoreBTex, timerTex, undoTex, movieTex);
             }
 
             // For the menu panel textures template
