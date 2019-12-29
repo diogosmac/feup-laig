@@ -213,7 +213,7 @@ class XMLscene extends CGFscene {
 
         this.initLights();
         
-        this.gameOrchestrator.loadTemplates(this.graphs[this.activeGraph].templates); // updates/initiates game templates
+        this.gameOrchestrator.loadTemplates(this.graphs[this.activeGraph].templates, true); // updates/initiates game templates
 
         this.normalCamera = this.graphs[this.activeGraph].views[this.activeCameraID]; // default camera is activated
 

@@ -55,7 +55,7 @@ main=function()
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
-    var myScene = new XMLscene(myInterface, 1);
+    var myScene = new XMLscene(myInterface, 2);
 
     app.init();
 
@@ -68,11 +68,13 @@ main=function()
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
     var filename1 = "poolside.xml";
+    var filename2 = "test.xml"
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename1, myScene);
-	
+	var myGraph1 = new MySceneGraph(filename1, myScene);
+    var myGraph2 = new MySceneGraph(filename2, myScene);
+    
 	// start
     app.run();
 }
