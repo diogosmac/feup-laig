@@ -172,6 +172,7 @@ class Board {
      * Display method for the game board and its tiles
      */
     display() {
+
         let scene = this.orchestrator.scene;
 
         scene.pushMatrix();

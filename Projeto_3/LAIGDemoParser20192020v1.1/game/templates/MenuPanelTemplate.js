@@ -8,8 +8,6 @@ class MenuPanelTemplate {
      */
     constructor(menuTexturesArray) {
         this.menuTexturesArray = menuTexturesArray;
-
-        console.log(this.menuTexturesArray);
     }
 
 

@@ -355,7 +355,20 @@ class PanelsManager {
 
 
             // TODO: MOVIE_GAME and MOVIE_END
-            
+            case this.panelIDs.MOVIE_GAME: // movie game panel
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.GAME)
+                    return;
+
+                this.orchestrator.startMovieDisplay();
+                break;
+
+            // case this.panelIDs.MOVIE_END:
+            //     if(this.orchestrator.gameState != this.orchestrator.gameStates.SHOW_WINNER)
+            //         return;
+
+            //     this.orchestrator.scene.activeCameraID = "PlayerPerspective";
+            //     this.orchestrator.scene.changeCamera();
+
             default:
                 break;
         }
@@ -541,21 +554,25 @@ class PanelsManager {
     /**
      * Method that displays all game panels
      * @param {XMLscene} scene - reference to the scene object
+     * @param {bool} movie - indicates if the game is in "movie mode" or not
      */
-    displayGamePanels(scene) {
-
-        this.panelMaterial.apply();
+    displayGamePanels(scene, movie) {
 
         scene.translate(0, 2.5, 0);
 
         if(this.rotateGamePanels)
             scene.rotate(Math.PI, 0, 1, 0);
 
+        let moviePanelMaterial = movie ? this.selectedPanelMaterial : this.panelMaterial;
+        moviePanelMaterial.apply();
+
         scene.pushMatrix();
         scene.translate(4, 0, -4.45);
         scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.movieGamePanel.display();
         scene.popMatrix();
+
+        this.panelMaterial.apply();
 
         scene.pushMatrix();
         scene.translate(4, 0, -2.95);
@@ -661,7 +678,12 @@ class PanelsManager {
                 break;
 
             case this.orchestrator.gameStates.GAME:
-                this.displayGamePanels(scene);
+                this.displayGamePanels(scene, false);
+                break;
+
+            
+            case this.orchestrator.gameStates.MOVIE:
+                this.displayGamePanels(scene, true);
                 break;
 
             default:
