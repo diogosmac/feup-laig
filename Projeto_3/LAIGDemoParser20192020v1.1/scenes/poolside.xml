@@ -340,7 +340,68 @@
 
     </transformations>
 
+    
     <animations>
+        <animation id="flagAnimation">
+            <keyframe instant="3">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="3.5">
+                <translate x="0" y="0" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="4">
+                <translate x="0" y="0" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="4.5">
+                <translate x="0" y="0" z="6" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="5">
+                <translate x="0" y="0" z="6" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="5.5">
+                <translate x="0" y="0" z="9" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="6.5">
+                <translate x="0" y="0" z="9" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="atomiumFallAnimation">
+            <keyframe instant="7.7">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.7">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="-90" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.8">
+                <translate x="-0.7" y="0.7" z="0" />
+                <rotate angle_x="-90" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9">
+                <translate x="-0.8" y="2.8" z="1.5" />
+                <rotate angle_x="-125" angle_y="-30" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
     </animations>
 
     <primitives>
@@ -832,9 +893,10 @@
 
         <component id="flagFabric">
             <transformation>
-                <translate x="0" y="0" z="12" />
+                <translate x="0" y="0" z="3" />
                 <rotate axis="z" angle="45" />
             </transformation>
+            <animationref id="flagAnimation" />
             <materials>
                 <material id="flagFabricMat" />
             </materials>
@@ -933,6 +995,7 @@
                 <rotate axis="x" angle="-45" />
                 <rotate axis="y" angle="-45" />
             </transformation>
+            <animationref id="atomiumFallAnimation" />
             <materials>
                 <material id="inherit" />
             </materials>
