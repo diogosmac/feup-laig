@@ -2289,8 +2289,8 @@ class MySceneGraph {
      * Resets all node animations
      */
     resetNodeAnimations() {
-        for(let node of this.nodes) {
-            node.resetAnimatio();
+        for(var id in this.nodes) {
+            this.nodes[id].resetAnimation();
         }
     }
 

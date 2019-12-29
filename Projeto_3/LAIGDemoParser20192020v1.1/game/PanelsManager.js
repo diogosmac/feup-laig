@@ -31,7 +31,9 @@ class PanelsManager {
             "PLAY": 117,
             "MOVIE_GAME": 118,
             "MOVIE_END": 119,
-            "CHOOSE_SCENE": 120
+            "CHOOSE_SCENE": 120,
+            "SCENE_1": 121,
+            "SCENE_2": 122
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -90,8 +92,8 @@ class PanelsManager {
 
         // menu panels - CHOOSE SCENE
         this.chooseSceneTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseSceneTitlePanelRec", -0.4, 0.4, 0.5, 0.7, true));
-        this.scene1Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene1PanelRec", -0.3, 0.3, 0.0, 0.2, true), this.panelIDs.TURN_TIME_15);
-        this.scene2Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene2PanelRec", -0.3, 0.3, -0.4, -0.2, true), this.panelIDs.TURN_TIME_30);
+        this.scene1Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene1PanelRec", -0.3, 0.3, 0.0, 0.2, true), this.panelIDs.SCENE_1);
+        this.scene2Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene2PanelRec", -0.3, 0.3, -0.4, -0.2, true), this.panelIDs.SCENE_2);
         
 
         // game panels
@@ -390,6 +392,20 @@ class PanelsManager {
                 this.orchestrator.gameState = this.orchestrator.gameStates.CHOOSE_SCENE;
                 break;
 
+            case this.panelIDs.SCENE_1:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.CHOOSE_SCENE)
+                    return;
+
+                this.orchestrator.scene.updateGraph(0);
+                break;
+
+            case this.panelIDs.SCENE_2:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.CHOOSE_SCENE)
+                    return;
+
+                this.orchestrator.scene.updateGraph(1);
+                break;
+
             default:
                 break;
         }
@@ -589,7 +605,21 @@ class PanelsManager {
         this.chooseSceneTitlePanel.display();
         this.backPanel.display();
 
+        let materialFirstOption, materialSecondOption;
+        
+        if(this.orchestrator.scene.activeGraph == 0) {
+            materialFirstOption = this.selectedPanelMaterial;
+            materialSecondOption = this.panelMaterial;
+        }
+        else if(this.orchestrator.scene.activeGraph == 1) {
+            materialFirstOption = this.panelMaterial;
+            materialSecondOption = this.selectedPanelMaterial;
+        }
+
+        materialFirstOption.apply();
         this.scene1Panel.display();
+
+        materialSecondOption.apply();
         this.scene2Panel.display();
 
         scene.popMatrix();

@@ -70,6 +70,9 @@ class XMLscene extends CGFscene {
      * Updates the current graph
      */
     updateGraph(id) {
+        if(this.activeGraph == id) // graph is already being displayed; no need to change anything
+            return;
+
         this.activeGraph = id;
         this.graphs[this.activeGraph].resetNodeAnimations();
         
@@ -168,7 +171,10 @@ class XMLscene extends CGFscene {
 			this.camera.orbit(vec3.fromValues(0, 1, 0), cameraAngRot);
         }
         else if(this.pendingCameraChange !== false) {
-            this.normalCamera = this.graphs[this.activeGraph].views[this.pendingCameraChange];
+            this.activeCameraID = this.pendingCameraChange;
+            if(this.activeCameraID == "defaultPerspective")
+                this.graphs[this.activeGraph].resetNodeAnimations();
+            this.normalCamera = this.graphs[this.activeGraph].views[this.activeCameraID];
             this.pendingCameraChange = false;
         }
 
@@ -217,8 +223,11 @@ class XMLscene extends CGFscene {
     }
 
     changeCamera() {
-        if(!this.cameraRotationActive)
+        if(!this.cameraRotationActive) {
+            if(this.activeCameraID == "defaultPerspective")
+                this.graphs[this.activeGraph].resetNodeAnimations();
             this.normalCamera = this.graphs[this.activeGraph].views[this.activeCameraID];
+        }
         else
             this.pendingCameraChange = this.activeCameraID;
     }
