@@ -32,18 +32,18 @@ class MyInterface extends CGFinterface {
         var lightsFolder = this.gui.addFolder('Lights');
         var i = 0;
 
-        for(var key in this.scene.graph.lights) {
+        for(var key in this.scene.graphs[this.scene.activeGraph].lights) {
             if(i >= 8)
                 break;
             
-            lightsFolder.add(this.scene.graph.lights[key], '0').name(key);
+            lightsFolder.add(this.scene.graphs[this.scene.activeGraph].lights[key], '0').name(key);
             i++;
         }
     }
 
     addCamerasDropdown() {
         // fill in the arrays
-        for(var key in this.scene.graph.views) {
+        for(var key in this.scene.graphs[this.scene.activeGraph].views) {
             this.scene.interfaceArrayViews[key] = key;
         }
 
@@ -51,8 +51,10 @@ class MyInterface extends CGFinterface {
     }
 
     updateInterface() {
+        // this.gui = new dat.GUI();
         // this.addCamerasDropdown();
         this.addLightsFolder();
+        // this.initKeys();
     }
 
     /**

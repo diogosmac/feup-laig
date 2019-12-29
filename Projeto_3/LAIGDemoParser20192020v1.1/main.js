@@ -36,6 +36,7 @@ serialInclude(['../lib/CGF.js',
                'CGFResourceReader.js',
                'game/Board.js',
                'game/Communicator.js',
+               'game/Animator.js',
                'game/GameMove.js',
                'game/GameOrchestrator.js',
                'game/GameSequence.js',
@@ -48,14 +49,13 @@ serialInclude(['../lib/CGF.js',
                'game/templates/NumbersTemplate.js',
                'game/templates/GamePanelTemplate.js',
                'game/templates/MenuPanelTemplate.js',
-               'game/animations/Animator.js',
 
 main=function()
 {
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
-    var myScene = new XMLscene(myInterface);
+    var myScene = new XMLscene(myInterface, 1);
 
     app.init();
 

@@ -7,11 +7,16 @@ class XMLscene extends CGFscene {
     /**
      * @constructor
      * @param {MyInterface} myinterface 
+     * @param {int} numGraphs
      */
-    constructor(myinterface) {
+    constructor(myinterface, numGraphs) {
         super();
 
         this.interface = myinterface;
+        this.graphs = [];
+        this.numGraphs = numGraphs;
+        this.activeGraph = 0;
+        this.graphsLoaded = 0;
     }
 
     /**
@@ -52,6 +57,32 @@ class XMLscene extends CGFscene {
         this.setPickEnabled(true);
     }
 
+
+    /**
+     * Method that adds a newly generated graph to the array of scene graphs
+     * @param {MySceneGraph} graph - new scene graph 
+     */
+    addGraph(graph) {
+        this.graphs.push(graph);
+    }
+
+    /**
+     * Updates the current graph
+     */
+    updateGraph(id) {
+        this.activeGraph = id;
+        this.graphs[this.activeGraph].resetNodeAnimations();
+        
+        this.axis = new CGFaxis(this, this.graphs[this.activeGraph].referenceLength);
+        this.gl.clearColor(this.graphs[this.activeGraph].background[0], this.graphs[this.activeGraph].background[1], this.graphs[this.activeGraph].background[2], this.graphs[this.activeGraph].background[3]);
+        this.setGlobalAmbientLight(this.graphs[this.activeGraph].ambient[0], this.graphs[this.activeGraph].ambient[1], this.graphs[this.activeGraph].ambient[2], this.graphs[this.activeGraph].ambient[3]);
+        this.initLights();
+        this.gameOrchestrator.loadTemplates(this.graphs[this.activeGraph].templates); // updates/initiates game templates
+        this.normalCamera = this.graphs[this.activeGraph].views[this.activeCameraID]; // default camera is activated
+        this.interface.updateInterface();
+    }
+
+
     /**
      * Initializes the scene cameras.
      */
@@ -72,12 +103,12 @@ class XMLscene extends CGFscene {
         // Lights index.
 
         // Reads the lights from the scene graph.
-        for (var key in this.graph.lights) {
+        for (var key in this.graphs[this.activeGraph].lights) {
             if (i >= 8)
                 break;              // Only eight lights allowed by WebGL.
             
-            if (this.graph.lights.hasOwnProperty(key)) {
-                var light = this.graph.lights[key];
+            if (this.graphs[this.activeGraph].lights.hasOwnProperty(key)) {
+                var light = this.graphs[this.activeGraph].lights[key];
 
                 this.lights[i].setPosition(light[2][0], light[2][1], light[2][2], light[2][3]);
                 this.lights[i].setAmbient(light[3][0], light[3][1], light[3][2], light[3][3]);
@@ -137,7 +168,7 @@ class XMLscene extends CGFscene {
 			this.camera.orbit(vec3.fromValues(0, 1, 0), cameraAngRot);
         }
         else if(this.pendingCameraChange !== false) {
-            this.normalCamera = this.graph.views[this.pendingCameraChange];
+            this.normalCamera = this.graphs[this.activeGraph].views[this.pendingCameraChange];
             this.pendingCameraChange = false;
         }
 
@@ -149,7 +180,7 @@ class XMLscene extends CGFscene {
                 let gameTime = t - this.lastT;
                 this.deltaT = (t - this.lastT) / 1000; // converts to seconds
                 this.lastT = t;
-                this.graph.animateNodes(this.deltaT);
+                this.graphs[this.activeGraph].animateNodes(this.deltaT);
                 this.gameOrchestrator.update(gameTime);
             }
         }
@@ -168,17 +199,17 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.axis = new CGFaxis(this, this.graph.referenceLength);
+        this.axis = new CGFaxis(this, this.graphs[this.activeGraph].referenceLength);
 
-        this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
+        this.gl.clearColor(this.graphs[this.activeGraph].background[0], this.graphs[this.activeGraph].background[1], this.graphs[this.activeGraph].background[2], this.graphs[this.activeGraph].background[3]);
 
-        this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
+        this.setGlobalAmbientLight(this.graphs[this.activeGraph].ambient[0], this.graphs[this.activeGraph].ambient[1], this.graphs[this.activeGraph].ambient[2], this.graphs[this.activeGraph].ambient[3]);
 
         this.initLights();
         
-        this.gameOrchestrator.loadTemplates(this.graph.templates); // updates/initiates game templates
+        this.gameOrchestrator.loadTemplates(this.graphs[this.activeGraph].templates); // updates/initiates game templates
 
-        this.normalCamera = this.graph.views[this.activeCameraID]; // default camera is activated
+        this.normalCamera = this.graphs[this.activeGraph].views[this.activeCameraID]; // default camera is activated
 
         this.interface.updateInterface();
         
@@ -187,7 +218,7 @@ class XMLscene extends CGFscene {
 
     changeCamera() {
         if(!this.cameraRotationActive)
-            this.normalCamera = this.graph.views[this.activeCameraID];
+            this.normalCamera = this.graphs[this.activeGraph].views[this.activeCameraID];
         else
             this.pendingCameraChange = this.activeCameraID;
     }
@@ -220,11 +251,11 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             
             var i = 0;
-            for(var key in this.graph.lights) {
+            for(var key in this.graphs[this.activeGraph].lights) {
                 if(i >= 8)
                     break;
 
-                if(this.graph.lights[key][0]) {
+                if(this.graphs[this.activeGraph].lights[key][0]) {
                     this.lights[i].setVisible(true);
                     this.lights[i].enable();
                 }
@@ -241,7 +272,7 @@ class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            this.graphs[this.activeGraph].displayScene();
 
             this.gameOrchestrator.orchestrate();
 

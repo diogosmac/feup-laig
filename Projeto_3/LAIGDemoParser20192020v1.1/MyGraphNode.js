@@ -55,4 +55,9 @@ class MyGraphNode {
         if(this.keyframeAnimation != null)
             this.keyframeAnimation.update(deltaT);
     }
+
+    resetAnimation() {
+        if(this.keyframeAnimation != null)
+            this.keyframeAnimation.resetAnimation();
+    }
 }

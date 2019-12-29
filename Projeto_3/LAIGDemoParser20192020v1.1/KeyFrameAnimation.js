@@ -20,6 +20,20 @@ class KeyframeAnimation extends Animation {
         this.animationDone = false;
     }
 
+
+    /**
+     * Function that resets the animation
+     */
+    resetAnimation() {
+        this.anteriorKeyframeIndex = 0;
+        this.posteriorKeyframeIndex = 1;
+        this.sumT = 0;
+        this.segmentTime = this.keyframes[this.posteriorKeyframeIndex].instant - this.keyframes[this.anteriorKeyframeIndex].instant;
+        this.baseKeyframeMatrix = mat4.create();
+        this.calculateSegmentValues();
+        this.animationDone = false;
+    }
+
     
     /**
      * Function that updates the current segment (anterior and posterior keyframes) where the animation is
