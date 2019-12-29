@@ -36,6 +36,7 @@ serialInclude(['../lib/CGF.js',
                'CGFResourceReader.js',
                'game/Board.js',
                'game/Communicator.js',
+               'game/Animator.js',
                'game/GameMove.js',
                'game/GameOrchestrator.js',
                'game/GameSequence.js',
@@ -48,14 +49,13 @@ serialInclude(['../lib/CGF.js',
                'game/templates/NumbersTemplate.js',
                'game/templates/GamePanelTemplate.js',
                'game/templates/MenuPanelTemplate.js',
-               'game/animations/Animator.js',
 
 main=function()
 {
 	// Standard application, scene and interface setup
     var app = new CGFapplication(document.body);
     var myInterface = new MyInterface();
-    var myScene = new XMLscene(myInterface);
+    var myScene = new XMLscene(myInterface, 2);
 
     app.init();
 
@@ -67,12 +67,14 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "LAIG_TP1_XML_T4_G01_v02.xml";
+    var filename1 = "poolside.xml";
+    var filename2 = "test.xml"
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
-	var myGraph = new MySceneGraph(filename, myScene);
-	
+	var myGraph1 = new MySceneGraph(filename1, myScene);
+    var myGraph2 = new MySceneGraph(filename2, myScene);
+    
 	// start
     app.run();
 }

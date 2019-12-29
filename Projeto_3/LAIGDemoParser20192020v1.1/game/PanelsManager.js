@@ -30,7 +30,10 @@ class PanelsManager {
             "MAIN_MENU": 116,
             "PLAY": 117,
             "MOVIE_GAME": 118,
-            "MOVIE_END": 119
+            "MOVIE_END": 119,
+            "CHOOSE_SCENE": 120,
+            "SCENE_1": 121,
+            "SCENE_2": 122
         });
 
         this.panelMaterial = new CGFappearance(this.orchestrator.scene);
@@ -56,7 +59,7 @@ class PanelsManager {
         this.playPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playPanelRec", -0.25, 0.25, 0.1, 0.4, true), this.panelIDs.PLAY);
         this.setTurnTimePanel = new Panel(this.orchestrator, new MyRectangle(scene, "setTurnTimePanelRec", -1.1, -0.5, -0.7, -0.5, true), this.panelIDs.SET_TURN_TIME);
         this.gameOptionsPanel = new Panel(this.orchestrator, new MyRectangle(scene, "gameOptionsPanelRec", 0.5, 1.1, -0.1, 0.1, true), this.panelIDs.GAME_OPTIONS);
-        this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.5, 1.1, -0.7, -0.5, true));
+        this.chooseScenePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseScenePanelRec", 0.5, 1.1, -0.7, -0.5, true), this.panelIDs.CHOOSE_SCENE);
 
         // menu panels - DIFFICULTY
         this.playerADiffPanel = new Panel(this.orchestrator, new MyRectangle(scene, "playerADiffPanelRec", -0.6, 0.6, 0.5, 0.7, true));
@@ -86,6 +89,12 @@ class PanelsManager {
         this.mainMenuPanel = new Panel(this.orchestrator, new MyRectangle(scene, "mainMenuPanelRec", -0.6, 0.0, -0.2, 0, true), this.panelIDs.MAIN_MENU);
         this.moviePanel = new Panel(this.orchestrator, new MyRectangle(scene, "moviePanelRec", 0.2, 0.6, -0.2, 0, true), this.panelIDs.MOVIE_END);
 
+
+        // menu panels - CHOOSE SCENE
+        this.chooseSceneTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseSceneTitlePanelRec", -0.4, 0.4, 0.5, 0.7, true));
+        this.scene1Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene1PanelRec", -0.3, 0.3, 0.0, 0.2, true), this.panelIDs.SCENE_1);
+        this.scene2Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene2PanelRec", -0.3, 0.3, -0.4, -0.2, true), this.panelIDs.SCENE_2);
+        
 
         // game panels
         this.undoPanel = new Panel(this.orchestrator, new MyRectangleXZ(scene, 'undoPanelRec', -0.5, 0.5, -0.75, 0.75), this.panelIDs.UNDO);
@@ -157,6 +166,10 @@ class PanelsManager {
     
         this.mainMenuPanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('mainMenuTex'));
         this.moviePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('movieTex'));
+
+        this.chooseSceneTitlePanel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('chooseSceneTex'));
+        this.scene1Panel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('chooseScene1Tex'));
+        this.scene2Panel.loadPanelTexture(this.menuPanelTemplate.getMenuTexture('chooseScene2Tex'));
     }
 
 
@@ -370,6 +383,28 @@ class PanelsManager {
                 this.orchestrator.movieRequestPending = true;
                 this.orchestrator.gameStateBuffer = this.orchestrator.gameState;
                 this.orchestrator.gameState = this.orchestrator.gameStates.MOVIE;
+                break;
+
+            case this.panelIDs.CHOOSE_SCENE:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.MENU)
+                    return;
+
+                this.orchestrator.gameState = this.orchestrator.gameStates.CHOOSE_SCENE;
+                break;
+
+            case this.panelIDs.SCENE_1:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.CHOOSE_SCENE)
+                    return;
+
+                this.orchestrator.scene.updateGraph(0);
+                break;
+
+            case this.panelIDs.SCENE_2:
+                if(this.orchestrator.gameState != this.orchestrator.gameStates.CHOOSE_SCENE)
+                    return;
+
+                this.orchestrator.scene.updateGraph(1);
+                break;
 
             default:
                 break;
@@ -537,7 +572,10 @@ class PanelsManager {
     }
 
 
-
+    /**
+     * Method that displays all show winner panels
+     * @param {XMLscene} scene - reference to the scene object
+     */
     displayShowWinnerPanels(scene) {
         this.panelMaterial.apply();
 
@@ -548,6 +586,41 @@ class PanelsManager {
         this.winnerPanel.display();
         this.mainMenuPanel.display();
         this.moviePanel.display();
+
+        scene.popMatrix();
+    }
+
+
+    /**
+     * Method that displays all choose scene panels
+     * @param {XMLscene} scene - reference to the scene object
+     */
+    displayChooseScenePanels(scene) {
+        this.panelMaterial.apply();
+
+        scene.pushMatrix();
+        scene.translate(40, 8, 0);
+        scene.rotate(Math.PI / 2, 0, 1, 0);
+
+        this.chooseSceneTitlePanel.display();
+        this.backPanel.display();
+
+        let materialFirstOption, materialSecondOption;
+        
+        if(this.orchestrator.scene.activeGraph == 0) {
+            materialFirstOption = this.selectedPanelMaterial;
+            materialSecondOption = this.panelMaterial;
+        }
+        else if(this.orchestrator.scene.activeGraph == 1) {
+            materialFirstOption = this.panelMaterial;
+            materialSecondOption = this.selectedPanelMaterial;
+        }
+
+        materialFirstOption.apply();
+        this.scene1Panel.display();
+
+        materialSecondOption.apply();
+        this.scene2Panel.display();
 
         scene.popMatrix();
     }
@@ -675,6 +748,10 @@ class PanelsManager {
                 this.displayGameOptionsPanels(scene);
                 break;
 
+            case this.orchestrator.gameStates.CHOOSE_SCENE:
+                this.displayChooseScenePanels(scene);
+                break;
+
             case this.orchestrator.gameStates.SHOW_WINNER:
                 this.displayShowWinnerPanels(scene);
                 break;
@@ -682,7 +759,6 @@ class PanelsManager {
             case this.orchestrator.gameStates.GAME:
                 this.displayGamePanels(scene, false);
                 break;
-
             
             case this.orchestrator.gameStates.MOVIE:
                 this.displayGamePanels(scene, true);

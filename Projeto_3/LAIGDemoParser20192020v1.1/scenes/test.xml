@@ -18,38 +18,13 @@
     </globals>
 
     <lights>
-        <omni id="sunlight" enabled="1">
+        <omni id="sunlight" enabled="0">
             <location x="0" y="50" z="0" w="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
-
-        <omni id="towelLighting1" enabled="1">
-            <location x="12" y="5" z="-25" w="1.0" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0" linear="1" quadratic="0" />
-        </omni>
-        
-        <omni id="towelLighting2" enabled="1">
-            <location x="0" y="5" z="-26" w="1.0" />
-            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="0" linear="1" quadratic="0" />
-        </omni>
-        
-        <spot id="atomiumSpotlight" enabled="0" angle="5" exponent="3">
-            <location x="10" y="11.9" z="6" w="1.0" />
-            <target x="5" y="10" z="12" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-            <attenuation constant="1" linear="0" quadratic="0" />
-        </spot>
 
         <spot id="flagSpotlight" enabled="0" angle="10" exponent="1">
             <location x="-13" y="12" z="12" w="1.0" />
@@ -156,6 +131,8 @@
         <texture id="winner-a" file="scenes/panels/menu/winner-a.png" />
         <texture id="winner-b" file="scenes/panels/menu/winner-b.png" />
         <texture id="play" file="scenes/panels/menu/play.png" />
+        <texture id="poolside" file="scenes/panels/menu/poolside.png" />
+        <texture id="test" file="scenes/panels/menu/test.png" />
 
     </textures>
 
@@ -258,39 +235,39 @@
         </material>
         <material id="tile1Mat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
-            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
-            <specular r="0.8" g="0.8" b="0.8" a="1.0" />        
+            <ambient r="0.6" g="0.2" b="0.6" a="1.0" />
+            <diffuse r="0.6" g="0.2" b="0.6" a="1.0" />
+            <specular r="0.8" g="0.2" b="0.8" a="1.0" />        
         </material>
         <material id="tile2Mat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.05" g="0.05" b="0.05" a="1.0" />
-            <specular r="0.2" g="0.2" b="0.2" a="1.0" />             
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.05" b="0.05" a="1.0" />
+            <specular r="1.0" g="0.2" b="0.2" a="1.0" />             
         </material>
         <material id="selectedTileMat" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="0.2" b="0.0" a="1.0" />
-            <diffuse r="0.1" g="0.5" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.2" b="0.5" a="1.0" />
+            <diffuse r="0.1" g="0.5" b="0.9" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
         <material id="highlightedTileMat" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.1" g="0.1" b="0.2" a="1.0" />
-            <diffuse r="0.1" g="0.1" b="0.4" a="1.0" />
+            <ambient r="0.1" g="0.6" b="0.2" a="1.0" />
+            <diffuse r="0.1" g="0.6" b="0.4" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
         </material>
         <material id="microbeAMat" shininess="50">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.06" g="0.30" b="0.40" a="1.0" />
-            <diffuse r="0.12" g="0.65" b="0.81" a="1.0" />
-            <specular r="0.12" g="0.65" b="0.81" a="1.0" />
+            <ambient r="1.0" g="1.0" b="0.40" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </material>
         <material id="microbeBMat" shininess="50">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.35" g="0.03" b="0.03" a="1.0" />
-            <diffuse r="0.71" g="0.03" b="0.03" a="1.0" />
-            <specular r="0.71" g="0.03" b="0.03" a="1.0" />
+            <ambient r="0.0" g="1.0" b="0.03" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.03" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.03" a="1.0" />
         </material>
     </materials>
 
@@ -340,7 +317,68 @@
 
     </transformations>
 
+    
     <animations>
+        <animation id="flagAnimation">
+            <keyframe instant="3">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="3.5">
+                <translate x="0" y="0" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="4">
+                <translate x="0" y="0" z="3" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="4.5">
+                <translate x="0" y="0" z="6" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="5">
+                <translate x="0" y="0" z="6" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="5.5">
+                <translate x="0" y="0" z="9" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="6.5">
+                <translate x="0" y="0" z="9" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="atomiumFallAnimation">
+            <keyframe instant="7.7">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.7">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="-90" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="8.8">
+                <translate x="-0.7" y="0.7" z="0" />
+                <rotate angle_x="-90" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            <keyframe instant="9">
+                <translate x="-0.8" y="2.8" z="1.5" />
+                <rotate angle_x="-125" angle_y="-30" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
     </animations>
 
     <primitives>
@@ -583,7 +621,7 @@
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
         <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
         <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" movieTex="movieCaps" />
-        <panelMenu playTex="play" timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" />
+        <panelMenu playTex="play" timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" chooseScene1Tex="poolside" chooseScene2Tex="poolside" />
     </templates>
 
     <components>
@@ -832,9 +870,10 @@
 
         <component id="flagFabric">
             <transformation>
-                <translate x="0" y="0" z="12" />
+                <translate x="0" y="0" z="3" />
                 <rotate axis="z" angle="45" />
             </transformation>
+            <animationref id="flagAnimation" />
             <materials>
                 <material id="flagFabricMat" />
             </materials>
@@ -933,6 +972,7 @@
                 <rotate axis="x" angle="-45" />
                 <rotate axis="y" angle="-45" />
             </transformation>
+            <animationref id="atomiumFallAnimation" />
             <materials>
                 <material id="inherit" />
             </materials>
@@ -1474,6 +1514,7 @@
 
         <component id="poolFloaterNode">
             <transformation>
+                <translate x="-3" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="whiteMaterial" />

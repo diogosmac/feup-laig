@@ -145,8 +145,9 @@ class GameOrchestrator {
     /**
      * Method that loads new templates to the game
      * @param {Array} newTemplates - array with the new templates
+     * @param {bool} firstTime - flag that indicates if the templates are being loaded for the first time (false by default)
      */
-    loadTemplates(newTemplates) {
+    loadTemplates(newTemplates, firstTime = false) {
         this.templates = newTemplates;
         this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
         this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], this.templates['panelMenu']);
@@ -155,7 +156,8 @@ class GameOrchestrator {
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
         this.panelsManager.updateTimer(this.time);
 
-        this.gameState = this.gameStates.MENU;
+        if(firstTime)
+            this.gameState = this.gameStates.MENU;
     }
 
 
@@ -225,7 +227,7 @@ class GameOrchestrator {
      * Method that alternates between the two game cameras, changing the game panels's side
      */
     rotateCamera() {
-        if(this.scene.normalCamera != this.scene.graph.views["PlayerPerspective"])
+        if(this.scene.normalCamera != this.scene.graphs[this.scene.activeGraph].views["PlayerPerspective"])
             return;
         
         this.panelsManager.rotateGamePanels = !this.panelsManager.rotateGamePanels;

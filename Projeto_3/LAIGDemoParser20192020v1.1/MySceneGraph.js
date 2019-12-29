@@ -95,8 +95,13 @@ class MySceneGraph {
 
         this.loadedOk = true;
 
-        // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
+        this.scene.graphsLoaded++;
+        this.scene.addGraph(this);
+
+        // As the graph loaded ok, and all the remaining graphs were also loaded, signal the scene so that any additional initialization depending on the graph can take place
+        if (this.scene.graphsLoaded == this.scene.numGraphs) {
+            this.scene.onGraphLoaded();
+        }
     }
 
     /**
@@ -1800,6 +1805,18 @@ class MySceneGraph {
 
                 allTextures['winnerBTex'] = this.textures[winnerBTex];
 
+                var chooseScene1Tex = this.reader.getString(children[i], 'chooseScene1Tex');
+                if (!(chooseScene1Tex != null && this.textures[chooseScene1Tex] != null))
+                    return "unable to parse chooseScene1Tex for template " + templateType;
+
+                allTextures['chooseScene1Tex'] = this.textures[chooseScene1Tex];
+
+                var chooseScene2Tex = this.reader.getString(children[i], 'chooseScene2Tex');
+                if (!(chooseScene2Tex != null && this.textures[chooseScene2Tex] != null))
+                    return "unable to parse chooseScene2Tex for template " + templateType;
+
+                allTextures['chooseScene2Tex'] = this.textures[chooseScene2Tex];
+
                 currentTemplate = new MenuPanelTemplate(allTextures);
             }
 
@@ -2264,6 +2281,16 @@ class MySceneGraph {
     animateNodes(deltaT) {
         for(var id in this.nodes) {
             this.nodes[id].animate(deltaT);
+        }
+    }
+
+
+    /**
+     * Resets all node animations
+     */
+    resetNodeAnimations() {
+        for(var id in this.nodes) {
+            this.nodes[id].resetAnimation();
         }
     }
 
