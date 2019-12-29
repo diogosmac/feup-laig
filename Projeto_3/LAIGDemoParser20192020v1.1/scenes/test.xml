@@ -609,7 +609,7 @@
         </primitive>
 
         <primitive id="microbeGeometry">
-            <objmodel url="scenes/models/piece.obj" scale="0.02" rotate="90" offsetHeight="0.2" />
+            <objmodel url="scenes/models/microbe.obj" scale="0.24" rotate="0" offsetHeight="0" />
         </primitive>
 
     </primitives>
