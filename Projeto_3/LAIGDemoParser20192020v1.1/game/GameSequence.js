@@ -54,4 +54,40 @@ class GameSequence {
     addGameMove(gameMove) {
         this.moves.push(gameMove);
     }
+
+
+    /**
+     * Method that retrieves the move that is in that index
+     * @param {int} index - index of the move in the game sequence
+     * @return Copy of the move array
+     */
+    getMoveAt(index) {
+        if(index >= this.moves.length)
+            return null;
+
+        // makes a copy of the move array
+        let moveCopy = this.moves[index].moveResultsArray.map(function(arr) {
+            return arr.slice();
+        });
+
+        return moveCopy;
+    }
+
+
+    /**
+     * Method that returns all moves from the game sequence
+     * @return Array with the game moves
+     */
+    getAllMoves() {
+        return this.moves;
+    }
+
+
+    /**
+     * Method that returns the length (number) of the moves array
+     * @return Length of the move array
+     */
+    numberMoves() {
+        return this.moves.length;
+    }
 }
