@@ -498,8 +498,22 @@ class GameOrchestrator {
         else {
             if(!this.movieMoveDone) {
                 let frameMoveArray = this.gameSequence.getMoveAt(this.movieFrame);
+                let reason = frameMoveArray[0][0];
                 this.makeMove(frameMoveArray, this.movieBoardArray, true); // simulate the move (in movie mode)
                 this.movieMoveDone = true;
+
+                if(reason == "no moves" || reason == "timeout") { // turn was skiped (no animations)
+                    this.movieMoveDone = false;
+                    this.animator.animationsDone = false;
+                    this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB); 
+                    this.board.interpretBoardArray(this.movieBoardArray);
+                    this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
+                    this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
+                    
+                    this.movieFrame++;
+                    if(this.movieFrame == this.gameSequence.numberMoves()) // if all game moves were displayed
+                        this.movieRequestDone = true;
+                }
             }
             else if(this.animator.animationsDone) {
                 this.movieMoveDone = false;

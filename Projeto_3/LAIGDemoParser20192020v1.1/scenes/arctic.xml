@@ -33,50 +33,50 @@
         <texture id="boardTex" file="scenes/images/board-tex.jpg" />
 
         <!-- panel textures(game) -->
-        <texture id="zero" file="scenes/panels/game/0.png" />
-        <texture id="one" file="scenes/panels/game/1.png" />
-        <texture id="two" file="scenes/panels/game/2.png" />
-        <texture id="three" file="scenes/panels/game/3.png" />
-        <texture id="four" file="scenes/panels/game/4.png" />
-        <texture id="five" file="scenes/panels/game/5.png" />
-        <texture id="six" file="scenes/panels/game/6.png" />
-        <texture id="seven" file="scenes/panels/game/7.png" />
-        <texture id="eight" file="scenes/panels/game/8.png" />
-        <texture id="nine" file="scenes/panels/game/9.png" />
-        <texture id="playerATurn" file="scenes/panels/game/playerATurn.png" />
-        <texture id="playerBTurn" file="scenes/panels/game/playerBTurn.png" />
-        <texture id="rotate" file="scenes/panels/game/rotate.png" />
-        <texture id="scoreA" file="scenes/panels/game/score_a.png" />
-        <texture id="scoreB" file="scenes/panels/game/score_b.png" />
-        <texture id="timer" file="scenes/panels/game/timer.png" />
-        <texture id="undo" file="scenes/panels/game/undo.png" />
-        <texture id="movieCaps" file="scenes/panels/game/movie_caps.png" />
+        <texture id="zero" file="scenes/panels/game/0-2.png" />
+        <texture id="one" file="scenes/panels/game/1-2.png" />
+        <texture id="two" file="scenes/panels/game/2-2.png" />
+        <texture id="three" file="scenes/panels/game/3-2.png" />
+        <texture id="four" file="scenes/panels/game/4-2.png" />
+        <texture id="five" file="scenes/panels/game/5-2.png" />
+        <texture id="six" file="scenes/panels/game/6-2.png" />
+        <texture id="seven" file="scenes/panels/game/7-2.png" />
+        <texture id="eight" file="scenes/panels/game/8-2.png" />
+        <texture id="nine" file="scenes/panels/game/9-2.png" />
+        <texture id="playerATurn" file="scenes/panels/game/playerATurn-2.png" />
+        <texture id="playerBTurn" file="scenes/panels/game/playerBTurn-2.png" />
+        <texture id="rotate" file="scenes/panels/game/rotate-2.png" />
+        <texture id="scoreA" file="scenes/panels/game/score_a-2.png" />
+        <texture id="scoreB" file="scenes/panels/game/score_b-2.png" />
+        <texture id="timer" file="scenes/panels/game/timer-2.png" />
+        <texture id="undo" file="scenes/panels/game/undo-2.png" />
+        <texture id="movieCaps" file="scenes/panels/game/movie_caps-2.png" />
 
         <!-- panel textures(menu) -->
-        <texture id="15" file="scenes/panels/menu/15.png" />
-        <texture id="30" file="scenes/panels/menu/30.png" />
-        <texture id="60" file="scenes/panels/menu/60.png" />
-        <texture id="back" file="scenes/panels/menu/back.png" />
-        <texture id="chooseScene" file="scenes/panels/menu/chooseScene.png" />
-        <texture id="cvc" file="scenes/panels/menu/cvc.png" />
-        <texture id="diff-easy" file="scenes/panels/menu/diff-easy.png" />
-        <texture id="diff-medium" file="scenes/panels/menu/diff-medium.png" />
-        <texture id="difficulty" file="scenes/panels/menu/difficulty.png" />
-        <texture id="draw" file="scenes/panels/menu/draw.png" />
-        <texture id="gameOptions" file="scenes/panels/menu/gameOptions.png" />
-        <texture id="gameTitle" file="scenes/panels/menu/gameTitle.png" />
-        <texture id="mainMenu" file="scenes/panels/menu/mainMenu.png" />
-        <texture id="pvp" file="scenes/panels/menu/pvp.png" />
-        <texture id="pvc" file="scenes/panels/menu/pvc.png" />
-        <texture id="movie" file="scenes/panels/menu/movie.png" />
-        <texture id="playerADiff" file="scenes/panels/menu/playerADiff.png" />
-        <texture id="playerBDiff" file="scenes/panels/menu/playerBDiff.png" />
-        <texture id="set_turn_time" file="scenes/panels/menu/set_turn_time.png" />
-        <texture id="winner-a" file="scenes/panels/menu/winner-a.png" />
-        <texture id="winner-b" file="scenes/panels/menu/winner-b.png" />
-        <texture id="play" file="scenes/panels/menu/play.png" />
-        <texture id="poolside" file="scenes/panels/menu/poolside.png" />
-        <texture id="arctic" file="scenes/panels/menu/arctic.png" />
+        <texture id="15" file="scenes/panels/menu/15-2.png" />
+        <texture id="30" file="scenes/panels/menu/30-2.png" />
+        <texture id="60" file="scenes/panels/menu/60-2.png" />
+        <texture id="back" file="scenes/panels/menu/back-2.png" />
+        <texture id="chooseScene" file="scenes/panels/menu/chooseScene-2.png" />
+        <texture id="cvc" file="scenes/panels/menu/cvc-2.png" />
+        <texture id="diff-easy" file="scenes/panels/menu/diff-easy-2.png" />
+        <texture id="diff-medium" file="scenes/panels/menu/diff-medium-2.png" />
+        <texture id="difficulty" file="scenes/panels/menu/difficulty-2.png" />
+        <texture id="draw" file="scenes/panels/menu/draw-2.png" />
+        <texture id="gameOptions" file="scenes/panels/menu/gameOptions-2.png" />
+        <texture id="gameTitle" file="scenes/panels/menu/gameTitle-2.png" />
+        <texture id="mainMenu" file="scenes/panels/menu/mainMenu-2.png" />
+        <texture id="pvp" file="scenes/panels/menu/pvp-2.png" />
+        <texture id="pvc" file="scenes/panels/menu/pvc-2.png" />
+        <texture id="movie" file="scenes/panels/menu/movie-2.png" />
+        <texture id="playerADiff" file="scenes/panels/menu/playerADiff-2.png" />
+        <texture id="playerBDiff" file="scenes/panels/menu/playerBDiff-2.png" />
+        <texture id="set_turn_time" file="scenes/panels/menu/set_turn_time-2.png" />
+        <texture id="winner-a" file="scenes/panels/menu/winner-a-2.png" />
+        <texture id="winner-b" file="scenes/panels/menu/winner-b-2.png" />
+        <texture id="play" file="scenes/panels/menu/play-2.png" />
+        <texture id="poolside" file="scenes/panels/menu/poolside-2.png" />
+        <texture id="arctic" file="scenes/panels/menu/arctic-2.png" />
 
     </textures>
 
