@@ -18,12 +18,16 @@ class SideBoard {
 
     /**
      * Method that loads a new side board template
-     * @param {SideBoardTemplate} newTemplate - new side board template 
+     * @param {SideBoardTemplate} newTemplate - new side board template
+	 * @param {MicrobeTemplate} microbeTemplate - template for the microbes contained in the sideboard
      */
-    loadTemplate(newTemplate) {
+    loadTemplate(newTemplate, microbeTemplate) {
         this.sideBoardTemplate = newTemplate;
         this.x = this.sideBoardTemplate.x;
-        this.y = this.sideBoardTemplate.y;
+		this.y = this.sideBoardTemplate.y;
+		
+		this.aestheticMicrobe = new Microbe(this.orchestrator, this.type);
+		this.aestheticMicrobe.loadTemplate(microbeTemplate);
     }
 
 
@@ -53,8 +57,28 @@ class SideBoard {
         this.sideBoardTemplate.sideBoardGeometry.display();
         
         if(this.microbe != null)
-            this.microbe.display();
-        
+			this.microbe.display();
+
+		scene.pushMatrix();
+		scene.translate(0.25, 0, 0.25);
+		this.aestheticMicrobe.display();
+		scene.popMatrix();
+
+		scene.pushMatrix();
+		scene.translate(-0.25, 0, 0.25);
+		this.aestheticMicrobe.display();
+		scene.popMatrix();
+
+		scene.pushMatrix();
+		scene.translate(0.25, 0, -0.25);
+		this.aestheticMicrobe.display();
+		scene.popMatrix();
+
+		scene.pushMatrix();
+		scene.translate(-0.25, 0, -0.25);
+		this.aestheticMicrobe.display();
+		scene.popMatrix();
+
         scene.popMatrix();
             
 		if (this.sideBoardTemplate.sideBoardTexture != null)

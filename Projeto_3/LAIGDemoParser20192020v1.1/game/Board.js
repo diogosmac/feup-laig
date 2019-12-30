@@ -64,8 +64,8 @@ class Board {
             }
         }
 
-        this.sideBoardA.loadTemplate(newSideBoardATemplate);
-        this.sideBoardB.loadTemplate(newSideBoardBTemplate);
+        this.sideBoardA.loadTemplate(newSideBoardATemplate, this.microbeATemplate);
+        this.sideBoardB.loadTemplate(newSideBoardBTemplate, this.microbeBTemplate);
     }
 
 

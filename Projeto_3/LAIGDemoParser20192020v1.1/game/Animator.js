@@ -38,9 +38,9 @@ class Animator {
 			let transX = newTile.x - sideBoard.x;
 			let transY = newTile.y - sideBoard.y;
 
-			let raise = new MyKeyframe([transY / 4, 3, transX / 4], [0, 0, 0], [1, 1, 1], 0.5);
+			let raise = new MyKeyframe([0, 3, 0], [0, 0, 0], [1, 1, 1], 0.5);
 			let hold = new MyKeyframe([(3/4) * transY, 2, (3/4) * transX], [0, 0, 0], [1, 1, 1], 1.0);
-			let strike = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1, 1, 1], 1.5);
+			let strike = new MyKeyframe([transY, 0.05, transX], [0, 0, 0], [1, 1, 1], 1.5);
 
 			let keyframes = [raise, hold, strike];
 
@@ -88,21 +88,29 @@ class Animator {
 	assignConvertAnimation(tile) {
 		if (tile.microbe != null) {
 			let start = new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], 2.0);
-			let jump = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], 2.4);
-			let expand = new MyKeyframe([0, 2, 0], [0, Math.PI / 2, 0], [3, 1, 3], 2.7);
-			let twirl = new MyKeyframe([0, 1.8, 0], [0, Math.PI, 0], [1, 1, 1], 3);
-			let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 3.5);
+			// let jump = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], 2.4);
+			// let expand = new MyKeyframe([0, 2, 0], [0, Math.PI / 2, 0], [3, 1, 3], 2.7);
+			// let twirl = new MyKeyframe([0, 1.8, 0], [0, Math.PI, 0], [1, 1, 1], 3);
+			// let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 3.5);
 
-			let keyframes = [start, jump, expand, twirl, restore];
+			// let keyframes = [start, jump, expand, twirl, restore];
+
+			let expand = new MyKeyframe([0, 0, 0], [0, Math.PI / 2, 0], [2, 1, 2], 2.4);
+			let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 2.8);
+
+			let keyframes = [start, expand, restore];
 
 			tile.microbe.animation = new KeyframeAnimation(this.orchestrator.scene, keyframes);
 			this.animationsDone = false;
 			this.animationsPending = true;
 
-			if(this.lastAnimFrame < this.orchestrator.currentTime + 4.5)
-				this.lastAnimFrame = this.orchestrator.currentTime + 4.5;
-				
-			this.scheduleConversion(tile, this.orchestrator.currentTime + 2.7);
+			// if(this.lastAnimFrame < this.orchestrator.currentTime + 4.5)
+			// 	this.lastAnimFrame = this.orchestrator.currentTime + 4.5;
+
+			if(this.lastAnimFrame < this.orchestrator.currentTime + 2.8)
+				this.lastAnimFrame = this.orchestrator.currentTime + 2.8;
+
+			this.scheduleConversion(tile, this.orchestrator.currentTime + 2.4);
 		}
 	}
 
