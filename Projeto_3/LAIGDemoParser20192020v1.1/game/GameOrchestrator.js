@@ -595,6 +595,12 @@ class GameOrchestrator {
                     if(!this.makeMove(this.moveResults, this.boardArray)) { // parse move results
                         this.board.pickState = this.board.pickStates.PICK_PIECE; // invalid user move; go back to choosing 
                     }
+                    if(this.moveResults == "no moves") { // CPU has no moves left
+                        this.animator.animationsDone = false;
+                        this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);     
+                        this.board.interpretBoardArray(this.boardArray);
+                        this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
+                    }
                 }
                 else if(this.animator.animationsDone) { // all animations were done
                     this.animator.animationsDone = false;
