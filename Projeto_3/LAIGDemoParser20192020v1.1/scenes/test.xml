@@ -141,12 +141,6 @@
             <diffuse r="0.0" g="1.0" b="0.03" a="1.0" />
             <specular r="0.0" g="1.0" b="0.03" a="1.0" />
         </material>
-		<material id="boxMat" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.10" g="0.05" b="0" a="1.0" />
-            <diffuse r="0.20" g="0.10" b="0" a="1.0" />
-            <specular r="0.10" g="0.05" b="0" a="1.0" />
-        </material>
 		<material id="snowMat" shininess="10">
             <emission r="0.0" g="0.0" b="0" a="1.0" />
             <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
@@ -167,9 +161,6 @@
     </animations>
 
     <primitives>
-        <primitive id="sideBoardGeometry">
-            <objmodel url="scenes/models/box.obj" scale="0.0045" rotate="0" offsetHeight="0.45" />
-        </primitive>
 
         <primitive id="mainPlane">
             <plane npartsU="40" npartsV="40" />
@@ -188,11 +179,11 @@
         </primitive>
 
         <primitive id="microbeGeometry">
-            <objmodel url="scenes/models/ant.obj" scale="0.0003" rotate="45" offsetHeight="0" />
+            <objmodel url="scenes/models/ant.obj" scale="0.0002" rotate="45" offsetHeight="0.12" />
         </primitive>
 
 		<primitive id="sideBoardGeometry">
-            <objmodel url="scenes/models/box.obj" scale="0.0045" rotate="0" offsetHeight="0.45" />
+            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
         </primitive>
 
 		<primitive id="iglooGeometry">
@@ -203,10 +194,6 @@
             <objmodel url="scenes/models/SnowTerrain.obj" scale="0.02" rotate="0" offsetHeight="0" />
 		</primitive>
 
-		<primitive id="boxGeometry">
-            <objmodel url="scenes/models/untitled.obj" scale="1" rotate="0" offsetHeight="0" />
-		</primitive>
-
     </primitives>
 
     <!-- NEW SECTION FOR THE GAME OBJECTS/ENTITIES -->
@@ -214,8 +201,8 @@
         <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="boardTex" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
         <microbeA microbeGeometry="microbeGeometry" microbeMaterial="microbeAMat" microbeTexture="none" />
         <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
-        <sideBoardA sideBoardGeometry="boxGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="3.2" y="0"/>
-        <sideBoardB sideBoardGeometry="boxGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="-3.2" y="0"/>
+        <sideBoardA sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="3.2" y="0"/>
+        <sideBoardB sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="-3.2" y="0"/>
         <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
         <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" movieTex="movieCaps" />
         <panelMenu playTex="play" timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" chooseScene1Tex="poolside" chooseScene2Tex="poolside" />
@@ -234,8 +221,6 @@
                 <componentref id="gameTableNode" />
                 <componentref id="mainPlaneNode" />
 				<componentref id="iglooNode" />
-				<!-- <componentref id="snowPileNode" /> -->
-				<componentref id="testBox" />
             </children>
         </component>
 
@@ -303,34 +288,6 @@
             <children>
 				<primitiveref id="iglooGeometry" />
             </children>
-		</component>
-
-		<component id="snowPileNode">
-            <transformation>
-				<translate x="15" y="0" z="1" />
-				<rotate axis="x" angle="90" />
-				<scale x="2" y="2" z="2" />
-            </transformation>
-            <materials>
-                <material id="snowMat" />
-            </materials>
-            <texture id="none" />
-            <children>
-				<primitiveref id="snowPileGeometry" />
-            </children>
-		</component>
-
-		<component id="testBox">
-			<transformation>
-				<translate x="15" y="-15" z="1" />
-			</transformation>
-			<materials>
-				<material id="boxMat" />
-			</materials>
-			<texture id="none" />
-			<children>
-				<primitiveref id="boxGeometry" />
-			</children>
 		</component>
 
     </components>
