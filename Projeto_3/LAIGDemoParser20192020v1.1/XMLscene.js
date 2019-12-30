@@ -262,8 +262,9 @@ class XMLscene extends CGFscene {
                 if(i >= 8)
                     break;
 
-                if(this.graphs[this.activeGraph].lights[key][0])
-                    this.lights[i].enable();
+				if(this.graphs[this.activeGraph].lights[key][0]) {
+					this.lights[i].enable();
+				}
                 else
                 	this.lights[i].disable();
 
@@ -296,5 +297,6 @@ class XMLscene extends CGFscene {
      */
     display() {
 		this.render(this.normalCamera);
+		// this.render(this.camera);
     }
 }
