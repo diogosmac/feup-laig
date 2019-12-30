@@ -182,7 +182,7 @@
         </primitive>
 
         <primitive id="gameTable">
-            <gametable x="0" y="0" side="8" thickness="0.3" height="2.5" /> 
+            <gametable x="0" y="0" side="8" thickness="0.2" height="2.5" /> 
         </primitive>
 
         <primitive id="gameBoard">

@@ -296,6 +296,5 @@ class XMLscene extends CGFscene {
      */
     display() {
 		this.render(this.normalCamera);
-		// this.render(this.camera);
     }
 }
