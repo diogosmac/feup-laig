@@ -111,9 +111,9 @@
         </material>
         <material id="boxMat" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.10" g="0.05" b="0" a="1.0" />
-            <diffuse r="0.20" g="0.10" b="0" a="1.0" />
-            <specular r="0.10" g="0.05" b="0" a="1.0" />
+            <ambient r="0.20" g="0.20" b="0.20" a="1.0" />
+            <diffuse r="0.40" g="0.40" b="0.40" a="1.0" />
+            <specular r="0.80" g="0.80" b="0.80" a="1.0" />
         </material>
         <material id="boardMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
