@@ -36,6 +36,7 @@ class GameOrchestrator {
         this.rotatingCameraDone = false; // variable that indicates when the camera is done rotating
         this.movieRequestPending = false; // when user clicks on the "movie" button
         this.movieRequestDone = false; // when the movie request is finalized
+        this.movieMoveDone = false; // for when a movie turn is done
 
         this.currentPlayer = 'A'; // variable that stores the current player
         this.playerAStatus = 'H'; // by default, player A is human
@@ -116,6 +117,7 @@ class GameOrchestrator {
 
         this.movieRequestPending = false;
         this.movieRequestDone = false;
+        this.movieMoveDone = false;
         this.gameStateBuffer = null;
         this.currentPlayerBuffer = null;
         this.pointsABuffer = null;
@@ -343,7 +345,8 @@ class GameOrchestrator {
             // error ?
         }
 	}
-	
+    
+    
     /**
      * Method that does all the process necessary to make a move
      * @param {Array} moveArray - array returned by the Prolog server that represents the move, the score and all the changes to the board
@@ -457,6 +460,7 @@ class GameOrchestrator {
         if(this.movieRequestPending) {
             this.movieRequestPending = false;
             this.movieRequestDone = false;
+            this.movieMoveDone = false;
             this.movieFrame = 0;
             this.movieBoardArray = this.initBoard();
             this.board.resetTiles();
@@ -492,20 +496,21 @@ class GameOrchestrator {
             }
         }
         else {
-            let frameMoveArray = this.gameSequence.getMoveAt(this.movieFrame);
-            
-            this.makeMove(frameMoveArray, this.movieBoardArray, true); // simulate the move (in movie mode)
-            
-            this.sleep(2000);
-            
-            this.board.interpretBoardArray(this.movieBoardArray);
-
-            this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
-            this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
-
-            this.movieFrame++;
-            if(this.movieFrame == this.gameSequence.numberMoves()) // if all game moves were displayed
-                this.movieRequestDone = true;
+            if(!this.movieMoveDone) {
+                let frameMoveArray = this.gameSequence.getMoveAt(this.movieFrame);
+                this.makeMove(frameMoveArray, this.movieBoardArray, true); // simulate the move (in movie mode)
+                this.movieMoveDone = true;
+            }
+            else if(this.animator.animationsDone) {
+                this.movieMoveDone = false;
+                this.board.interpretBoardArray(this.movieBoardArray);
+                this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
+                this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
+    
+                this.movieFrame++;
+                if(this.movieFrame == this.gameSequence.numberMoves()) // if all game moves were displayed
+                    this.movieRequestDone = true;
+            }
         }
     }
 
