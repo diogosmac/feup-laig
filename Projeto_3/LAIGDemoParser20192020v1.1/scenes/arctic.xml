@@ -153,9 +153,9 @@
         </material>
         <material id="microbeBMat" shininess="50">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="1.0" b="0.03" a="1.0" />
-            <diffuse r="0.0" g="1.0" b="0.03" a="1.0" />
-            <specular r="0.0" g="1.0" b="0.03" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.40" g="0.40" b="0.40" a="1.0" />
+            <specular r="0.40" g="0.40" b="0.40" a="1.0" />
         </material>
 		<material id="snowMat" shininess="10">
             <emission r="0.0" g="0.0" b="0" a="1.0" />
@@ -177,10 +177,6 @@
     </animations>
 
     <primitives>
-        <primitive id="sideBoardGeometry">
-            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
-        </primitive>
-
         <primitive id="mainPlane">
             <plane npartsU="40" npartsV="40" />
         </primitive>
@@ -197,8 +193,12 @@
             <rectangleXZ x1="-0.3" y1="-0.3" x2="0.3" y2="0.3" /> 
         </primitive>
 
+        <primitive id="sideBoardGeometry">
+            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
+        </primitive>
+
         <primitive id="microbeGeometry">
-            <objmodel url="scenes/models/penguin.obj" scale="0.07" rotate="0" offsetHeight="0" />
+            <objmodel url="scenes/models/penguin.obj" scale="0.07" rotate="180" offsetHeight="0" />
         </primitive>
 
 		<primitive id="iglooGeometry">
