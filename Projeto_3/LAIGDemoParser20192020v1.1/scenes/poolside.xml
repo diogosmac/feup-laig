@@ -414,7 +414,7 @@
 
     <primitives>
         <primitive id="sideBoardGeometry">
-            <objmodel url="scenes/models/box.obj" scale="0.0045" rotate="0" offsetHeight="0.45" />
+            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
         </primitive>
 
         <primitive id="mainPlane">

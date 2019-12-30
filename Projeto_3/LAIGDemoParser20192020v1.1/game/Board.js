@@ -22,6 +22,9 @@ class Board {
         this.selectedTileLine = null;
         this.selectedTileColumn = null;
 
+        this.sideBoardA = new SideBoard(this.orchestrator, 'A');
+        this.sideBoardB = new SideBoard(this.orchestrator, 'B');
+
         this.initialTileX = 1.95; 
         this.initialTileY = -1.95;
         this.tileOffset = 0.65; // tile side + space between 2 tiles = 0.6 + 0.05 = 0.65 
@@ -61,8 +64,8 @@ class Board {
             }
         }
 
-        this.sideBoardATemplate = newSideBoardATemplate;
-		this.sideBoardBTemplate = newSideBoardBTemplate;
+        this.sideBoardA.loadTemplate(newSideBoardATemplate);
+        this.sideBoardB.loadTemplate(newSideBoardBTemplate);
     }
 
 
@@ -71,6 +74,9 @@ class Board {
      * @param {Array} boardArray - array with the initial board layout, in terms of microbes
      */ 
     interpretBoardArray(boardArray) {
+        this.sideBoardA.microbe = null;
+        this.sideBoardB.microbe = null;
+
         for(let line = 0; line < boardArray.length; line++) {
             let currentLine = boardArray[line];
 
@@ -92,6 +98,28 @@ class Board {
                 }
             } 
         }
+    }
+
+
+    /**
+     * Method that generates a new microbe in one of the side boards
+     * @param {char} player - character indicating what player will have the microbe (player A or B)
+     * @return Side board of the player
+     */
+    generateMicrobeSideBoard(player) {
+        let sideBoard, microbeTemplate;
+        if(player == 'A') {
+            sideBoard = this.sideBoardA;
+            microbeTemplate = this.microbeATemplate;
+        }
+        else if(player == 'B') {
+            sideBoard = this.sideBoardB;
+            microbeTemplate = this.microbeBTemplate;
+        }
+
+        sideBoard.generateNewMicrobe(microbeTemplate);
+
+        return sideBoard;
     }
 
 
@@ -174,14 +202,30 @@ class Board {
 
 
     /**
+     * Update method that is in charge of updating the microbe's position
+     * @param {float} deltaTime - time difference between this call and the last call
+     */
+    update(deltaTime) {
+        for (let tile of this.boardTiles) {
+			if (tile.microbe != null && tile.microbe.animation != null) {
+				tile.microbe.update(deltaTime);
+            }
+        }
+
+        if(this.sideBoardA.microbe != null)
+            this.sideBoardA.microbe.update(deltaTime);
+
+        if(this.sideBoardB.microbe != null)
+            this.sideBoardB.microbe.update(deltaTime);
+    }
+
+    /**
      * Display method for the game board and its tiles
      */
-    display() {
-        
+    display() {        
         let scene = this.orchestrator.scene;
 
         scene.pushMatrix();
-
 
         this.boardTemplate.boardMaterial.apply();
         if(this.boardTemplate.boardTexture != null)
@@ -192,35 +236,8 @@ class Board {
         if(this.boardTemplate.boardTexture != null)
             this.boardTemplate.boardTexture.unbind();
 
-
-
-        this.sideBoardATemplate.sideBoardMat.apply();
-        if (this.sideBoardATemplate.sideBoardTexture != null) {
-            this.sideBoardATemplate.sideBoardTexture.bind();
-        }
-            
-        scene.pushMatrix();
-        scene.translate(this.sideBoardATemplate.y, 0, this.sideBoardATemplate.x);
-        this.sideBoardATemplate.sideBoardGeometry.display();
-        scene.popMatrix();
-		
-		if (this.sideBoardATemplate.sideBoardTexture != null)
-			this.sideBoardATemplate.sideBoardTexture.unbind();        
-
-
-		this.sideBoardBTemplate.sideBoardMat.apply();
-		if (this.sideBoardBTemplate.sideBoardTexture != null) {
-			this.sideBoardBTemplate.sideBoardTexture.bind();
-		}
-
-        scene.pushMatrix();
-        scene.translate(this.sideBoardBTemplate.y, 0, this.sideBoardBTemplate.x);
-        this.sideBoardBTemplate.sideBoardGeometry.display();
-        scene.popMatrix();
-            
-		if (this.sideBoardBTemplate.sideBoardTexture != null)
-			this.sideBoardBTemplate.sideBoardTexture.unbind();
-
+        this.sideBoardA.display();
+        this.sideBoardB.display();
 
         for(let i = 0; i < this.boardTiles.length; i++) {
             let tile = this.boardTiles[i];

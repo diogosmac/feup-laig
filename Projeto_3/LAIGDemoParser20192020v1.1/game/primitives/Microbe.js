@@ -10,27 +10,8 @@ class Microbe {
 	constructor(orchestrator, type) {
 		this.orchestrator = orchestrator;
 		this.type = type;
-		this.animationMatrix = mat4.create();
-		mat4.identity(this.animationMatrix); // creates identity matrix for the animations
-		// mat4.translate(this.animationMatrix, this.animationMatrix, [0, 1, 0]);
+		this.animation = null;
 	}
-
-
-	// /**
-	//  * Method that sets a new animation matrix for the microbe
-	//  * @param {Array} newMatrix - new animation matrix
-	//  */
-	// setAnimationMatrix(newMatrix) {
-	// 	this.animationMatrix = newMatrix;
-	// }
-
-
-	// /**
-	//  * Method that resets the microbe's animation matrix
-	//  */
-	// resetAnimationMatrix() {
-	// 	mat4.identity(this.animationMatrix);
-	// }
 
 
 	/**
@@ -50,16 +31,16 @@ class Microbe {
 		this.tile = tile;
 	}
 
+
 	/**
 	 * Method that allows the microbe to keep track of time
+	 * @param {float} deltaTime - time difference between this call and the last call
 	 */
-	update(t) {
+	update(deltaTime) {
 		if (this.animation != null)
-			if (this.animation.animationDone)
-				this.animation = null;
-			else
-				this.animation.generateAnimationMatrix(t);
+			this.animation.generateAnimationMatrix(deltaTime);
 	}
+
 
 	/**
 	 * Display method of the microbe object
@@ -73,9 +54,9 @@ class Microbe {
 		this.microbeTemplate.microbeTexture.bind();
 
 		scene.pushMatrix();
-		// scene.multMatrix(this.animationMatrix);
 		if (this.animation != null)
 			this.animation.apply();
+
 		this.microbeTemplate.microbeGeometry.display();
 		scene.popMatrix();
 
