@@ -15,7 +15,7 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.graphs = [];
         this.numGraphs = numGraphs;
-        this.activeGraph = 0;
+        this.activeGraph = 1;
         this.graphsLoaded = 0;
     }
 
@@ -63,7 +63,7 @@ class XMLscene extends CGFscene {
      * @param {MySceneGraph} graph - new scene graph 
      */
     addGraph(graph) {
-        this.graphs.push(graph);
+		this.graphs[graph.id] = graph;
     }
 
     /**
