@@ -14,22 +14,47 @@
 
     <globals>
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-        <background r="0.4" g="0.75" b="0.9" a="1.0" />
+        <background r="0" g="0.02" b="0.15" a="1.0" />
     </globals>
 
     <lights>
-        <omni id="sunlight" enabled="1">
-            <location x="0" y="50" z="0" w="1.0" />
-            <ambient r="0.7" g="0.7" b="1.0" a="1.0" />
-            <diffuse r="0.7" g="0.7" b="1.0" a="1.0" />
-            <specular r="0.7" g="0.7" b="1.0" a="1.0" />
+        <omni id="Moonlight" enabled="1">
+            <location x="-18" y="25" z="-28" w="1.0" />
+            <ambient r="0.6" g="0.6" b="1.0" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="1.0" a="1.0" />
+            <specular r="0.6" g="0.6" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
+        </omni>
+		<spot id="Igloo Light (Far)" enabled="1" angle="10" exponent="5">
+			<location x="-11.5" y="2" z="12.8" w="1.0" />
+			<target x="-10.5" y="1" z="11.8" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.69" g="0.93" b="0.93" a="1.0" />
+            <specular r="0.69" g="0.93" b="0.93" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+		</spot>
+		<spot id="Igloo Light (Near)" enabled="1" angle="10" exponent="5">
+			<location x="11.5" y="2" z="-12.8" w="1.0" />
+			<target x="10.5" y="1" z="-11.8" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.69" g="0.93" b="0.93" a="1.0" />
+            <specular r="0.69" g="0.93" b="0.93" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+		</spot>
+        <omni id="Campfire" enabled="1">
+            <location x="0" y="2" z="15" w="1.0" />
+            <ambient r="1.0" g="0.3" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.3" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.3" b="0.0" a="1.0" />
+            <attenuation constant="0.5" linear="0.3" quadratic="0" />
         </omni>
     </lights>
 
     <textures>
         <texture id="mainPlaneTex" file="scenes/images/snow.jpg" />
-        <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
+        <texture id="woodenTableTex" file="scenes/images/light-wood.jpeg" />
+        <texture id="logTex" file="scenes/images/trunk-image.jpg" />
+        <texture id="fireTex" file="scenes/images/fire.jpeg" />
         <texture id="boardTex" file="scenes/images/board-ice.jpeg" />
 
         <!-- panel textures(game) -->
@@ -77,7 +102,7 @@
         <texture id="play" file="scenes/panels/menu/play-2.png" />
         <texture id="poolside" file="scenes/panels/menu/poolside-2.png" />
         <texture id="arctic" file="scenes/panels/menu/arctic-2.png" />
-
+		<texture id="moonTex" file="scenes/images/moon.png" />
     </textures>
 
     <materials>
@@ -89,15 +114,15 @@
         </material>
         <material id="tableMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.3" g="0.15" b="0.0" a="1.0" />
-            <diffuse r="0.4" g="0.2" b="0.0" a="1.0" />
-            <specular r="0.2" g="0.2" b="0.0" a="1.0" />             
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.3" g="0.3" b="0.3" a="1.0" />             
         </material>
         <material id="boxMat" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.10" g="0.05" b="0" a="1.0" />
-            <diffuse r="0.20" g="0.10" b="0" a="1.0" />
-            <specular r="0.10" g="0.05" b="0" a="1.0" />
+            <ambient r="0.20" g="0.20" b="0.20" a="1.0" />
+            <diffuse r="0.40" g="0.40" b="0.40" a="1.0" />
+            <specular r="0.80" g="0.80" b="0.80" a="1.0" />
         </material>
         <material id="boardMat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -107,15 +132,15 @@
         </material>
         <material id="tile1Mat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.6" g="0.2" b="0.6" a="1.0" />
-            <diffuse r="0.6" g="0.2" b="0.6" a="1.0" />
+            <ambient r="0.3" g="0.1" b="0.3" a="1.0" />
+            <diffuse r="0.5" g="0.15" b="0.5" a="1.0" />
             <specular r="0.8" g="0.2" b="0.8" a="1.0" />        
         </material>
-        <material id="tile2Mat" shininess="1">
+		<material id="tile2Mat" shininess="1">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="1.0" g="0.05" b="0.05" a="1.0" />
-            <specular r="1.0" g="0.2" b="0.2" a="1.0" />             
+            <ambient r="0.22" g="0.42" b="0.5" a="1.0" />
+            <diffuse r="0.33" g="0.63" b="0.75" a="1.0" />
+            <specular r="0.44" g="0.84" b="1.0" a="1.0" />
         </material>
         <material id="selectedTileMat" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -137,15 +162,34 @@
         </material>
         <material id="microbeBMat" shininess="50">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="1.0" b="0.03" a="1.0" />
-            <diffuse r="0.0" g="1.0" b="0.03" a="1.0" />
-            <specular r="0.0" g="1.0" b="0.03" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.40" g="0.40" b="0.40" a="1.0" />
+            <specular r="0.40" g="0.40" b="0.40" a="1.0" />
         </material>
 		<material id="snowMat" shininess="10">
             <emission r="0.0" g="0.0" b="0" a="1.0" />
             <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+		</material>
+		<material id="moonMat" shininess="10">
+			<emission r="0.0" g="0.0" b="0.0" a="1.0" />
+			<ambient r="0.8" g="0.8" b="1.0" a="1.0" />
+			<diffuse r="0.8" g="0.8" b="1.0" a="1.0" />
+			<specular r="0.8" g="0.8" b="1.0" a="1.0" />
+		</material>
+		<material id="pineMat" shininess="10">
+			<emission r="0.0" g="0.0" b="0.0" a="1.0" />
+			<ambient r="0.0" g="0.05" b="0.0" a="1.0" />
+			<diffuse r="0.0" g="0.1" b="0.0" a="1.0" />
+			<specular r="0.0" g="0.0" b="0.0" a="1.0" />
+		</material>
+
+		<material id="fireMat" shininess="10">
+            <emission r="0.25" g="0.10" b="0.04" a="1.0" />
+            <ambient r="0.87" g="0.35" b="0.13" a="1.0" />
+            <diffuse r="0.87" g="0.35" b="0.13" a="1.0" />
+            <specular r="0.87" g="0.35" b="0.13" a="1.0" />
 		</material>
     </materials>
 
@@ -161,37 +205,41 @@
     </animations>
 
     <primitives>
-        <primitive id="sideBoardGeometry">
-            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
-        </primitive>
-
         <primitive id="mainPlane">
             <plane npartsU="40" npartsV="40" />
         </primitive>
-
         <primitive id="gameTable">
-            <gametable x="0" y="0" side="8" thickness="0.3" height="2.5" /> 
+            <gametable x="0" y="0" side="8" thickness="0.2" height="2.5" /> 
         </primitive>
-
         <primitive id="gameBoard">
             <nurbscube side="5" thickness="0.05" /> 
         </primitive>
-
         <primitive id="gameTile">
             <rectangleXZ x1="-0.3" y1="-0.3" x2="0.3" y2="0.3" /> 
         </primitive>
-
-        <primitive id="microbeGeometry">
-            <objmodel url="scenes/models/penguin.obj" scale="0.07" rotate="0" offsetHeight="0" />
+        <primitive id="sideBoardGeometry">
+            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
         </primitive>
-
+        <primitive id="microbeGeometry">
+            <objmodel url="scenes/models/penguin.obj" scale="0.07" rotate="180" offsetHeight="0" />
+        </primitive>
 		<primitive id="iglooGeometry">
             <objmodel url="scenes/models/igloo.obj" scale="1" rotate="0" offsetHeight="0" />
         </primitive>
-
-		<primitive id="snowPileGeometry">
-            <objmodel url="scenes/models/SnowTerrain.obj" scale="0.02" rotate="0" offsetHeight="0" />
+		<primitive id="moonGeometry">
+			<sphere radius="3" slices="40" stacks="40" />
 		</primitive>
+		<primitive id="pineGeometry">
+			<objmodel url="scenes/models/pine.obj" scale="0.04" rotate="0" offsetHeight="0" />
+		</primitive>
+
+        <primitive id="fireLog">
+            <cylinder2 base="0.4" top="0.4" height="4.0" slices="20" stacks="5" />
+        </primitive>
+
+        <primitive id="fireEmber">
+            <cylinder2 base="1" top="0" height="1.2" slices="20" stacks="5" />
+        </primitive>
 
     </primitives>
 
@@ -220,7 +268,167 @@
                 <componentref id="gameTableNode" />
                 <componentref id="mainPlaneNode" />
 				<componentref id="iglooNode" />
-				<!-- <componentref id="snowPileNode" /> -->
+				<componentref id="moonNodeUh" />
+				<componentref id="pinesNode" />
+                <componentref id="fireplaceNode" />
+            </children>
+        </component>
+
+        <component id="fireplaceNode">
+            <transformation>
+                <translate x="0" y="-15" z="0.9" />
+				<scale x="0.9" y="0.9" z="0.9" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="logsNode" />
+                <componentref id="fireNode" />
+            </children>
+        </component>
+
+        <component id="fireNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="fireMat" />
+            </materials>
+            <texture id="fireTex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="fireEmber" />
+            </children>
+        </component>
+
+        <component id="logsNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="logTex" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="log1" />
+                <componentref id="log2" />
+                <componentref id="log3" />
+                <componentref id="log4" />
+                <componentref id="log5" />
+                <componentref id="log6" />
+                <componentref id="log7" />
+                <componentref id="log8" />
+            </children>
+        </component>
+
+        <component id="log1">
+            <transformation>
+                <rotate axis="z" angle="0" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log2">
+            <transformation>
+                <rotate axis="z" angle="45" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log3">
+            <transformation>
+                <rotate axis="z" angle="90" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log4">
+            <transformation>
+                <rotate axis="z" angle="135" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log5">
+            <transformation>
+                <rotate axis="z" angle="180" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log6">
+            <transformation>
+                <rotate axis="z" angle="225" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log7">
+            <transformation>
+                <rotate axis="z" angle="270" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log8">
+            <transformation>
+                <rotate axis="z" angle="315" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
             </children>
         </component>
 
@@ -290,19 +498,117 @@
             </children>
 		</component>
 
-		<component id="snowPileNode">
+		<component id="moonNodeUh">
             <transformation>
-				<translate x="15" y="0" z="1" />
-				<rotate axis="x" angle="90" />
-				<scale x="2" y="2" z="2" />
+				<translate x="-20" y="30" z="25" />
             </transformation>
             <materials>
-                <material id="snowMat" />
+                <material id="moonMat" />
             </materials>
-            <texture id="none" />
+            <texture id="moonTex" length_s="1" length_t="1" />
             <children>
-				<primitiveref id="snowPileGeometry" />
+				<primitiveref id="moonGeometry" />
             </children>
+		</component>
+
+		<component id="pinesNode">
+			<transformation>
+				<translate x="7" y="-7.5" z="-2" />
+			</transformation>
+			<materials>
+				<material id="pineMat" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<componentref id="pineNode1" />
+				<componentref id="pineNode2" />
+				<componentref id="pineNode3" />
+				<componentref id="pineNode4" />
+				<componentref id="pineNode5" />
+				<componentref id="pineNode6" />
+			</children>
+		</component>
+
+		<component id="pineNode1">
+			<transformation>
+				<translate x="-15" y="14" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="pineGeometry" />
+			</children>
+		</component>
+
+		<component id="pineNode2">
+			<transformation>
+				<translate x="-10" y="18" z="0" />
+				<scale x="0.8" y="0.8" z="0.8" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="pineGeometry" />
+			</children>
+		</component>
+
+		<component id="pineNode3">
+			<transformation>
+				<translate x="10" y="-18" z="0" />
+				<scale x="0.8" y="0.8" z="0.8" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="pineGeometry" />
+			</children>
+		</component>
+
+		<component id="pineNode4">
+			<transformation>
+				<translate x="-21" y="-19" z="0" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="pineGeometry" />
+			</children>
+		</component>
+
+		<component id="pineNode5">
+			<transformation>
+				<translate x="-15" y="-22" z="0" />
+				<scale x="0.9" y="0.9" z="0.9" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="pineGeometry" />
+			</children>
+		</component>
+
+		<component id="pineNode6">
+			<transformation>
+				<translate x="16" y="25" z="0" />
+				<scale x="1.2" y="1.2" z="1.2" />
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id="pineGeometry" />
+			</children>
 		</component>
 
     </components>

@@ -15,7 +15,7 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.graphs = [];
         this.numGraphs = numGraphs;
-        this.activeGraph = 1;
+        this.activeGraph = 0;
         this.graphsLoaded = 0;
     }
 
@@ -132,16 +132,13 @@ class XMLscene extends CGFscene {
                         light[9][2] - light[2][2]
                     );
                 }
-                
-                if (light[0]) {
-                    this.lights[i].setVisible(true);
+
+                if (light[0])
                     this.lights[i].enable();
-                }
-                else {
-                    this.lights[i].setVisible(false);
+                else
                     this.lights[i].disable();
-                }
-                
+				
+				this.lights[i].setVisible(false);
                 this.lights[i].update();
 
                 i++;
@@ -265,14 +262,11 @@ class XMLscene extends CGFscene {
                 if(i >= 8)
                     break;
 
-                if(this.graphs[this.activeGraph].lights[key][0]) {
-                    this.lights[i].setVisible(true);
-                    this.lights[i].enable();
-                }
-                else {
-                    this.lights[i].setVisible(false);
-                    this.lights[i].disable();
-                }
+				if(this.graphs[this.activeGraph].lights[key][0]) {
+					this.lights[i].enable();
+				}
+                else
+                	this.lights[i].disable();
 
                 this.lights[i].update();
                 i++;        
