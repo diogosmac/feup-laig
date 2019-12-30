@@ -63,8 +63,9 @@ class XMLscene extends CGFscene {
      * @param {MySceneGraph} graph - new scene graph 
      */
     addGraph(graph) {
-        this.graphs.push(graph);
+        this.graphs[graph.id] = graph;
     }
+
 
     /**
      * Updates the current graph
@@ -187,7 +188,7 @@ class XMLscene extends CGFscene {
                 this.deltaT = (t - this.lastT) / 1000; // converts to seconds
                 this.lastT = t;
                 this.graphs[this.activeGraph].animateNodes(this.deltaT);
-                this.gameOrchestrator.update(gameTime);
+                this.gameOrchestrator.update(gameTime, t / 1000);
             }
         }
     }
@@ -301,6 +302,7 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
-        this.render(this.normalCamera);
+		this.render(this.normalCamera);
+		// this.render(this.camera);
     }
 }

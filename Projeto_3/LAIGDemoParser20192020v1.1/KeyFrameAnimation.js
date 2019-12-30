@@ -133,9 +133,9 @@ class KeyframeAnimation extends Animation {
      */
     generateAnimationMatrix(deltaT) {
         // don't do anything if the animation is over
-        if(this.animationDone)
-            return;
-
+		if(this.animationDone) {
+			return;
+		}
         this.sumT += deltaT;
         this.updateSegment();
         this.calculateNewMatrix();

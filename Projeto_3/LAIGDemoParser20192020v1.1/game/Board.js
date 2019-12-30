@@ -22,6 +22,9 @@ class Board {
         this.selectedTileLine = null;
         this.selectedTileColumn = null;
 
+        this.sideBoardA = new SideBoard(this.orchestrator, 'A');
+        this.sideBoardB = new SideBoard(this.orchestrator, 'B');
+
         this.initialTileX = 1.95; 
         this.initialTileY = -1.95;
         this.tileOffset = 0.65; // tile side + space between 2 tiles = 0.6 + 0.05 = 0.65 
@@ -35,8 +38,10 @@ class Board {
      * @param {BoardTemplate} newTemplate - new board template
      * @param {MicrobeTemplate} newMicrobeATemplate - new template for the microbes of player A
      * @param {MicrobeTemplate} newMicrobeBTemplate - new template for the microbes of player B
+     * @param {SideBoardTemplate} newSideBoardTemplate - new template for the side board of player A
+     * @param {SideBoardTemplate} newSideBoardTemplate - new template for the side board of player B
      */
-    loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate) {
+	loadTemplate(newTemplate, newMicrobeATemplate, newMicrobeBTemplate, newSideBoardATemplate, newSideBoardBTemplate) {
         // loads template for the board
         this.boardTemplate = newTemplate;
 
@@ -58,6 +63,9 @@ class Board {
                 this.boardTiles[i].microbe.loadTemplate(microbeTemplate);
             }
         }
+
+        this.sideBoardA.loadTemplate(newSideBoardATemplate, this.microbeATemplate);
+        this.sideBoardB.loadTemplate(newSideBoardBTemplate, this.microbeBTemplate);
     }
 
 
@@ -66,6 +74,9 @@ class Board {
      * @param {Array} boardArray - array with the initial board layout, in terms of microbes
      */ 
     interpretBoardArray(boardArray) {
+        this.sideBoardA.microbe = null;
+        this.sideBoardB.microbe = null;
+
         for(let line = 0; line < boardArray.length; line++) {
             let currentLine = boardArray[line];
 
@@ -87,6 +98,28 @@ class Board {
                 }
             } 
         }
+    }
+
+
+    /**
+     * Method that generates a new microbe in one of the side boards
+     * @param {char} player - character indicating what player will have the microbe (player A or B)
+     * @return Side board of the player
+     */
+    generateMicrobeSideBoard(player) {
+        let sideBoard, microbeTemplate;
+        if(player == 'A') {
+            sideBoard = this.sideBoardA;
+            microbeTemplate = this.microbeATemplate;
+        }
+        else if(player == 'B') {
+            sideBoard = this.sideBoardB;
+            microbeTemplate = this.microbeBTemplate;
+        }
+
+        sideBoard.generateNewMicrobe(microbeTemplate);
+
+        return sideBoard;
     }
 
 
@@ -169,10 +202,27 @@ class Board {
 
 
     /**
+     * Update method that is in charge of updating the microbe's position
+     * @param {float} deltaTime - time difference between this call and the last call
+     */
+    update(deltaTime) {
+        for (let tile of this.boardTiles) {
+			if (tile.microbe != null && tile.microbe.animation != null) {
+				tile.microbe.update(deltaTime);
+            }
+        }
+
+        if(this.sideBoardA.microbe != null)
+            this.sideBoardA.microbe.update(deltaTime);
+
+        if(this.sideBoardB.microbe != null)
+            this.sideBoardB.microbe.update(deltaTime);
+    }
+
+    /**
      * Display method for the game board and its tiles
      */
-    display() {
-
+    display() {        
         let scene = this.orchestrator.scene;
 
         scene.pushMatrix();
@@ -186,6 +236,8 @@ class Board {
         if(this.boardTemplate.boardTexture != null)
             this.boardTemplate.boardTexture.unbind();
 
+        this.sideBoardA.display();
+        this.sideBoardB.display();
 
         for(let i = 0; i < this.boardTiles.length; i++) {
             let tile = this.boardTiles[i];
@@ -214,6 +266,8 @@ class Board {
                 tile.tileTexture.unbind();
         }
 
+
         scene.popMatrix();
+    
     }
 }

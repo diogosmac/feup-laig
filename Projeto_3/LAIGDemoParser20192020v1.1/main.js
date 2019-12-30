@@ -44,11 +44,13 @@ serialInclude(['../lib/CGF.js',
                'game/primitives/Panel.js',
                'game/primitives/Tile.js',
                'game/primitives/Microbe.js',
+               'game/primitives/SideBoard.js',
                'game/templates/BoardTemplate.js',
                'game/templates/MicrobeTemplate.js',
                'game/templates/NumbersTemplate.js',
                'game/templates/GamePanelTemplate.js',
                'game/templates/MenuPanelTemplate.js',
+               'game/templates/SideBoardTemplate.js',
 
 main=function()
 {
@@ -72,8 +74,8 @@ main=function()
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
-	var myGraph1 = new MySceneGraph(filename1, myScene);
-    var myGraph2 = new MySceneGraph(filename2, myScene);
+	var myGraph1 = new MySceneGraph(filename1, myScene, 0);
+    var myGraph2 = new MySceneGraph(filename2, myScene, 1);
     
 	// start
     app.run();

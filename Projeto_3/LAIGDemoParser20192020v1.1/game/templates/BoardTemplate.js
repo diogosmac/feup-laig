@@ -15,7 +15,9 @@ class BoardTemplate {
      * @param {CGFappearance} selectedTileMat - material to be used by a selected tile (after the user clicks on it)
      * @param {CGFappearance} highlightedTileMat - material to be used by a highlighted tile (to symbolize the valid tiles for the selected microbe)
      */
-    constructor(boardGeometry, boardMaterial, boardTexture, tileGeometry, tile1Mat, tile1Texture, tile2Mat, tile2Texture, selectedTileMat, highlightedTileMat) {
+    constructor(boardGeometry, boardMaterial, boardTexture,
+                tileGeometry, tile1Mat, tile1Texture,
+                tile2Mat, tile2Texture, selectedTileMat, highlightedTileMat) {
         this.boardGeometry = boardGeometry;
         this.boardMaterial = boardMaterial;
         this.boardTexture = boardTexture;

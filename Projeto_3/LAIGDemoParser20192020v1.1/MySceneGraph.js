@@ -35,8 +35,9 @@ class MySceneGraph {
     /**
      * @constructor
      */
-    constructor(filename, scene) {
+    constructor(filename, scene, id) {
         this.loadedOk = null;
+        this.id = id;
 
         // Establish bidirectional references between scene and graph.
         this.scene = scene;
@@ -1536,7 +1537,6 @@ class MySceneGraph {
                 else    
                     microbeTexture = this.textures[microbeTexture];
 
-
                 currentTemplate = new MicrobeTemplate(microbeGeometry, microbeMaterial, microbeTexture);
             }
 
@@ -1818,6 +1818,41 @@ class MySceneGraph {
                 allTextures['chooseScene2Tex'] = this.textures[chooseScene2Tex];
 
                 currentTemplate = new MenuPanelTemplate(allTextures);
+            }
+
+            else if (templateType == 'sideBoardA' || templateType == 'sideBoardB') {
+
+                var sideBoardGeometry = this.reader.getString(children[i], 'sideBoardGeometry');
+                if (!(sideBoardGeometry != null && this.primitives[sideBoardGeometry] != null))
+                    return "unable to parse sideBoardGeometry for template " + templateType;
+
+                sideBoardGeometry = this.primitives[sideBoardGeometry];
+
+                var sideBoardMat = this.reader.getString(children[i], 'sideBoardMat');
+                if (!(sideBoardMat != null && this.materials[sideBoardMat] != null))
+                    return "unable to parse sideBoardMat for template " + templateType;
+
+                sideBoardMat = this.materials[sideBoardMat];
+
+                var sideBoardTex = this.reader.getString(children[i], 'sideBoardTex');
+                if (!(sideBoardTex != null && (sideBoardTex == "none" || (sideBoardTex != "none" && this.textures[sideBoardTex] != null))))
+                    return "unable to parse sideBoardTex for template " + templateType;
+
+                if (sideBoardTex == "none")
+                    sideBoardTex = null;
+                else
+					sideBoardTex = this.textures[sideBoardTex];
+				
+				var sideBoardX = this.reader.getFloat(children[i], 'x');
+				if (!(sideBoardX != null && !isNaN(sideBoardX)))
+					return "unable to parse the side board x position for the component with ID = " + componentID;
+				
+				var sideBoardY = this.reader.getFloat(children[i], 'y');
+				if (!(sideBoardY != null && !isNaN(sideBoardY)))
+					return "unable to parse the side board y position for the component with ID = " + componentID;
+
+                currentTemplate = new SideBoardTemplate(sideBoardGeometry, sideBoardMat, sideBoardTex, sideBoardX, sideBoardY);
+
             }
 
             this.templates[templateType] = currentTemplate;

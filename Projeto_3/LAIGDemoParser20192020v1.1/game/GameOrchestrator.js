@@ -7,8 +7,9 @@ class GameOrchestrator {
      * @param {XMLScene} scene - Reference to the scene object
      */
     constructor(scene) {
-        this.scene = scene;
+		this.scene = scene;
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
+        this.currentTime = 0;
         
         this.gameStates = Object.freeze({
             "MENU": 1,
@@ -35,6 +36,7 @@ class GameOrchestrator {
         this.rotatingCameraDone = false; // variable that indicates when the camera is done rotating
         this.movieRequestPending = false; // when user clicks on the "movie" button
         this.movieRequestDone = false; // when the movie request is finalized
+        this.movieMoveDone = false; // for when a movie turn is done
 
         this.currentPlayer = 'A'; // variable that stores the current player
         this.playerAStatus = 'H'; // by default, player A is human
@@ -65,8 +67,8 @@ class GameOrchestrator {
 
         this.board = new Board(this, this.boardArray);
         this.communicator = new Communicator(this);
-        this.gameSequence = new GameSequence(this);
         this.animator = new Animator(this);
+        this.gameSequence = new GameSequence(this);
         this.panelsManager = new PanelsManager(this);
     }
 
@@ -115,6 +117,7 @@ class GameOrchestrator {
 
         this.movieRequestPending = false;
         this.movieRequestDone = false;
+        this.movieMoveDone = false;
         this.gameStateBuffer = null;
         this.currentPlayerBuffer = null;
         this.pointsABuffer = null;
@@ -138,7 +141,7 @@ class GameOrchestrator {
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
         this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
 
-        // TODO: fazer reset do animator
+        this.animator.reset();
     }
 
 
@@ -149,7 +152,7 @@ class GameOrchestrator {
      */
     loadTemplates(newTemplates, firstTime = false) {
         this.templates = newTemplates;
-        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
+        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB'], this.templates['sideBoardA'], this.templates['sideBoardB']);
         this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], this.templates['panelMenu']);
 
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
@@ -276,16 +279,6 @@ class GameOrchestrator {
     }
 
 
-    // TODO: apagar depois quando implementarmos as animacoes
-    sleep(milliseconds) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-          currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-      }
-
-
     /**
      * Method that manages all the picking behaviour
      * @param {*} mode - picking mode
@@ -351,9 +344,9 @@ class GameOrchestrator {
         else {
             // error ?
         }
-    }
-
-
+	}
+    
+    
     /**
      * Method that does all the process necessary to make a move
      * @param {Array} moveArray - array returned by the Prolog server that represents the move, the score and all the changes to the board
@@ -396,28 +389,35 @@ class GameOrchestrator {
             
         moveArray.shift(); // removes first element (old pos and new pos)
 
-        // TODO: create and launch animations for the movements, when parsing the move array
         let char = this.currentPlayer == 'A' ? 'a' : 'b';
+
+        let sourceTile, destTile;
 
         for(let moveElement of moveArray) {
             switch(moveElement[0]) {
                 case "new": // creates new microbe
                     boardArray[moveElement[1] - 1][moveElement[2] - 1] = char;
+                    destTile = this.board.getTileByCoords(moveElement[1], moveElement[2]);
+                    this.animator.assignCreateAnimation(this.currentPlayer, destTile);
                     break;
 
                 case "move": // moves a microbe
                     boardArray[moveElement[1] - 1][moveElement[2] - 1] = 'empty';
                     boardArray[moveElement[3] - 1][moveElement[4] - 1] = char;
+                    sourceTile = this.board.getTileByCoords(moveElement[1], moveElement[2]);
+                    destTile = this.board.getTileByCoords(moveElement[3], moveElement[4]);
+                    this.animator.assignMoveAnimation(sourceTile, destTile);
                     break;
 
                 case "cont": // contaminates an enemy microbe
                     boardArray[moveElement[1] - 1][moveElement[2] - 1] = char;
+                    sourceTile = this.board.getTileByCoords(moveElement[1], moveElement[2]);
+                    this.animator.assignConvertAnimation(sourceTile);
                     break;
 
                 case "score":
                     this.pointsA = moveElement[1];
                     this.pointsB = moveElement[2];
-                    this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
                     break;
 
                 default:
@@ -460,6 +460,7 @@ class GameOrchestrator {
         if(this.movieRequestPending) {
             this.movieRequestPending = false;
             this.movieRequestDone = false;
+            this.movieMoveDone = false;
             this.movieFrame = 0;
             this.movieBoardArray = this.initBoard();
             this.board.resetTiles();
@@ -478,8 +479,6 @@ class GameOrchestrator {
         }
 
         if(this.movieRequestDone) { // movie was completely shown; change back to old state
-            this.sleep(2000);
-            
             this.pointsA = this.pointsABuffer; this.pointsABuffer = null;
             this.pointsB = this.pointsBBuffer; this.pointsBBuffer = null;
             this.currentPlayer = this.currentPlayerBuffer; this.currentPlayerBuffer = null;
@@ -488,7 +487,7 @@ class GameOrchestrator {
             this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
             this.gameState = this.gameStateBuffer;
             this.gameStateBuffer = null;
-            
+
             if(this.gameState == this.gameStates.GAME)
                 this.board.pickState = this.board.pickStates.PICK_PIECE;
             else if(this.gameState == this.gameStates.SHOW_WINNER) {
@@ -496,21 +495,24 @@ class GameOrchestrator {
                 this.scene.changeCamera();
             }
         }
-        else { // TODO: meter aqui condicoes com flag de modo a que so faca a proxima frame depois das animacoes estarem concluidas
-            let frameMoveArray = this.gameSequence.getMoveAt(this.movieFrame);
-            
-            this.makeMove(frameMoveArray, this.movieBoardArray, true); // simulate the move (in movie mode)
-            
-            this.sleep(2000);
-            
-            this.board.interpretBoardArray(this.movieBoardArray);
-
-            this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
-            this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
-
-            this.movieFrame++;
-            if(this.movieFrame == this.gameSequence.numberMoves()) // if all game moves were displayed
-                this.movieRequestDone = true;
+        else {
+            if(!this.movieMoveDone) {
+                let frameMoveArray = this.gameSequence.getMoveAt(this.movieFrame);
+                this.makeMove(frameMoveArray, this.movieBoardArray, true); // simulate the move (in movie mode)
+                this.movieMoveDone = true;
+            }
+            else if(this.animator.animationsDone) {
+                this.movieMoveDone = false;
+                this.animator.animationsDone = false;
+                this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB); 
+                this.board.interpretBoardArray(this.movieBoardArray);
+                this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
+                this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
+    
+                this.movieFrame++;
+                if(this.movieFrame == this.gameSequence.numberMoves()) // if all game moves were displayed
+                    this.movieRequestDone = true;
+            }
         }
     }
 
@@ -571,18 +573,20 @@ class GameOrchestrator {
             case this.board.pickStates.PICK_PLAYER_MOVE:
                 break;
 
-            // TODO: quando implementar as animacoes, por mais uma flag aqui dps de chamar o makeMove que indica se as animacoes acabaram.
-            //       Quando isso acontecer, fazer o interpretBoardArray, etc.
+
             case this.board.pickStates.ANIMATING:
                 if(this.moveRequestDone) {
                     this.moveRequestDone = false;
                     this.requestSent = false;
-                    if(this.makeMove(this.moveResults, this.boardArray)) { // parse move results
-                        this.board.interpretBoardArray(this.boardArray);
-                        this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
+                    if(!this.makeMove(this.moveResults, this.boardArray)) { // parse move results
+                        this.board.pickState = this.board.pickStates.PICK_PIECE; // invalid user move; go back to choosing 
                     }
-                    else // invalid user move
-                        this.board.pickState = this.board.pickStates.PICK_PIECE;
+                }
+                else if(this.animator.animationsDone) { // all animations were done
+                    this.animator.animationsDone = false;
+                    this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);     
+                    this.board.interpretBoardArray(this.boardArray);
+                    this.board.pickState = this.board.pickStates.CHECK_GAME_OVER;
                 }
                 break;
 
@@ -617,10 +621,9 @@ class GameOrchestrator {
     /**
      * Method that is in charge of updating some aspects of the game based on the time
      * @param {float} deltaTime - time difference between this function call and the last one (in millisseconds)
+     * @param {float} currentTime - current time (in millisseconds)
      */
-    update(deltaTime) {
-        this.animator.update(deltaTime);
-
+    update(deltaTime, currentTime) {
         if(this.gameState == this.gameStates.GAME) {
             if(this.board.pickState != this.board.pickStates.ANIMATING && this.board.pickState != this.board.pickStates.CHECK_GAME_OVER) {
                 this.elapsedTime -= deltaTime;
@@ -637,6 +640,10 @@ class GameOrchestrator {
                 this.panelsManager.updateTimer(this.time);
             }
         }
+
+		this.currentTime = currentTime;
+        this.board.update(deltaTime / 1000);
+        this.animator.update();
     }
 
 
