@@ -504,6 +504,7 @@ class GameOrchestrator {
             else if(this.animator.animationsDone) {
                 this.movieMoveDone = false;
                 this.animator.animationsDone = false;
+                this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB); 
                 this.board.interpretBoardArray(this.movieBoardArray);
                 this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
                 this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
@@ -514,7 +515,7 @@ class GameOrchestrator {
             }
         }
     }
-    
+
 
     /**
      * Method that contains the game cycle when in "game" mode
