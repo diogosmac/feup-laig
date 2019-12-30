@@ -487,7 +487,7 @@ class GameOrchestrator {
             this.panelsManager.updateScoreTextures(this.pointsA, this.pointsB);
             this.gameState = this.gameStateBuffer;
             this.gameStateBuffer = null;
-            
+
             if(this.gameState == this.gameStates.GAME)
                 this.board.pickState = this.board.pickStates.PICK_PIECE;
             else if(this.gameState == this.gameStates.SHOW_WINNER) {
@@ -503,6 +503,7 @@ class GameOrchestrator {
             }
             else if(this.animator.animationsDone) {
                 this.movieMoveDone = false;
+                this.animator.animationsDone = false;
                 this.board.interpretBoardArray(this.movieBoardArray);
                 this.currentPlayer = this.currentPlayer == 'A' ? 'B' : 'A';
                 this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
