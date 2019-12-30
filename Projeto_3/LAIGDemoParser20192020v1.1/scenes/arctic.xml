@@ -41,12 +41,21 @@
             <specular r="0.69" g="0.93" b="0.93" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
 		</spot>
+        <omni id="discoInferno" enabled="1">
+            <location x="-12" y="30" z="12" w="1.0" />
+            <ambient r="0.8" g="0.2" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.3" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.3" b="0.0" a="1.0" />
+            <attenuation constant="0" linear="1" quadratic="0" />
+        </omni>
     </lights>
 
     <textures>
         <texture id="mainPlaneTex" file="scenes/images/snow.jpg" />
         <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
         <texture id="boardTex" file="scenes/images/board-tex.jpg" />
+        <texture id="logTex" file="scenes/images/trunk-image.jpg" />
+        <texture id="fireTex" file="scenes/images/fire.jpeg" />
 
         <!-- panel textures(game) -->
         <texture id="zero" file="scenes/panels/game/0-2.png" />
@@ -163,6 +172,13 @@
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.8" g="0.8" b="0.8" a="1.0" />
 		</material>
+
+		<material id="fireMat" shininess="10">
+            <emission r="0.45" g="0.18" b="0.075" a="1.0" />
+            <ambient r="0.87" g="0.35" b="0.13" a="1.0" />
+            <diffuse r="0.87" g="0.35" b="0.13" a="1.0" />
+            <specular r="0.87" g="0.35" b="0.13" a="1.0" />
+		</material>
     </materials>
 
     <transformations>
@@ -209,6 +225,14 @@
             <objmodel url="scenes/models/SnowTerrain.obj" scale="0.02" rotate="0" offsetHeight="0" />
 		</primitive>
 
+        <primitive id="fireLog">
+            <cylinder2 base="0.4" top="0.4" height="4.0" slices="20" stacks="5" />
+        </primitive>
+
+        <primitive id="fireEmber">
+            <cylinder2 base="1" top="0" height="1.2" slices="20" stacks="5" />
+        </primitive>
+
     </primitives>
 
     <!-- NEW SECTION FOR THE GAME OBJECTS/ENTITIES -->
@@ -236,7 +260,164 @@
                 <componentref id="gameTableNode" />
                 <componentref id="mainPlaneNode" />
 				<componentref id="iglooNode" />
-				<!-- <componentref id="snowPileNode" /> -->
+                <componentref id="fireplaceNode" />
+            </children>
+        </component>
+
+        <component id="fireplaceNode">
+            <transformation>
+                <translate x="15" y="0" z="1.6" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="logsNode" />
+                <componentref id="fireNode" />
+            </children>
+        </component>
+
+        <component id="fireNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="fireMat" />
+            </materials>
+            <texture id="fireTex" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="fireEmber" />
+            </children>
+        </component>
+
+        <component id="logsNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="logTex" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="log1" />
+                <componentref id="log2" />
+                <componentref id="log3" />
+                <componentref id="log4" />
+                <componentref id="log5" />
+                <componentref id="log6" />
+                <componentref id="log7" />
+                <componentref id="log8" />
+            </children>
+        </component>
+
+        <component id="log1">
+            <transformation>
+                <rotate axis="z" angle="0" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log2">
+            <transformation>
+                <rotate axis="z" angle="45" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log3">
+            <transformation>
+                <rotate axis="z" angle="90" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log4">
+            <transformation>
+                <rotate axis="z" angle="135" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log5">
+            <transformation>
+                <rotate axis="z" angle="180" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log6">
+            <transformation>
+                <rotate axis="z" angle="225" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log7">
+            <transformation>
+                <rotate axis="z" angle="270" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
+            </children>
+        </component>
+
+        <component id="log8">
+            <transformation>
+                <rotate axis="z" angle="315" />
+                <rotate axis="x" angle="110" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="fireLog" />
             </children>
         </component>
 
