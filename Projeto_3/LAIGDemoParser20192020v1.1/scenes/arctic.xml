@@ -1,0 +1,309 @@
+<lxs>
+    <scene root="root" axis_length="1"/>
+
+    <views default="defaultPerspective">
+        <perspective id="PlayerPerspective" near="0.1" far="500" angle="45">
+            <from x="10" y="10" z="0" />
+            <to x="0" y="2" z="0" />
+        </perspective>
+        <perspective id="defaultPerspective" near="0.1" far="500" angle="45">
+            <from x="42" y="8" z="0" />
+            <to x="0" y="8" z="0" />
+        </perspective>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.4" g="0.75" b="0.9" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="sunlight" enabled="1">
+            <location x="0" y="50" z="0" w="1.0" />
+            <ambient r="0.7" g="0.7" b="1.0" a="1.0" />
+            <diffuse r="0.7" g="0.7" b="1.0" a="1.0" />
+            <specular r="0.7" g="0.7" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </omni>
+    </lights>
+
+    <textures>
+        <texture id="mainPlaneTex" file="scenes/images/snow.jpg" />
+        <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
+        <texture id="boardTex" file="scenes/images/board-tex.jpg" />
+
+        <!-- panel textures(game) -->
+        <texture id="zero" file="scenes/panels/game/0.png" />
+        <texture id="one" file="scenes/panels/game/1.png" />
+        <texture id="two" file="scenes/panels/game/2.png" />
+        <texture id="three" file="scenes/panels/game/3.png" />
+        <texture id="four" file="scenes/panels/game/4.png" />
+        <texture id="five" file="scenes/panels/game/5.png" />
+        <texture id="six" file="scenes/panels/game/6.png" />
+        <texture id="seven" file="scenes/panels/game/7.png" />
+        <texture id="eight" file="scenes/panels/game/8.png" />
+        <texture id="nine" file="scenes/panels/game/9.png" />
+        <texture id="playerATurn" file="scenes/panels/game/playerATurn.png" />
+        <texture id="playerBTurn" file="scenes/panels/game/playerBTurn.png" />
+        <texture id="rotate" file="scenes/panels/game/rotate.png" />
+        <texture id="scoreA" file="scenes/panels/game/score_a.png" />
+        <texture id="scoreB" file="scenes/panels/game/score_b.png" />
+        <texture id="timer" file="scenes/panels/game/timer.png" />
+        <texture id="undo" file="scenes/panels/game/undo.png" />
+        <texture id="movieCaps" file="scenes/panels/game/movie_caps.png" />
+
+        <!-- panel textures(menu) -->
+        <texture id="15" file="scenes/panels/menu/15.png" />
+        <texture id="30" file="scenes/panels/menu/30.png" />
+        <texture id="60" file="scenes/panels/menu/60.png" />
+        <texture id="back" file="scenes/panels/menu/back.png" />
+        <texture id="chooseScene" file="scenes/panels/menu/chooseScene.png" />
+        <texture id="cvc" file="scenes/panels/menu/cvc.png" />
+        <texture id="diff-easy" file="scenes/panels/menu/diff-easy.png" />
+        <texture id="diff-medium" file="scenes/panels/menu/diff-medium.png" />
+        <texture id="difficulty" file="scenes/panels/menu/difficulty.png" />
+        <texture id="draw" file="scenes/panels/menu/draw.png" />
+        <texture id="gameOptions" file="scenes/panels/menu/gameOptions.png" />
+        <texture id="gameTitle" file="scenes/panels/menu/gameTitle.png" />
+        <texture id="mainMenu" file="scenes/panels/menu/mainMenu.png" />
+        <texture id="pvp" file="scenes/panels/menu/pvp.png" />
+        <texture id="pvc" file="scenes/panels/menu/pvc.png" />
+        <texture id="movie" file="scenes/panels/menu/movie.png" />
+        <texture id="playerADiff" file="scenes/panels/menu/playerADiff.png" />
+        <texture id="playerBDiff" file="scenes/panels/menu/playerBDiff.png" />
+        <texture id="set_turn_time" file="scenes/panels/menu/set_turn_time.png" />
+        <texture id="winner-a" file="scenes/panels/menu/winner-a.png" />
+        <texture id="winner-b" file="scenes/panels/menu/winner-b.png" />
+        <texture id="play" file="scenes/panels/menu/play.png" />
+        <texture id="poolside" file="scenes/panels/menu/poolside.png" />
+        <texture id="arctic" file="scenes/panels/menu/arctic.png" />
+
+    </textures>
+
+    <materials>
+        <material id="mainPlaneMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+        <material id="tableMat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.3" g="0.15" b="0.0" a="1.0" />
+            <diffuse r="0.4" g="0.2" b="0.0" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.0" a="1.0" />             
+        </material>
+        <material id="boxMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.10" g="0.05" b="0" a="1.0" />
+            <diffuse r="0.20" g="0.10" b="0" a="1.0" />
+            <specular r="0.10" g="0.05" b="0" a="1.0" />
+        </material>
+        <material id="boardMat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />             
+        </material>
+        <material id="tile1Mat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.6" g="0.2" b="0.6" a="1.0" />
+            <diffuse r="0.6" g="0.2" b="0.6" a="1.0" />
+            <specular r="0.8" g="0.2" b="0.8" a="1.0" />        
+        </material>
+        <material id="tile2Mat" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.05" b="0.05" a="1.0" />
+            <specular r="1.0" g="0.2" b="0.2" a="1.0" />             
+        </material>
+        <material id="selectedTileMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.2" b="0.5" a="1.0" />
+            <diffuse r="0.1" g="0.5" b="0.9" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="highlightedTileMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.6" b="0.2" a="1.0" />
+            <diffuse r="0.1" g="0.6" b="0.4" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="microbeAMat" shininess="50">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="0.40" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+        <material id="microbeBMat" shininess="50">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="1.0" b="0.03" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.03" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.03" a="1.0" />
+        </material>
+		<material id="snowMat" shininess="10">
+            <emission r="0.0" g="0.0" b="0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" />
+		</material>
+    </materials>
+
+    <transformations>
+        <transformation id="mainPlaneTransf">
+            <scale x="55" y="55" z="1" />
+            <rotate axis="x" angle="90" />
+        </transformation>
+    </transformations>
+
+    
+    <animations>
+    </animations>
+
+    <primitives>
+        <primitive id="sideBoardGeometry">
+            <objmodel url="scenes/models/box.obj" scale="0.55" rotate="0" offsetHeight="0.55" />
+        </primitive>
+
+        <primitive id="mainPlane">
+            <plane npartsU="40" npartsV="40" />
+        </primitive>
+
+        <primitive id="gameTable">
+            <gametable x="0" y="0" side="8" thickness="0.3" height="2.5" /> 
+        </primitive>
+
+        <primitive id="gameBoard">
+            <nurbscube side="5" thickness="0.05" /> 
+        </primitive>
+
+        <primitive id="gameTile">
+            <rectangleXZ x1="-0.3" y1="-0.3" x2="0.3" y2="0.3" /> 
+        </primitive>
+
+        <primitive id="microbeGeometry">
+            <objmodel url="scenes/models/penguin.obj" scale="1" rotate="45" offsetHeight="0" />
+        </primitive>
+
+		<primitive id="iglooGeometry">
+            <objmodel url="scenes/models/igloo.obj" scale="1" rotate="0" offsetHeight="0" />
+        </primitive>
+
+		<primitive id="snowPileGeometry">
+            <objmodel url="scenes/models/SnowTerrain.obj" scale="0.02" rotate="0" offsetHeight="0" />
+		</primitive>
+
+    </primitives>
+
+    <!-- NEW SECTION FOR THE GAME OBJECTS/ENTITIES -->
+    <templates>
+        <board boardGeometry="gameBoard" boardMaterial="boardMat" boardTexture="boardTex" tileGeometry="gameTile" tile1Mat="tile1Mat" tile1Texture="none" tile2Mat="tile2Mat" tile2Texture="none" selectedTileMat="selectedTileMat" highlightedTileMat="highlightedTileMat" />
+        <microbeA microbeGeometry="microbeGeometry" microbeMaterial="microbeAMat" microbeTexture="none" />
+        <microbeB microbeGeometry="microbeGeometry" microbeMaterial="microbeBMat" microbeTexture="none" />
+        <sideBoardA sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="3.2" y="0"/>
+        <sideBoardB sideBoardGeometry="sideBoardGeometry" sideBoardMat="boxMat" sideBoardTex="none" x="-3.2" y="0"/>
+        <panelNumbers zero="zero" one="one" two="two" three="three" four="four" five="five" six="six" seven="seven" eight="eight" nine="nine" />
+        <panelGame playerATurnTex="playerATurn" playerBTurnTex="playerBTurn" rotateTex="rotate" scoreATex="scoreA" scoreBTex="scoreB" timerTex="timer" undoTex="undo" movieTex="movieCaps" />
+        <panelMenu playTex="play" timer15Tex="15" timer30Tex="30" timer60Tex="60" backTex="back" chooseSceneTex="chooseScene" cvcTex="cvc" easyTex="diff-easy" mediumTex="diff-medium" difficultyTex="difficulty" drawTex="draw" gameOptionsTex="gameOptions" gameTitleTex="gameTitle" mainMenuTex="mainMenu" pvpTex="pvp" pvcTex="pvc" movieTex="movie" playerADiffTex="playerADiff" playerBDiffTex="playerBDiff" setTurnTimeTex="set_turn_time" winnerATex="winner-a" winnerBTex="winner-b" chooseScene1Tex="poolside" chooseScene2Tex="arctic" />
+    </templates>
+
+    <components>
+        <component id="root">
+            <transformation>
+                <rotate axis="x" angle="-90" />  
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="gameTableNode" />
+                <componentref id="mainPlaneNode" />
+				<componentref id="iglooNode" />
+				<!-- <componentref id="snowPileNode" /> -->
+            </children>
+        </component>
+
+        <component id="gameTableNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="tableMat" />
+            </materials>
+            <texture id="woodenTableTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="gameTable" />
+            </children>
+        </component>
+
+        <component id="mainPlaneNode">
+            <transformation>
+                <transformationref id="mainPlaneTransf" />
+            </transformation>
+            <materials>
+                <material id="mainPlaneMat" />
+            </materials>
+            <texture id="mainPlaneTex" length_s="1" length_t="1" />
+            <children>
+                <primitiveref id="mainPlane" />
+            </children>
+        </component>
+
+		<component id="iglooNode">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+				<componentref id="firstIgloo" />
+				<componentref id="secondIgloo" />
+            </children>
+		</component>
+
+		<component id="firstIgloo">
+            <transformation>
+				<translate x="-15" y="-15" z="0" />
+				<rotate axis="z" angle="45" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+				<primitiveref id="iglooGeometry" />
+            </children>
+		</component>
+
+		<component id="secondIgloo">
+            <transformation>
+				<translate x="15" y="15" z="0" />
+				<rotate axis="z" angle="-135" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+				<primitiveref id="iglooGeometry" />
+            </children>
+		</component>
+
+		<component id="snowPileNode">
+            <transformation>
+				<translate x="15" y="0" z="1" />
+				<rotate axis="x" angle="90" />
+				<scale x="2" y="2" z="2" />
+            </transformation>
+            <materials>
+                <material id="snowMat" />
+            </materials>
+            <texture id="none" />
+            <children>
+				<primitiveref id="snowPileGeometry" />
+            </children>
+		</component>
+
+    </components>
+</lxs>
