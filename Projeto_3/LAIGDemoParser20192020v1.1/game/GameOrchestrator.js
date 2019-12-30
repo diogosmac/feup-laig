@@ -514,7 +514,7 @@ class GameOrchestrator {
             }
         }
     }
-
+    
 
     /**
      * Method that contains the game cycle when in "game" mode
