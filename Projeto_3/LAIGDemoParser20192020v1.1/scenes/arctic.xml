@@ -30,7 +30,7 @@
     <textures>
         <texture id="mainPlaneTex" file="scenes/images/snow.jpg" />
         <texture id="woodenTableTex" file="scenes/images/wooden-table-tex.jpg" />
-        <texture id="boardTex" file="scenes/images/board-tex.jpg" />
+        <texture id="boardTex" file="scenes/images/board-ice.jpeg" />
 
         <!-- panel textures(game) -->
         <texture id="zero" file="scenes/panels/game/0-2.png" />
