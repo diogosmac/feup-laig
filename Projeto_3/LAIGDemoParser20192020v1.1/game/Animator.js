@@ -38,18 +38,23 @@ class Animator {
 			let transX = newTile.x - sideBoard.x;
 			let transY = newTile.y - sideBoard.y;
 
-			let raise = new MyKeyframe([0, 3, 0], [0, 0, 0], [1, 1, 1], 0.5);
-			let hold = new MyKeyframe([(3/4) * transY, 2, (3/4) * transX], [0, 0, 0], [1, 1, 1], 1.0);
-			let strike = new MyKeyframe([transY, 0.05, transX], [0, 0, 0], [1, 1, 1], 1.5);
+			let raise = new MyKeyframe([0, 1.5, 0], [0, 0, 0], [1, 1, 1], 0.2);
+			let float = new MyKeyframe([(1/4) * transY, 1.7, (1/4) * transX], [0, 0, 0], [1, 1, 1], 0.35);
+			let top = new MyKeyframe([(1/2) * transY, 1.8, (1/2) * transX], [0, 0, 0], [1, 1, 1], 0.5);
+			let release = new MyKeyframe([(3/4) * transY, 1.7, (3/4) * transX], [0, 0, 0], [1, 1, 1], 0.65);
+			let arrive = new MyKeyframe([transY, 0.05, transX], [0, 0, 0], [1, 1, 1], 0.8);
+			let drop = new MyKeyframe([transY, 0.05, transX], [0, 0, 0], [1, 1, 1], 0.9);
+			let squish = new MyKeyframe([transY, 0.05, transX], [0, 0, 0], [1.4, 0.7, 1.4], 0.95);
+			let stretch = new MyKeyframe([transY, 0.05, transX], [0, 0, 0], [1, 1, 1], 1.0);
 
-			let keyframes = [raise, hold, strike];
+			let keyframes = [raise, float, top, release, arrive, drop, squish, stretch];
 
 			sideBoard.microbe.animation = new KeyframeAnimation(this.orchestrator.scene, keyframes);
 			this.animationsDone = false;
 			this.animationsPending = true;
 
-			if(this.lastAnimFrame < this.orchestrator.currentTime + 2.0)
-				this.lastAnimFrame = this.orchestrator.currentTime + 2.0;
+			if(this.lastAnimFrame < this.orchestrator.currentTime + 1.0)
+				this.lastAnimFrame = this.orchestrator.currentTime + 1.0;
 		}
 	}
 
@@ -65,18 +70,23 @@ class Animator {
 			let transX = newTile.x - oldTile.x;
 			let transY = newTile.y - oldTile.y;
 
-			let raise = new MyKeyframe([transY / 4, 2, transX / 4], [0, 0, 0], [1, 1, 1], 0.5);
-			let hold = new MyKeyframe([(3/4) * transY, 2, (3/4) * transX], [0, 0, 0], [1, 1, 1], 1.0);
-			let strike = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1, 1, 1], 1.5);
+			let raise = new MyKeyframe([0, 0.8, 0], [0, 0, 0], [1, 1, 1], 0.1);
+			let float = new MyKeyframe([(1 / 4) * transY, 1.1, (1 / 4) * transX], [0, 0, 0], [1, 1, 1], 0.25);
+			let top = new MyKeyframe([(1 / 2) * transY, 1.2, (1 / 2) * transX], [0, 0, 0], [1, 1, 1], 0.40);
+			let release = new MyKeyframe([(3 / 4) * transY, 1.1, (3 / 4) * transX], [0, 0, 0], [1, 1, 1], 0.65);
+			let arrive = new MyKeyframe([transY, 0.8, transX], [0, 0, 0], [1, 1, 1], 0.8);
+			let drop = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1, 1, 1], 0.9);
+			let squish = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1.4, 0.7, 1.4], 0.95);
+			let stretch = new MyKeyframe([transY, 0, transX], [0, 0, 0], [1, 1, 1], 1.0);
 
-			let keyframes = [raise, hold, strike];
+			let keyframes = [raise, float, top, release, arrive, drop, squish, stretch];
 
 			oldTile.microbe.animation = new KeyframeAnimation(this.orchestrator.scene, keyframes);
 			this.animationsDone = false;
 			this.animationsPending = true;
 
-			if(this.lastAnimFrame < this.orchestrator.currentTime + 2.0)
-				this.lastAnimFrame = this.orchestrator.currentTime + 2.0;
+			if(this.lastAnimFrame < this.orchestrator.currentTime + 1.0)
+				this.lastAnimFrame = this.orchestrator.currentTime + 1.0;
 		}
 	}
 
@@ -87,30 +97,22 @@ class Animator {
 	 */
 	assignConvertAnimation(tile) {
 		if (tile.microbe != null) {
-			let start = new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], 2.0);
-			// let jump = new MyKeyframe([0, 2, 0], [0, 0, 0], [1, 1, 1], 2.4);
-			// let expand = new MyKeyframe([0, 2, 0], [0, Math.PI / 2, 0], [3, 1, 3], 2.7);
-			// let twirl = new MyKeyframe([0, 1.8, 0], [0, Math.PI, 0], [1, 1, 1], 3);
-			// let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 3.5);
+			let start = new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], 0.9);
+			let jump = new MyKeyframe([0, 0.5, 0], [0, Math.PI * 4 * (2/3), 0], [0.7, 1.4, 0.7], 1.1);
+			let land = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 1.2);
+			let expand = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1.4, 0.3, 1.4], 1.3);
+			let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 1.4);
 
-			// let keyframes = [start, jump, expand, twirl, restore];
-
-			let expand = new MyKeyframe([0, 0, 0], [0, Math.PI / 2, 0], [2, 1, 2], 2.4);
-			let restore = new MyKeyframe([0, 0, 0], [0, Math.PI * 4, 0], [1, 1, 1], 2.8);
-
-			let keyframes = [start, expand, restore];
+			let keyframes = [start, jump, land, expand, restore];
 
 			tile.microbe.animation = new KeyframeAnimation(this.orchestrator.scene, keyframes);
 			this.animationsDone = false;
 			this.animationsPending = true;
 
-			// if(this.lastAnimFrame < this.orchestrator.currentTime + 4.5)
-			// 	this.lastAnimFrame = this.orchestrator.currentTime + 4.5;
+			if(this.lastAnimFrame < this.orchestrator.currentTime + 1.4)
+				this.lastAnimFrame = this.orchestrator.currentTime + 1.4;
 
-			if(this.lastAnimFrame < this.orchestrator.currentTime + 2.8)
-				this.lastAnimFrame = this.orchestrator.currentTime + 2.8;
-
-			this.scheduleConversion(tile, this.orchestrator.currentTime + 2.4);
+			this.scheduleConversion(tile, this.orchestrator.currentTime + 1.2);
 		}
 	}
 
