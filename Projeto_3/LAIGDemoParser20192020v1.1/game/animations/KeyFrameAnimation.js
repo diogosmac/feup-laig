@@ -9,7 +9,7 @@ class KeyframeAnimation extends Animation {
      */
     constructor(scene, keyframes) {
         super(scene);
-        this.keyframes = [new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], 0)]; // creates the default initial keyframe of the animation
+        this.keyframes = [new MyKeyframe([0, 0, 0], [0, 0, 0], [1, 1, 1], scene.gameOrchestrator.time)]; // creates the default initial keyframe of the animation
         this.keyframes.push(...keyframes); // adds the rest of the keyframes
         this.anteriorKeyframeIndex = 0;
         this.posteriorKeyframeIndex = 1;
@@ -133,9 +133,9 @@ class KeyframeAnimation extends Animation {
      */
     generateAnimationMatrix(deltaT) {
         // don't do anything if the animation is over
-        if(this.animationDone)
-            return;
-
+		if(this.animationDone) {
+			return;
+		}
         this.sumT += deltaT;
         this.updateSegment();
         this.calculateNewMatrix();

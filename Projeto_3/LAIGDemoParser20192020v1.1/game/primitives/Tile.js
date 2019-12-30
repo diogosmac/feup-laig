@@ -23,6 +23,7 @@ class Tile {
         this.microbe = null;
         this.selected = false;
         this.highlighted = false;
+        this.animation = null;
     }
 
 
@@ -46,8 +47,7 @@ class Tile {
         microbe.assignMicrobeToTile(this);
     }
 
-
-    /**
+	/**
      * Method that removes a microbe from a tile
      */
     removeMicrobeFromTile() {

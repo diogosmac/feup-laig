@@ -7,8 +7,10 @@ class GameOrchestrator {
      * @param {XMLScene} scene - Reference to the scene object
      */
     constructor(scene) {
-        this.scene = scene;
+		this.scene = scene;
+		this.animator = new Animator(this);
         this.boardArray = this.initBoard(); // initiates the structure representing the game board
+        this.time = 0;
         
         this.gameStates = Object.freeze({
             "MENU": 1,
@@ -149,7 +151,7 @@ class GameOrchestrator {
      */
     loadTemplates(newTemplates, firstTime = false) {
         this.templates = newTemplates;
-        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB']);
+        this.board.loadTemplate(this.templates['board'], this.templates['microbeA'], this.templates['microbeB'], this.templates['sideBoardA'], this.templates['sideBoardB']);
         this.panelsManager.loadTemplate(this.templates['panelNumbers'], this.templates['panelGame'], this.templates['panelMenu']);
 
         this.panelsManager.changeTurnPanelTexture(this.currentPlayer);
@@ -351,9 +353,8 @@ class GameOrchestrator {
         else {
             // error ?
         }
-    }
-
-
+	}
+	
     /**
      * Method that does all the process necessary to make a move
      * @param {Array} moveArray - array returned by the Prolog server that represents the move, the score and all the changes to the board
@@ -655,4 +656,15 @@ class GameOrchestrator {
         
         this.scene.popMatrix();
     }
+
+    update(t) {
+		for (let tile of this.board.boardTiles) {
+			if (tile.microbe != null && tile.microbe.animation != null) {
+				tile.microbe.update(t - this.time);
+            }
+		}
+		this.animator.update(t);
+		this.time = t;
+    }
+
 }
