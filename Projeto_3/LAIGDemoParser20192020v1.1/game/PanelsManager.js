@@ -93,7 +93,7 @@ class PanelsManager {
         // menu panels - CHOOSE SCENE
         this.chooseSceneTitlePanel = new Panel(this.orchestrator, new MyRectangle(scene, "chooseSceneTitlePanelRec", -0.4, 0.4, 0.5, 0.7, true));
         this.scene1Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene1PanelRec", -0.3, 0.3, 0.0, 0.2, true), this.panelIDs.SCENE_1);
-        this.scene2Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene2PanelRec", -0.3, 0.3, -0.4, -0.2, true), this.panelIDs.SCENE_2);
+        this.scene2Panel = new Panel(this.orchestrator, new MyRectangle(scene, "scene2PanelRec", -0.2, 0.2, -0.4, -0.2, true), this.panelIDs.SCENE_2);
         
 
         // game panels

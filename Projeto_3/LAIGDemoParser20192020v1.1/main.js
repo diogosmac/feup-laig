@@ -70,7 +70,7 @@ main=function()
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
     var filename1 = "poolside.xml";
-    var filename2 = "test.xml"
+    var filename2 = "arctic.xml"
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
