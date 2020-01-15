@@ -6,8 +6,10 @@
 >
 > **Projects developed by:** Diogo Machado ([diogosmac](https://github.com/diogosmac)) and Eduardo Ribeiro ([EduRibeiro00](https://github.com/EduRibeiro00))
 >
-> Project 1 Grade: 19.8 / 20 
-> Project 2 Grade: 19.6 / 20
-> Project 3 Grade: ?? / 20
+> **Project 1 Grade**: 19.8 / 20
+>
+> **Project 2 Grade**: 19.6 / 20
+>
+> **Project 3 Grade**: ?? / 20
 
 **Disclaimer** - This repository was used for educational purposes and I do not take any responsibility for anything related to its content. You are free to use any code or algorithm you find, but do so at your own risk.
